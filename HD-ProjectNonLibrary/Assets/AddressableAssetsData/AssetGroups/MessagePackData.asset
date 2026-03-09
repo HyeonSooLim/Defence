@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: MessagePackData
+  m_EditorClassIdentifier: 
+  m_GroupName: MessagePackData
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 5d058433bba60b840b7d8b0ac2bbf566
+  m_SerializeEntries:
+  - m_GUID: 0420453654a5ed346bed28c21694c192
+    m_Address: Assets/GameResources/MessagePackBinary/CharLevelStatTable.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 10690f24d6f432b4e8abf35c2459aae0
+    m_Address: Assets/GameResources/MessagePackBinary/UnitTypeBuffSet.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27b97b3e305ab1e4982ad9d40acb4141
+    m_Address: Assets/GameResources/MessagePackBinary/UnitPropertyDefine.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e674271b112e5f4e9cfb3ec744a6200
+    m_Address: Assets/GameResources/MessagePackBinary/GradeStat.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 367bfcffacc158641be2a18d868d8bc0
+    m_Address: Assets/GameResources/MessagePackBinary/StagePointReward.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 372827bdbb7dcfb458aaef384e2a8009
+    m_Address: Assets/GameResources/MessagePackBinary/CharacterTable.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46c7b70ae8b55d9459204400382eb86e
+    m_Address: Assets/GameResources/MessagePackBinary/BuffGroup.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 607c9a9863043b040a4166baa1e89a42
+    m_Address: Assets/GameResources/MessagePackBinary/TestConstValue.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f472cd1c98fa814e8b378343c3ca6a6
+    m_Address: Assets/GameResources/MessagePackBinary/GameItem.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94ed16b9982f4cb419a6dbe061762d22
+    m_Address: Assets/GameResources/MessagePackBinary/StageWaveGroup.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96936bf09747be24aa3be76e4a4debfa
+    m_Address: Assets/GameResources/MessagePackBinary/MonsterTable.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b584358643d63e143808458135b98910
+    m_Address: Assets/GameResources/MessagePackBinary/UnitPropertyBuffSet.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbbd0fe22f3117748a8628fa19ee0444
+    m_Address: Assets/GameResources/MessagePackBinary/MonsterLevelStatTable.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: edbb8087b7f78b048ad7eadddb00d05c
+    m_Address: Assets/GameResources/MessagePackBinary/UnitTypeDefine.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f075ff78a967a5c49b782b9b62a44772
+    m_Address: Assets/GameResources/MessagePackBinary/StageTable.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f27a7caa0d76d6445a35648e67eff584
+    m_Address: Assets/GameResources/MessagePackBinary/DebuffGroup.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MessagePackData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e07b6db687a5b484bae19b93bd1d6327, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 220c5970cb96d9c4396d202a2ef6a5ef, type: 2}
+    - {fileID: 11400000, guid: d48b5d302d98c8e49897f3b2faf38c3d, type: 2}

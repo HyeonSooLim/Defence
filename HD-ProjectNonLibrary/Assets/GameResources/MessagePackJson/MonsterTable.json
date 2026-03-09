@@ -1,0 +1,146 @@
+﻿[
+  {
+    "Seed": 1,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 1,
+    "MonsterLevelTableSeed": 10003,
+    "MonsterIconName": "1_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/GoburiMon.prefab"
+  },
+  {
+    "Seed": 2,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 2,
+    "MonsterLevelTableSeed": 10003,
+    "MonsterIconName": "2_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/GotsuMon.prefab"
+  },
+  {
+    "Seed": 3,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 4,
+    "MonsterLevelTableSeed": 10001,
+    "MonsterIconName": "3_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/MameMon.prefab"
+  },
+  {
+    "Seed": 4,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 1,
+    "MonsterLevelTableSeed": 10001,
+    "MonsterIconName": "4_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/ShamaMon.prefab"
+  },
+  {
+    "Seed": 5,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 2,
+    "MonsterLevelTableSeed": 10004,
+    "MonsterIconName": "5_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/GoburiMon.prefab"
+  },
+  {
+    "Seed": 6,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 4,
+    "MonsterLevelTableSeed": 10004,
+    "MonsterIconName": "6_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/GotsuMon.prefab"
+  },
+  {
+    "Seed": 7,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 1,
+    "MonsterLevelTableSeed": 10006,
+    "MonsterIconName": "7_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/MameMon.prefab"
+  },
+  {
+    "Seed": 8,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 2,
+    "MonsterLevelTableSeed": 10006,
+    "MonsterIconName": "8_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/ShamaMon.prefab"
+  },
+  {
+    "Seed": 9,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 4,
+    "MonsterLevelTableSeed": 10007,
+    "MonsterIconName": "9_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/GoburiMon.prefab"
+  },
+  {
+    "Seed": 10,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 1,
+    "MonsterLevelTableSeed": 10008,
+    "MonsterIconName": "10_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/GotsuMon.prefab"
+  },
+  {
+    "Seed": 11,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 2,
+    "MonsterLevelTableSeed": 10009,
+    "MonsterIconName": "11_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/MameMon.prefab"
+  },
+  {
+    "Seed": 12,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 4,
+    "MonsterLevelTableSeed": 10010,
+    "MonsterIconName": "12_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/ShamaMon.prefab"
+  },
+  {
+    "Seed": 13,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 1,
+    "MonsterLevelTableSeed": 10011,
+    "MonsterIconName": "13_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/GoburiMon.prefab"
+  },
+  {
+    "Seed": 14,
+    "CharacterNameKey": "",
+    "MonsterType": 1,
+    "MonsterProperty": 2,
+    "MonsterLevelTableSeed": 10012,
+    "MonsterIconName": "14_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/GotsuMon.prefab"
+  },
+  {
+    "Seed": 1001,
+    "CharacterNameKey": "",
+    "MonsterType": 0,
+    "MonsterProperty": 2,
+    "MonsterLevelTableSeed": 20001,
+    "MonsterIconName": "1001_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/OgreMon.prefab"
+  },
+  {
+    "Seed": 1002,
+    "CharacterNameKey": "",
+    "MonsterType": 0,
+    "MonsterProperty": 2,
+    "MonsterLevelTableSeed": 20002,
+    "MonsterIconName": "1002_IconName",
+    "ModelAssetKey": "Assets/GameResources/Prefabs/Monster/OgreMon.prefab"
+  }
+]

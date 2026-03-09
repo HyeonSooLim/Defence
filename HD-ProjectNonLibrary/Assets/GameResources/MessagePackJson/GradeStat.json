@@ -1,0 +1,32 @@
+﻿[
+  {
+    "Grade": 1,
+    "Attack": 1.0,
+    "Vitality": 1.0
+  },
+  {
+    "Grade": 2,
+    "Attack": 1.5,
+    "Vitality": 1.5
+  },
+  {
+    "Grade": 3,
+    "Attack": 2.0,
+    "Vitality": 2.0
+  },
+  {
+    "Grade": 4,
+    "Attack": 2.3,
+    "Vitality": 2.3
+  },
+  {
+    "Grade": 5,
+    "Attack": 2.6,
+    "Vitality": 2.6
+  },
+  {
+    "Grade": 6,
+    "Attack": 2.9,
+    "Vitality": 2.9
+  }
+]

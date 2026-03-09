@@ -1,0 +1,122 @@
+﻿[
+  {
+    "StagePoint": 100,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 100
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 1
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 250,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 10
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 1
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 400,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 125
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 2
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 550,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 150
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 30
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 700,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 20
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 3
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 850,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 225
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 3
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 1000,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 30
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 60
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 1100,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 275
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 100
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 1250,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 40
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 80
+    },
+    "Type": 0
+  },
+  {
+    "StagePoint": 1400,
+    "FreeReward": {
+      "ItemSeed": 0,
+      "ItemCount": 50
+    },
+    "PremiumReward": {
+      "ItemSeed": 0,
+      "ItemCount": 100
+    },
+    "Type": 0
+  }
+]

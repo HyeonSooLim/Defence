@@ -1,0 +1,305 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Remote
+  m_EditorClassIdentifier: 
+  m_GroupName: Remote
+  m_Data:
+    m_SerializedData: []
+  m_GUID: b6f7259ab56ba744cbaead4ee04adf86
+  m_SerializeEntries:
+  - m_GUID: 02d3b77448d614141902ece58fd26e41
+    m_Address: Assets/GameResources/Audio/UI/Dice_Audio.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 040b5f9d6b85ae544bf06488c7d0c637
+    m_Address: Assets/GameResources/Effect/Fire_Hit_02.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08cbbd162b3063741ada269584716def
+    m_Address: Assets/GameResources/Scenes/Stage01.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 238e6359a2523094f9169311ed0b164a
+    m_Address: Assets/GameResources/Effect/GFX_RenaMonScratch_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 289e6ae0ab23b4d4bbfc88881c9fe448
+    m_Address: Assets/GameResources/Effect/GFX_AguMonScratch_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28e24b06d4b2a5148bfe73c1af0dfad0
+    m_Address: Assets/GameResources/Prefabs/Player/AguMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d664152583a1ea44b246db97162eed7
+    m_Address: Assets/GameResources/Effect/GFX_GargoMon_Slash_001.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 320cbf9153bd8b044a7414c912410b34
+    m_Address: Assets/GameResources/Prefabs/World/Stage_01_BG.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 353fcb7b4a4f5694ca9b050531dfe8f9
+    m_Address: Assets/GameResources/Effect/GFX_VeeMon_Slash_001.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 393da07d48899d04793b5f671b182ede
+    m_Address: Assets/GameResources/Prefabs/Battle/BuffSetController.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b82078020e430741a71fa135f3722f2
+    m_Address: Assets/GameResources/Prefabs/Player/ImperialdraMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3da014687d18fed4ba7dc183e21061fd
+    m_Address: Assets/GameResources/Prefabs/UI/BattleBaseUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 426574411b43e594f85c13431f13561b
+    m_Address: Assets/GameResources/Prefabs/UI/HealthBar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4681004ae7571c440b08e3e85cf40bd5
+    m_Address: Assets/GameResources/Prefabs/UI/DamageText.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 477095d8034508848bd9528b2fd75919
+    m_Address: Assets/GameResources/Prefabs/Monster/ShamaMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47771ba36b861664ea759db0109bad27
+    m_Address: Assets/GameResources/Effect/GFX_Mon_summon_Red.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48f72bc21f34e004ca63cc8c3363979c
+    m_Address: Assets/GameResources/Prefabs/UI/GradeStars.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f6bfe041dec98b408ab4066bf3e18c8
+    m_Address: Assets/GameResources/Effect/GFX_PalMonScratch_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5418af732acd9634ba7f528871cebc87
+    m_Address: Assets/GameResources/Effect/GFX_WarGreyMon_Slash_B001.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f3c0d2704f26a149b38852a4e0640e5
+    m_Address: Assets/GameResources/Effect/GFX_GoburiMon_Slash_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60e968718c2a0a04a9488dbe8760d8f7
+    m_Address: Assets/GameResources/Effect/GFX_GaoMon_Hit_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 710057a8f12a22042a2d1703d02c6389
+    m_Address: Assets/GameResources/Prefabs/Battle/CharacterCombineController.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 728599e2216d58d488b80a7455f7f5ed
+    m_Address: Assets/GameResources/Prefabs/Player/GargoMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7310cf762704d024baf4b7aa523953af
+    m_Address: Assets/GameResources/Effect/GFX_ShamaMon_Slash_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7432aaf9af4869948af78162111bb994
+    m_Address: Assets/GameResources/Effect/GFX_SakuyaMon_FloorWind_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7fd8cda9d81cf13449bf92d554f9134c
+    m_Address: Assets/GameResources/Prefabs/Player/PalMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 831f8e094cb3f3041a6adb0586605768
+    m_Address: Assets/GameResources/Prefabs/World/Stage_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8412aa6625c321147bf45825f231f2cf
+    m_Address: Assets/GameResources/Prefabs/Player/PapiMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8cf17357b989d9e4ba096644d41763b5
+    m_Address: Assets/GameResources/SpriteAtlas/InGame.spriteatlasv2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b3a948233267174b98383d93dddfab6
+    m_Address: Assets/GameResources/Audio/UI/Summoning_Audio.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ec386c2453a6084287c749023ca6a18
+    m_Address: Assets/GameResources/Prefabs/Player/RenaMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3f1548e6c60bdc48a9942143cf7b73f
+    m_Address: Assets/GameResources/Prefabs/Player/GallantMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a585e513ffbeb4f47bea81b1e8a37175
+    m_Address: Assets/GameResources/Prefabs/Monster/GotsuMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a77011a81ae314f428fc54097e5df8c1
+    m_Address: Assets/GameResources/Prefabs/Battle/WaveController.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abe36bd1198d5dc44856583320c3f4b2
+    m_Address: Assets/GameResources/Effect/GFX_OgreMon_Slash_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af7ddafda7d614f48b326422d40e9e93
+    m_Address: Assets/GameResources/Effect/GFX_GotSuMon_Slash_001.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b293e1bbb5449044b8e67d465ea13b04
+    m_Address: Assets/GameResources/Prefabs/UI/BattleEffectUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b3fb180f9b061b84ea01a29c8b6d3574
+    m_Address: Assets/GameResources/Prefabs/Battle/DamageController.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be0aa8fed8074a64798ae9e43739d67c
+    m_Address: Assets/GameResources/Prefabs/UI/MonsterHealthUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf6c3a0530a9ca843a0df0e0db4993a1
+    m_Address: Assets/GameResources/Prefabs/Player/WarGreyMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c02552619acf7574c988c8ad27aaa50d
+    m_Address: Assets/GameResources/Prefabs/Player/SakuyaMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c24f2b1e0c42a7944a1c68329fef6048
+    m_Address: Assets/GameResources/Prefabs/Dice/Dice.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3a3c30f06c0463469ad943d3590f164
+    m_Address: Assets/GameResources/Audio/UI/Button_Audio.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c594c74350adcf548b825a52b89da90b
+    m_Address: Assets/GameResources/Effect/GFX_Mon_summon_Green.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c96ea199a0a877c46930618d2a4956c1
+    m_Address: Assets/GameResources/Effect/GFX_GallantMon_SkillStart_001.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb2406161736d6e4288807def71fc9cb
+    m_Address: Assets/GameResources/Effect/GFX_PapimonScratch_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc5e75007bae2424295c63d56dc90747
+    m_Address: Assets/GameResources/Prefabs/Monster/MameMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de1a694ea19eca64db82be6595265479
+    m_Address: Assets/GameResources/Prefabs/Monster/GoburiMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e348f693f5b1f0e4190e1d26f08e06ca
+    m_Address: Assets/GameResources/Prefabs/Monster/OgreMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6e1573c77ab8654185fbb287cd09256
+    m_Address: Assets/GameResources/Prefabs/Player/VeeMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e872c9a05247bd941b54b8a32ba9853b
+    m_Address: Assets/GameResources/Effect/GFX_ImperialdraMon_Laser_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f09bf84dd07637840b6ad5896e16333a
+    m_Address: Assets/GameResources/Prefabs/Player/TerrierMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f3d0ed8e802adb1478873b5ed7e925ca
+    m_Address: Assets/GameResources/Effect/GFX_TerrierMon_FireShot_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd314c270cedaaf498d0b6ec082edb92
+    m_Address: Assets/GameResources/Effect/GFX_Mon_summon_Blue.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe5ed6ed66b2ced489a17ed191dfb31b
+    m_Address: Assets/GameResources/Prefabs/Player/GaoMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fec70eb0965d45142b0fc15b00315910
+    m_Address: Assets/GameResources/Effect/GFX_MameMon_PunchWave_01.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e07b6db687a5b484bae19b93bd1d6327, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: abf54508464075f409467cc8cd91e7de, type: 2}
+    - {fileID: 11400000, guid: b4c149b5c169ad04593aacfe494a4e00, type: 2}

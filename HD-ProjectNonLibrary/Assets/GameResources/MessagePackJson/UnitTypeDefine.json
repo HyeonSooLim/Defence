@@ -1,0 +1,46 @@
+﻿[
+  {
+    "Type": 1,
+    "IconName": "UI_BuffIcon_06"
+  },
+  {
+    "Type": 2,
+    "IconName": "UI_BuffIcon_06"
+  },
+  {
+    "Type": 3,
+    "IconName": "UI_BuffIcon_04"
+  },
+  {
+    "Type": 4,
+    "IconName": "UI_BuffIcon_04"
+  },
+  {
+    "Type": 5,
+    "IconName": "UI_BuffIcon_06"
+  },
+  {
+    "Type": 6,
+    "IconName": "UI_BuffIcon_05"
+  },
+  {
+    "Type": 7,
+    "IconName": "UI_BuffIcon_05"
+  },
+  {
+    "Type": 8,
+    "IconName": "UI_BuffIcon_05"
+  },
+  {
+    "Type": 9,
+    "IconName": "UI_BuffIcon_04"
+  },
+  {
+    "Type": 10,
+    "IconName": "UI_BuffIcon_06"
+  },
+  {
+    "Type": 11,
+    "IconName": "UI_BuffIcon_04"
+  }
+]

@@ -1,0 +1,80 @@
+﻿[
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      1,
+      2
+    ],
+    "MonsterCount": 30
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      3,
+      4
+    ],
+    "MonsterCount": 30
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      5,
+      6
+    ],
+    "MonsterCount": 30
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      7,
+      8
+    ],
+    "MonsterCount": 30
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      1001
+    ],
+    "MonsterCount": 2
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      8,
+      9
+    ],
+    "MonsterCount": 30
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      10,
+      11
+    ],
+    "MonsterCount": 30
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      12,
+      13
+    ],
+    "MonsterCount": 30
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      12,
+      14
+    ],
+    "MonsterCount": 30
+  },
+  {
+    "Seed": 1001,
+    "MonsterSeeds": [
+      1002
+    ],
+    "MonsterCount": 2
+  }
+]

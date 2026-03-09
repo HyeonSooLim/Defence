@@ -1,0 +1,50 @@
+﻿[
+  {
+    "CharacterProperty": 1,
+    "ActiveCount": 2,
+    "BuffType": 1,
+    "Value": 5.0,
+    "Duration": 0.0,
+    "NameKey": "FireAttackUp"
+  },
+  {
+    "CharacterProperty": 1,
+    "ActiveCount": 4,
+    "BuffType": 1,
+    "Value": 10.0,
+    "Duration": 0.0,
+    "NameKey": "FireAttackUp"
+  },
+  {
+    "CharacterProperty": 2,
+    "ActiveCount": 2,
+    "BuffType": 1,
+    "Value": 5.0,
+    "Duration": 0.0,
+    "NameKey": "WaterAttackUp"
+  },
+  {
+    "CharacterProperty": 2,
+    "ActiveCount": 4,
+    "BuffType": 1,
+    "Value": 10.0,
+    "Duration": 0.0,
+    "NameKey": "WaterAttackUp"
+  },
+  {
+    "CharacterProperty": 4,
+    "ActiveCount": 2,
+    "BuffType": 1,
+    "Value": 5.0,
+    "Duration": 0.0,
+    "NameKey": "WindAttackUp"
+  },
+  {
+    "CharacterProperty": 4,
+    "ActiveCount": 4,
+    "BuffType": 1,
+    "Value": 10.0,
+    "Duration": 0.0,
+    "NameKey": "WindAttackUp"
+  }
+]

@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaveFlow_08_01G
+  m_Shader: {fileID: 4800000, guid: 8adbf66329176724cb9e906545e6108a, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 8ca237ed1ba89584c9622caf258e0edc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 3584f2bf4afb5284d91edb6a29126e62, type: 3}
+        m_Scale: {x: 4, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _2ndNoiseStr: 0.52
+    - _NoiseStr: 0.587
+    - _Opacity: 0
+    - _SoftParticleFactor: 0.5
+    - _WaveStr: 0
+    - __dirty: 0
+    m_Colors:
+    - _Color: {r: 0.2883008, g: 1.0090528, b: 3.4415908, a: 1}
+    - _NoiseTex2ndTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _NoiseTexTiling: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []

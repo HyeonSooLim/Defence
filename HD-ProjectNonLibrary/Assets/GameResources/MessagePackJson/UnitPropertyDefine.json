@@ -1,0 +1,32 @@
+﻿[
+  {
+    "Property": 1,
+    "AdventageProperty": 0,
+    "DisadventageProperty": 0,
+    "AdventageScale": 0.0,
+    "DisadventageScale": 0.0,
+    "SpawnEffectAssetKey": "Assets/GameResources/Effect/GFX_Mon_summon_Red.prefab",
+    "OffsetY": 1.0,
+    "IconName": "UI_BuffIcon_01"
+  },
+  {
+    "Property": 2,
+    "AdventageProperty": 0,
+    "DisadventageProperty": 0,
+    "AdventageScale": 0.0,
+    "DisadventageScale": 0.0,
+    "SpawnEffectAssetKey": "Assets/GameResources/Effect/GFX_Mon_summon_Blue.prefab",
+    "OffsetY": 1.0,
+    "IconName": "UI_BuffIcon_03"
+  },
+  {
+    "Property": 4,
+    "AdventageProperty": 0,
+    "DisadventageProperty": 0,
+    "AdventageScale": 0.0,
+    "DisadventageScale": 0.0,
+    "SpawnEffectAssetKey": "Assets/GameResources/Effect/GFX_Mon_summon_Green.prefab",
+    "OffsetY": 1.0,
+    "IconName": "UI_BuffIcon_02"
+  }
+]

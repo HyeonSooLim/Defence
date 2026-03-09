@@ -1,0 +1,296 @@
+﻿[
+  {
+    "Seed": 10001,
+    "Level": 1,
+    "Vitality": 30,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 1
+  },
+  {
+    "Seed": 10001,
+    "Level": 2,
+    "Vitality": 50,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 2
+  },
+  {
+    "Seed": 10001,
+    "Level": 3,
+    "Vitality": 70,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 3
+  },
+  {
+    "Seed": 10002,
+    "Level": 1,
+    "Vitality": 25,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 4
+  },
+  {
+    "Seed": 10002,
+    "Level": 2,
+    "Vitality": 50,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 5
+  },
+  {
+    "Seed": 10002,
+    "Level": 3,
+    "Vitality": 70,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 6
+  },
+  {
+    "Seed": 10003,
+    "Level": 1,
+    "Vitality": 20,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 7
+  },
+  {
+    "Seed": 10003,
+    "Level": 2,
+    "Vitality": 30,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 8
+  },
+  {
+    "Seed": 10003,
+    "Level": 3,
+    "Vitality": 40,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 9
+  },
+  {
+    "Seed": 10004,
+    "Level": 1,
+    "Vitality": 35,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 10
+  },
+  {
+    "Seed": 10004,
+    "Level": 2,
+    "Vitality": 70,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 11
+  },
+  {
+    "Seed": 10004,
+    "Level": 3,
+    "Vitality": 90,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 12
+  },
+  {
+    "Seed": 10005,
+    "Level": 1,
+    "Vitality": 40,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 1
+  },
+  {
+    "Seed": 10005,
+    "Level": 2,
+    "Vitality": 70,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 2
+  },
+  {
+    "Seed": 10005,
+    "Level": 3,
+    "Vitality": 90,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 3
+  },
+  {
+    "Seed": 10006,
+    "Level": 1,
+    "Vitality": 55,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 4
+  },
+  {
+    "Seed": 10006,
+    "Level": 2,
+    "Vitality": 75,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 5
+  },
+  {
+    "Seed": 10006,
+    "Level": 3,
+    "Vitality": 100,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 6
+  },
+  {
+    "Seed": 10007,
+    "Level": 1,
+    "Vitality": 65,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 7
+  },
+  {
+    "Seed": 10007,
+    "Level": 2,
+    "Vitality": 80,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 8
+  },
+  {
+    "Seed": 10007,
+    "Level": 3,
+    "Vitality": 110,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 9
+  },
+  {
+    "Seed": 10008,
+    "Level": 1,
+    "Vitality": 80,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 10
+  },
+  {
+    "Seed": 10008,
+    "Level": 2,
+    "Vitality": 100,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 11
+  },
+  {
+    "Seed": 10008,
+    "Level": 3,
+    "Vitality": 120,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 12
+  },
+  {
+    "Seed": 10009,
+    "Level": 1,
+    "Vitality": 100,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 1
+  },
+  {
+    "Seed": 10009,
+    "Level": 2,
+    "Vitality": 130,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 2
+  },
+  {
+    "Seed": 10009,
+    "Level": 3,
+    "Vitality": 160,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 3
+  },
+  {
+    "Seed": 10010,
+    "Level": 1,
+    "Vitality": 110,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 4
+  },
+  {
+    "Seed": 10010,
+    "Level": 2,
+    "Vitality": 145,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 5
+  },
+  {
+    "Seed": 10010,
+    "Level": 3,
+    "Vitality": 170,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 6
+  },
+  {
+    "Seed": 10011,
+    "Level": 1,
+    "Vitality": 125,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 7
+  },
+  {
+    "Seed": 10011,
+    "Level": 2,
+    "Vitality": 150,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 8
+  },
+  {
+    "Seed": 10011,
+    "Level": 3,
+    "Vitality": 180,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 9
+  },
+  {
+    "Seed": 10012,
+    "Level": 1,
+    "Vitality": 140,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 10
+  },
+  {
+    "Seed": 10012,
+    "Level": 2,
+    "Vitality": 160,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 11
+  },
+  {
+    "Seed": 10012,
+    "Level": 3,
+    "Vitality": 200,
+    "MoveSpeed": 1,
+    "DebuffGroupSeed": 12
+  },
+  {
+    "Seed": 20001,
+    "Level": 1,
+    "Vitality": 850,
+    "MoveSpeed": 2,
+    "DebuffGroupSeed": 100001
+  },
+  {
+    "Seed": 20001,
+    "Level": 2,
+    "Vitality": 900,
+    "MoveSpeed": 2,
+    "DebuffGroupSeed": 100001
+  },
+  {
+    "Seed": 20001,
+    "Level": 3,
+    "Vitality": 1000,
+    "MoveSpeed": 2,
+    "DebuffGroupSeed": 100001
+  },
+  {
+    "Seed": 20002,
+    "Level": 1,
+    "Vitality": 1500,
+    "MoveSpeed": 2,
+    "DebuffGroupSeed": 100001
+  },
+  {
+    "Seed": 20002,
+    "Level": 2,
+    "Vitality": 1750,
+    "MoveSpeed": 2,
+    "DebuffGroupSeed": 100001
+  },
+  {
+    "Seed": 20002,
+    "Level": 3,
+    "Vitality": 2000,
+    "MoveSpeed": 2,
+    "DebuffGroupSeed": 100001
+  }
+]

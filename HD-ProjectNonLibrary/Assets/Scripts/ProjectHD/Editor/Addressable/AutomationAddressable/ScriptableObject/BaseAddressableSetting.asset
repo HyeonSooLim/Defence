@@ -1,0 +1,310 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7babbfe07ec965f46ae2ca59f0e21c57, type: 3}
+  m_Name: BaseAddressableSetting
+  m_EditorClassIdentifier: 
+  Description: "\uB9B4\uB9AC\uC988 \uBC84\uC804"
+  AutoAddressGroupList:
+  - RemoteGroup1
+  - RemoteGroup2
+  - RemoteGroup3
+  - RemoteGroup4
+  - MessagePackData
+  - JsonData
+  - Atlas
+  - Remote
+  AddressableAssetSetting: {fileID: 11400000, guid: e07b6db687a5b484bae19b93bd1d6327,
+    type: 2}
+  CustomPathData:
+  - DevName: "\uC0AC\uC6B4\uB4DC_BGM"
+    PathList:
+    - /GameResources/Audio/BGM
+    GroupName: CustomAuto@Audio@BGM
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_\uC774\uD399\uD2B8_\uB2E4\uC774\uC5BC\uB85C\uADF8"
+    PathList:
+    - /GameResources/Audio/Effect/Adventure Dialog
+    GroupName: CustomAuto@Audio@Effect@Dialog
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_\uC774\uD399\uD2B8_\uC774\uBCA4\uD2B8_\uAC8C\uC784"
+    PathList:
+    - /GameResources/Audio/Effect/EventMiniGame
+    GroupName: CustomAuto@Audio@Effect@EventMiniGame
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_\uC774\uD399\uD2B8_\uB85C\uBE44"
+    PathList:
+    - /GameResources/Audio/Effect/Lobby
+    GroupName: CustomAuto@Audio@Effect@Lobby
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_\uC774\uD399\uD2B8_\uBBF8\uB2C8\uAC8C\uC784"
+    PathList:
+    - /GameResources/Audio/Effect/MiniGame
+    GroupName: CustomAuto@Audio@Effect@MiniGame
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_\uC774\uD399\uD2B8_\uB808\uC774\uB4DC"
+    PathList:
+    - /GameResources/Audio/Effect/RaidBattle
+    GroupName: CustomAuto@Audio@Effect@RaidBattle
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_\uC774\uD399\uD2B8_\uD29C\uD1A0\uB9AC\uC5BC"
+    PathList:
+    - /GameResources/Audio/Effect/Tutorial
+    GroupName: CustomAuto@Audio@Effect@Tutorial
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_SFX_Hit"
+    PathList:
+    - /GameResources/Audio/SFX/Hit
+    GroupName: CustomAuto@Audio@SFX@Hit
+    SearchOption: 2
+  - DevName: "\uC0AC\uC6B4\uB4DC_SFX_Playable"
+    PathList:
+    - /GameResources/Audio/SFX/Playable
+    GroupName: CustomAuto@Audio@SFX@Playable
+    SearchOption: 2
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uBAA8\uD5D8"
+    PathList:
+    - /GameResources/Audio/UI/Adventure
+    GroupName: CustomAuto@Audio@UI@Adventure
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uBC30\uD2C0"
+    PathList:
+    - /GameResources/Audio/UI/Battle
+    GroupName: CustomAuto@Audio@UI@Battle
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uCC4C\uB9B0\uC9C0"
+    PathList:
+    - /GameResources/Audio/UI/Challenge
+    GroupName: CustomAuto@Audio@UI@Challenge
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uCEE4\uBA3C"
+    PathList:
+    - /GameResources/Audio/UI
+    - /GameResources/Audio/UI/Public
+    GroupName: CustomAuto@Audio@UI@Common
+    SearchOption: 2
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uB85C\uBE44"
+    PathList:
+    - /GameResources/Audio/UI/Lobby
+    GroupName: CustomAuto@Audio@UI@Lobby
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uBBF8\uB2C8\uAC8C\uC784"
+    PathList:
+    - /GameResources/Audio/UI/Minigame
+    GroupName: CustomAuto@Audio@UI@Minigame
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uB465\uC9C0"
+    PathList:
+    - /GameResources/Audio/UI/Nest
+    GroupName: CustomAuto@Audio@UI@Nest
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uB808\uC774\uB4DC"
+    PathList:
+    - /GameResources/Audio/UI/RaidBattle
+    GroupName: CustomAuto@Audio@UI@RaidBattle
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uD14C\uC774\uBA38"
+    PathList:
+    - /GameResources/Audio/UI/Tamer
+    GroupName: CustomAuto@Audio@UI@Tamer
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_UI_\uD29C\uD1A0\uB9AC\uC5BC"
+    PathList:
+    - /GameResources/Audio/UI/Tutorial
+    GroupName: CustomAuto@Audio@UI@Tutorial
+    SearchOption: 3
+  - DevName: "\uC0AC\uC6B4\uB4DC_Voice"
+    PathList:
+    - /GameResources/Audio/Voice
+    GroupName: CustomAuto@Audio@Voice
+    SearchOption: 3
+  - DevName: "\uCEA0\uD504"
+    PathList:
+    - /GameResources/Animator/Camp
+    GroupName: CustomAuto@Camp
+    SearchOption: 3
+  - DevName: "\uB2E4\uC774\uC5BC\uB85C\uADF8"
+    PathList:
+    - /GameResources/Prefab/Dialog
+    GroupName: CustomAuto@Dialog
+    SearchOption: 3
+  - DevName: "\uC774\uBCA4\uD2B8\uBC30\uB108"
+    PathList:
+    - /GameSource/UI/Sprite_EventBanner
+    GroupName: CustomAuto@EventBanner
+    SearchOption: 2
+  - DevName: "\uD3F0\uD2B8"
+    PathList:
+    - /GameResources/Font
+    GroupName: CustomAuto@Font
+    SearchOption: 2
+  - DevName: "\uB85C\uB529\uD301_\uC774\uBBF8\uC9C0"
+    PathList:
+    - /GameSource/UI/Sprite_LoadingTip
+    GroupName: CustomAuto@LoadingTip
+    SearchOption: 2
+  - DevName: "\uBA54\uD14C\uB9AC\uC5BC"
+    PathList:
+    - /GameResources/Material
+    GroupName: CustomAuto@Material
+    SearchOption: 3
+  - DevName: "\uBBF8\uB2C8\uBC30\uB108"
+    PathList:
+    - /GameSource/UI/Sprite_MiniBanner
+    GroupName: CustomAuto@MiniBanner
+    SearchOption: 3
+  - DevName: "\uD30C\uD2F0\uD074\uC774\uD399\uD2B8"
+    PathList:
+    - /GameResources/Effect
+    GroupName: CustomAuto@ParticleEffect
+    SearchOption: 2
+  - DevName: "\uD504\uB9AC\uD339_\uC5B4\uB4DC\uBCA4\uCC98"
+    PathList:
+    - /GameResources/Prefab/Adventure
+    GroupName: CustomAuto@Prefab@Adventure
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uC544\uC9C0\uD2B8"
+    PathList:
+    - /GameResources/Prefab/Agit
+    GroupName: CustomAuto@Prefab@Agit
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uBC30\uD2C0"
+    PathList:
+    - /GameResources/Prefab/Battle
+    - /GameResources/Prefab/Battle/ColorFilter
+    GroupName: CustomAuto@Prefab@Battle
+    SearchOption: 2
+  - DevName: "\uD504\uB9AC\uD339_\uBC30\uD2C0\uD328\uC2A4"
+    PathList:
+    - /GameResources/Prefab/BattlePass
+    GroupName: CustomAuto@Prefab@BattlePass
+    SearchOption: 3
+  - DevName: "\uCEA0\uD504 \uD504\uB9AC\uD339"
+    PathList:
+    - /GameResources/Prefab/Camp
+    GroupName: CustomAuto@Prefab@Camp
+    SearchOption: 2
+  - DevName: "\uD504\uB9AC\uD339_\uCEE4\uBA3C"
+    PathList:
+    - /GameResources/Prefab
+    GroupName: CustomAuto@Prefab@Common
+    SearchOption: 2
+  - DevName: "\uB2E4\uC774\uC5BC\uB85C\uADF8"
+    PathList:
+    - /GameResources/Prefab/Dialog
+    - /GameResources/Animator/Dialog
+    GroupName: CustomAuto@Prefab@Dialog
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uCC4C\uB9B0\uC9C0"
+    PathList:
+    - /GameResources/Prefab/Dominant
+    GroupName: CustomAuto@Prefab@Dominant
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uC54C\uB465\uC9C0"
+    PathList:
+    - /GameResources/Prefab/EggInventory
+    GroupName: CustomAuto@Prefab@EggInventory
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uBBF8\uB2C8\uAC8C\uC784"
+    PathList:
+    - /GameResources/Prefab/MiniGame
+    GroupName: CustomAuto@Prefab@MiniGame
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uB465\uC9C0"
+    PathList:
+    - /GameResources/Prefab/Nest
+    GroupName: CustomAuto@Prefab@Nest
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uC624\uBE0C\uC81D\uD2B8"
+    PathList:
+    - /GameResources/Prefab/Object
+    GroupName: CustomAuto@Prefab@Object
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uC0C1\uC810"
+    PathList:
+    - /GameResources/Prefab/Store
+    GroupName: CustomAuto@Prefab@Store
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_\uD14C\uC774\uBA38"
+    PathList:
+    - /GameResources/Prefab/Tamer
+    GroupName: CustomAuto@Prefab@Tamer
+    SearchOption: 3
+  - DevName: "\uD29C\uD1A0\uB9AC\uC5BC"
+    PathList:
+    - /GameResources/Prefab/Tutorial
+    GroupName: CustomAuto@Prefab@Tutorial
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_UI_Access"
+    PathList:
+    - /GameResources/Prefab/UI/Access
+    GroupName: CustomAuto@Prefab@UI@Access
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_UI_\uBAA8\uB378"
+    PathList:
+    - /GameResources/Prefab/UI/BattleFloatingText
+    GroupName: CustomAuto@Prefab@UI@BattleFloatingText
+    SearchOption: 3
+  - DevName: "\uD504\uB9AC\uD339_UI_Common"
+    PathList:
+    - /GameResources/Prefab/UI
+    GroupName: CustomAuto@Prefab@UI@Common
+    SearchOption: 2
+  - DevName: "\uD504\uB9AC\uD339_UI_\uBAA8\uB378"
+    PathList:
+    - /GameResources/Prefab/UI/Model
+    GroupName: CustomAuto@Prefab@UI@Model
+    SearchOption: 3
+  - DevName: "\uBC30\uD2C0\uCE69"
+    PathList:
+    - /GameResources/Prefab/UI/Skill_Chips
+    GroupName: CustomAuto@Prefab@UI@SkillChips
+    SearchOption: 3
+  - DevName: "\uBC30\uD2C0\uCE69_\uB85C\uBE44"
+    PathList:
+    - /GameResources/Prefab/UI/Skill_Chips_Lobby
+    GroupName: CustomAuto@Prefab@UI@SkillChips@Lobby
+    SearchOption: 3
+  - DevName: "\uC52C"
+    PathList:
+    - /GameScenes
+    GroupName: CustomAuto@Scene
+    SearchOption: 3
+  - DevName: "\uC2A4\uD06C\uB9BD\uD130\uBE14\uC778\uC2A4\uD134\uC2A4_\uC5B4\uB4DC\uBCA4\uCC98"
+    PathList:
+    - /GameResources/ScriptableInstance/Adventure
+    GroupName: CustomAuto@ScriptableInstance@Adventure
+    SearchOption: 3
+  - DevName: "\uC2A4\uD06C\uB9BD\uD130\uBE14\uC778\uC2A4\uD134\uC2A4_\uBC30\uD2C0"
+    PathList:
+    - /GameResources/ScriptableInstance/Battle
+    GroupName: CustomAuto@ScriptableInstance@Battle
+    SearchOption: 3
+  - DevName: "\uC2A4\uD06C\uB9BD\uD130\uBE14\uC778\uC2A4\uD134\uC2A4_\uBBF8\uB2C8\uAC8C\uC784"
+    PathList:
+    - /GameResources/ScriptableInstance/MiniGame
+    GroupName: CustomAuto@ScriptableInstance@MiniGame
+    SearchOption: 3
+  - DevName: "\uC250\uC774\uB354"
+    PathList:
+    - /GameResources/Shader
+    GroupName: CustomAuto@Shader
+    SearchOption: 3
+  - DevName: "\uC18C\uD658_\uBC30\uB108\uC774\uBBF8\uC9C0"
+    PathList:
+    - /GameSource/UI/Sprite_SummonBanner
+    GroupName: CustomAuto@SummonBanner
+    SearchOption: 2
+  - DevName: "\uD14D\uC2A4\uCCD0"
+    PathList:
+    - /GameResources/Texture
+    GroupName: CustomAuto@Texture
+    SearchOption: 2

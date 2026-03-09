@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: JsonData
+  m_EditorClassIdentifier: 
+  m_GroupName: JsonData
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 794d142b25cadb44290bdc0a19326584
+  m_SerializeEntries:
+  - m_GUID: 06990ca931bdf2b40980d2d71b7e5332
+    m_Address: Assets/GameResources/MessagePackJson/GameItem.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 136bdfeba5cefb84da27df7f70a44d2e
+    m_Address: Assets/GameResources/MessagePackJson/GradeStat.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14b3675cd7378444c8f90e39ff2de148
+    m_Address: Assets/GameResources/MessagePackJson/UnitPropertyDefine.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21290777d874e924c80505f76c043984
+    m_Address: Assets/GameResources/MessagePackJson/CharLevelStatTable.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36a0f71c4d716af43a2ed4cd1901f366
+    m_Address: Assets/GameResources/MessagePackJson/DebuffGroup.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 38aaae2faddcd2a48b4169a1574d66b5
+    m_Address: Assets/GameResources/MessagePackJson/MonsterLevelStatTable.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e8a438e1b9612a4c8c9b9f27308b0ee
+    m_Address: Assets/GameResources/MessagePackJson/BuffGroup.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a7c4e93f096a4d47b627c36599d8a48
+    m_Address: Assets/GameResources/MessagePackJson/StageWaveGroup.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 684b03dda3064fd42bec4a9dc560e0dc
+    m_Address: Assets/GameResources/MessagePackJson/UnitTypeDefine.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b3fceb4e9cd54f4ebf4a9d8dfde3c5f
+    m_Address: Assets/GameResources/MessagePackJson/UnitPropertyBuffSet.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 847b58d1d73885c45a6efe4b7db17ca3
+    m_Address: Assets/GameResources/MessagePackJson/UnitTypeBuffSet.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0efcefda689a4f4b85543491513a70e
+    m_Address: Assets/GameResources/MessagePackJson/MonsterTable.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db5a0aa23d3699541a119ac3bbfab26a
+    m_Address: Assets/GameResources/MessagePackJson/StageTable.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb1d9bbeed0845441b0038561c0dc2aa
+    m_Address: Assets/GameResources/MessagePackJson/CharacterTable.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee8a5155e0430dd40ae5090d1a7704d2
+    m_Address: Assets/GameResources/MessagePackJson/TestConstValue.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fcb6402fe2bc4694b8a96bf5a2541fd6
+    m_Address: Assets/GameResources/MessagePackJson/StagePointReward.json
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - JsonData
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e07b6db687a5b484bae19b93bd1d6327, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 07390977b39d9f64aa7b94dc3d7bc167, type: 2}
+    - {fileID: 11400000, guid: 9a9e1031c4857d94fa539f07188b898e, type: 2}

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MessagePack.Generator</id>
+    <version>2.5.198</version>
+    <title>MessagePack Code Generator</title>
+    <authors>neuecc,aarnott</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <projectUrl>https://github.com/MessagePack-CSharp/MessagePack-CSharp</projectUrl>
+    <description>MessagePack standalone code generator.</description>
+    <releaseNotes>https://github.com/MessagePack-CSharp/MessagePack-CSharp/releases/tag/v2.5.198</releaseNotes>
+    <copyright>© Yoshifumi Kawai and contributors. All rights reserved.</copyright>
+    <tags>MsgPack MessagePack Serialization Formatter Serializer Unity Xamarin</tags>
+    <packageTypes>
+      <packageType name="DotnetTool" />
+    </packageTypes>
+    <repository type="git" url="https://github.com/MessagePack-CSharp/MessagePack-CSharp" commit="71892eb33aeec69adc84362197c134b2e09feea1" />
+  </metadata>
+</package>

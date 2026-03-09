@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b85dc9d251c087469170aba0b58ed74, type: 3}
+  m_Name: SheetImporter
+  m_EditorClassIdentifier: 
+  AddedClassList:
+  - AdventureStageCost
+  - AdventureStageMission
+  - DigimonDefine
+  GenerateScriptPath: Assets/Scripts/DigimonSC
+  jsonPath: Assets/GameResources/MessagePackJson
+  messagePackPath: Assets/GameResources/MessagePackBinary
+  localExcelPath: D:/D-project/DigimonExcel
+  sheetPathData:
+  - Name: BattleDigimonStatSheet
+    Address: https://docs.google.com/spreadsheets/d/1aoxLQDcK74JneuXzJr-i8TIgxhGPWaNI
+  - Name: Dgimon Challenge
+    Address: https://docs.google.com/spreadsheets/d/1ZDThPZmWT7yKVc6vjCs6X6xs2FkEFcyK
+  - Name: Store
+    Address: https://docs.google.com/spreadsheets/d/1lL379ZKe_8UjBuZ6jrhTWx_r1wgJwy98
+  - Name: Item
+    Address: https://docs.google.com/spreadsheets/d/17Efmze3qX6HPmrCZSPUIocW6jw10cwRJ
+  - Name: BattlePass
+    Address: https://docs.google.com/spreadsheets/d/17LMLtSc0RXU_gyWTABxIwHveQ5ZzLiiT
+  - Name: DesireQuest
+    Address: https://docs.google.com/spreadsheets/d/1_IW4mGQUnzteNgVf43gMbKbG8JgrW_nw
+  - Name: Reward
+    Address: https://docs.google.com/spreadsheets/d/1eA87_UK8lZdsSZmaHRo63YG7gPlRg_fP
+  - Name: Attendance
+    Address: https://docs.google.com/spreadsheets/d/1SAorHZbt-PWidrHXnOThC9pGhG1adMuK
+  - Name: Cost
+    Address: https://docs.google.com/spreadsheets/d/1fDyC_HJnKE8vw-Kqr7dn0QNYtLmFXxHO
+  - Name: Digimon Adventure
+    Address: https://docs.google.com/spreadsheets/d/1AD65gssVDJMK8IHlXWKHYQJcIPFLpgJv
+  - Name: Digimon Battle
+    Address: https://docs.google.com/spreadsheets/d/1iEXeXs8Wy-GrYDS6ViDXAr3v3P0U57jP
+  - Name: Digimon
+    Address: https://docs.google.com/spreadsheets/d/1Wam9MZSiORzQXDHhE8Gw2-H70bMHVsFS
+  - Name: DigimonSoulChaser
+    Address: https://docs.google.com/spreadsheets/d/1ASeioitZUJ0ycxU4P0HLmpDTJdKJ8MeY
+  - Name: Digitama
+    Address: https://docs.google.com/spreadsheets/d/1dq9K5EzhbFbmNLI1YS8A40yFf9uvppXv
+  - Name: MiniGame
+    Address: https://docs.google.com/spreadsheets/d/14UtE9vupCQrt02XNbFND-mP0czfz3f6k
+  - Name: Mission
+    Address: https://docs.google.com/spreadsheets/d/1Qac37wSs1WrYtxzPA8RGy634tnbWz6f1
+  - Name: Nest
+    Address: https://docs.google.com/spreadsheets/d/1wq9kFuzaTlSmMCfzYacCCJIKqjuUITaV
+  - Name: Slang
+    Address: https://docs.google.com/spreadsheets/d/1LNrfACc5OYZZTHLvrHbcLOnUMzyHhLnt
+  - Name: Tamer
+    Address: https://docs.google.com/spreadsheets/d/10lZMuRw7t7ZW2iPxB_LerE_6cEGv3_7s
+  - Name: DSC4_Core
+    Address: https://docs.google.com/spreadsheets/d/1THZ3doX11q2nWJIqO9OT2L5x2yjJIiEP
+  - Name: Clan
+    Address: https://docs.google.com/spreadsheets/d/1BcLaVl2NEQdPgJ1tzC4Nti0HYms6RYep
+  - Name: Encyclo
+    Address: https://docs.google.com/spreadsheets/d/1jOEb41fXpkKI_ygIspZxH3dFHOfvcT_g
+  - Name: DigimonRaidBattle
+    Address: https://docs.google.com/spreadsheets/d/1Zt_9W20utrQU6z215MAS83X3_hoSe52-
+  - Name: DigimonRaidStage
+    Address: https://docs.google.com/spreadsheets/d/1MFNSZdFh__rWEdks92YUBn7BitpmEuXQ
+  sheetPathDataLive:
+  - Name: BattleDigimonStatSheet
+    Address: https://docs.google.com/spreadsheets/d/https://docs.google.com/spreadsheets/d/12hmjuoNiKmYNThv6XyzaB1PI1DXXMe9t
+  - Name: Dgimon Challenge
+    Address: https://docs.google.com/spreadsheets/d/1zqvBW2V54b-a-Bi0kE-7yZyUlg4oT2HL
+  - Name: Store
+    Address: https://docs.google.com/spreadsheets/d/19xWp1SgRq0DAlKjI1TGwW0jZnZLg2iKR
+  - Name: Item
+    Address: https://docs.google.com/spreadsheets/d/1vEexlRLdoH-z2gFbdaZQrSjKzmyc7NYn
+  - Name: BattlePass
+    Address: https://docs.google.com/spreadsheets/d/1IrzDc8tViZj1RES0381kHV9MgpOyDO8c
+  - Name: DesireQuest
+    Address: https://docs.google.com/spreadsheets/d/1Z_RgeULfN03eCgnFK1Wh6tlIg4fQG_n-
+  - Name: Reward
+    Address: https://docs.google.com/spreadsheets/d/10gvnSAlx66ksXPpLQbNG5u4t2jp226d0
+  - Name: Attendance
+    Address: https://docs.google.com/spreadsheets/d/17zj4mIqyFYxE9gncC4IOV0FyNBVslMxP
+  - Name: Cost
+    Address: https://docs.google.com/spreadsheets/d/1u4DYZGrVudlViECywrDtLAsSpLCUQbBn
+  - Name: Digimon Adventure
+    Address: https://docs.google.com/spreadsheets/d/1teLF3hNKIsNYqfJjzvsgxSiYeUCN1Y_F
+  - Name: Digimon Battle
+    Address: https://docs.google.com/spreadsheets/d/1EhIsYOYrQyE8eCeJHJCW90hhsOwzJr3I
+  - Name: Digimon
+    Address: https://docs.google.com/spreadsheets/d/1suRT34G_-OVyKCoyocWxGpogNtVJiPyk
+  - Name: DigimonSoulChaser
+    Address: https://docs.google.com/spreadsheets/d/149zTlZaL2JDNVne7G_9LEM_17eUf3EEV
+  - Name: Digitama
+    Address: https://docs.google.com/spreadsheets/d/1faScanut-WUXt1oS-kd8YReEd_0Wk-cd
+  - Name: MiniGame
+    Address: https://docs.google.com/spreadsheets/d/1h2QVRBHQqCGTKGGw2BGvBRRdHOT4Iv6u
+  - Name: Mission
+    Address: https://docs.google.com/spreadsheets/d/1pwyq1_XDEfgtw2CxNtzio__MsHDqwPvx
+  - Name: Nest
+    Address: https://docs.google.com/spreadsheets/d/13ajBgeG6rvJT7nuSBoR1xwSdNhu-9CdP
+  - Name: Slang
+    Address: https://docs.google.com/spreadsheets/d/19KWkL9PvzyO8cYlrafbTbabFTCf7W3Mg
+  - Name: Tamer
+    Address: https://docs.google.com/spreadsheets/d/1KqWjlnFYccE-pIu7BccextY0xOuloQ_m
+  - Name: DSC4_Core
+    Address: https://docs.google.com/spreadsheets/d/1KlnKe6mJQS9BocJIXBHLcOMkeRS1b5Kq
+  - Name: Clan
+    Address: https://docs.google.com/spreadsheets/d/1crGWDoFffdA2cfHr0ne1h4ZnBzh8e1YY
+  - Name: DigimonRaidBattle
+    Address: https://docs.google.com/spreadsheets/d/1tYCj5rA5Ax-h7qZfFCjRCDPA3vhcEiU7
+  - Name: DigimonRaidStage
+    Address: https://docs.google.com/spreadsheets/d/1ZMUZMTHISyomKb3pgh_2iS5nr_rBRigU
+  - Name: Encyclo
+    Address: https://docs.google.com/spreadsheets/d/1SLPhaY1tVNEyoNAaPStv0GuvrcTGM9AG

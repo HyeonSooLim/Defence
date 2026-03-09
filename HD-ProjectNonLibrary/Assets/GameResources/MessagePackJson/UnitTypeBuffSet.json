@@ -1,0 +1,82 @@
+﻿[
+  {
+    "CharacterType": 5,
+    "ActiveCount": 1,
+    "BuffType": 2,
+    "Value": -0.2,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 5,
+    "ActiveCount": 2,
+    "BuffType": 2,
+    "Value": -0.3,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 8,
+    "ActiveCount": 1,
+    "BuffType": 1,
+    "Value": 5.0,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 8,
+    "ActiveCount": 2,
+    "BuffType": 1,
+    "Value": 10.0,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 9,
+    "ActiveCount": 1,
+    "BuffType": 2,
+    "Value": -0.2,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 11,
+    "ActiveCount": 2,
+    "BuffType": 1,
+    "Value": 8.0,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 1,
+    "ActiveCount": 1,
+    "BuffType": 2,
+    "Value": -0.3,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 10,
+    "ActiveCount": 1,
+    "BuffType": 1,
+    "Value": 7.0,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 6,
+    "ActiveCount": 1,
+    "BuffType": 1,
+    "Value": 5.0,
+    "Duration": 0.0,
+    "NameKey": ""
+  },
+  {
+    "CharacterType": 2,
+    "ActiveCount": 2,
+    "BuffType": 2,
+    "Value": -0.3,
+    "Duration": 0.0,
+    "NameKey": ""
+  }
+]

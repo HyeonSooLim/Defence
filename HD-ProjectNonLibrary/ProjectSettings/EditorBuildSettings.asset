@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/GameScenes/WorkSpace/MainWorkSpace.unity
+    guid: 16d84f0c258f1bd4884738e707ff329f
+  - enabled: 1
+    path: Assets/GameScenes/WorkSpace/TitleWorkSpace.unity
+    guid: 79f1002b02cf49e45be0a045a8a049d5
+  - enabled: 1
+    path: Assets/GameScenes/WorkSpace/LoadingWorkSpace.unity
+    guid: 662074f3cc6bc494c8812114d3f0fc79
+  - enabled: 1
+    path: Assets/GameScenes/WorkSpace/LobbyWorkSpace.unity
+    guid: 157df4037c036be47a37f259ee828acf
+  - enabled: 1
+    path: Assets/GameScenes/WorkSpace/BattleWorkSpace.unity
+    guid: 0ec964604cb6a0a41b994fb431d358c4
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 3942ab69e24430848924c979cabb4668,
+      type: 2}

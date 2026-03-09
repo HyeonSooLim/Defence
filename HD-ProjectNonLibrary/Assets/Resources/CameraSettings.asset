@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8617fd405d2fd394ebd2c26435056523, type: 3}
+  m_Name: CameraSettings
+  m_EditorClassIdentifier: 
+  CameraSets:
+  - SceneName: 7
+    FieldOfView: 60
+    CameraNear: 0.3
+    CameraFar: 1000
+    RootTransformPosition: {x: 0, y: 18.5, z: -14}
+    RootTransformRotation: {x: 60, y: 0, z: 0}
+    ArmLocalPosition: {x: 0, y: 0, z: -10}
+    ArmLocalRotation: {x: 0, y: 0, z: 0}
+    CameraLocalPosition: {x: 0, y: 0, z: 0}
+    CameraLocalRotation: {x: 0, y: 0, z: 0}

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef79099ce483e2449ba1b4a6031b66c, type: 3}
+  m_Name: IntegratedToolSetting
+  m_EditorClassIdentifier: 
+  buildPath: ..\BuildResult\
+  fileName: DSC
+  alphaVersion: 1.0.0
+  betaVersion: 1.0.0.0
+  liveVersion: 4.0.18
+  useDevBuild: 1
+  cleanBuild: 1
+  appBundle: 0
+  marketType: 1
+  bundleNumber: 1
+  ftpURL: upload-web.nas.nefficient.com
+  ftpUserName: dsc-cdn
+  ftpPassword: "\uBE44\uBC00\uC785\uB2C8\uB2F9 ^^"
+  ftpResourcePath: 
+  incorrectAddressablePath: 
+  SMTMIgnoreItemData: 00000000
+  BinaryOutputFolder: Assets/GameResources/MessagePackBinary
+  JsonOutputFolder: Assets/GameResources/MessagePackJson
+  GenerateScriptPath: Assets/Scripts/DigimonSC
+  MainNameSpace: DigimonSC

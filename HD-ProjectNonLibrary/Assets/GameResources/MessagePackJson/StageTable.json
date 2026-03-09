@@ -1,0 +1,10 @@
+﻿[
+  {
+    "Seed": 101,
+    "StageNameKey": "Stage_Name_101",
+    "WaveGroupSeed": 1001,
+    "NextStagePoint": 1400,
+    "StageIconName": "StageIcon_Name_101",
+    "SceneAssetKey": "Assets/GameResources/Scenes/Stage01.unity"
+  }
+]
