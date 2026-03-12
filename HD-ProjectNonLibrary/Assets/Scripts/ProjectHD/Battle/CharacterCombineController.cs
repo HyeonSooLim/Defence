@@ -29,40 +29,10 @@ namespace ProjectHD.Battle
             var currentKey = @event.CurrentHex;
 
             // 이전 위치 캐릭터 정보 삭제
-            if (Runtime.CharacterCombineInfo.Player01CellOnCharacters.ContainsKey(previousKey))
-            {
-                Runtime.CharacterCombineInfo.Player01CellOnCharacters.Remove(previousKey);
-            }
-            else if (Runtime.CharacterCombineInfo.Player02CellOnCharacters.ContainsKey(previousKey))
-            {
-                Runtime.CharacterCombineInfo.Player02CellOnCharacters.Remove(previousKey);
-            }
+            RemoveCharacterByHexKey(previousKey);
 
             // 셀 위에 있는 캐릭터 검사 및 추가
-            if (Runtime.StageInformation.Player01Cells.ContainsKey(currentKey))
-            {
-                if (Runtime.CharacterCombineInfo.Player01CellOnCharacters.ContainsKey(currentKey))
-                {
-                    Runtime.CharacterCombineInfo.Player01CellOnCharacters[currentKey] = @event.InstanceID;
-                    Utilities.InternalDebug.LogError("이미 좌표에 캐릭터가 있습니다.");
-                }
-                else
-                {
-                    Runtime.CharacterCombineInfo.Player01CellOnCharacters.Add(currentKey, @event.InstanceID);
-                }
-            }
-            else if (Runtime.StageInformation.Player02Cells.ContainsKey(currentKey))
-            {
-                if (Runtime.CharacterCombineInfo.Player02CellOnCharacters.ContainsKey(currentKey))
-                {
-                    Runtime.CharacterCombineInfo.Player02CellOnCharacters[currentKey] = @event.InstanceID;
-                    Utilities.InternalDebug.LogError("이미 좌표에 캐릭터가 있습니다.");
-                }
-                else
-                {
-                    Runtime.CharacterCombineInfo.Player02CellOnCharacters.Add(currentKey, @event.InstanceID);
-                }
-            }
+            AddCharacterByHexKey(@event.InstanceID, currentKey);
         }
 
         private void ManagerUnloadAction(Event.ManagerUnloadEvent @event)
@@ -146,6 +116,46 @@ namespace ProjectHD.Battle
                 tempEvent.CharacterType = characterBehavior.CharacterTable.CharacterType;
                 tempEvent.PlayerType = characterBehavior.PlayerType;
                 Event.EventManager.Broadcast(tempEvent);
+            }
+        }
+
+        private void RemoveCharacterByHexKey((int, int) hexKey)
+        {
+            if (Runtime.CharacterCombineInfo.Player01CellOnCharacters.ContainsKey(hexKey))
+            {
+                Runtime.CharacterCombineInfo.Player01CellOnCharacters.Remove(hexKey);
+            }
+            else if (Runtime.CharacterCombineInfo.Player02CellOnCharacters.ContainsKey(hexKey))
+            {
+                Runtime.CharacterCombineInfo.Player02CellOnCharacters.Remove(hexKey);
+            }
+        }
+
+        private void AddCharacterByHexKey(int instanceID, (int, int) hexKey)
+        {
+            if (Runtime.StageInformation.Player01Cells.ContainsKey(hexKey))
+            {
+                if (Runtime.CharacterCombineInfo.Player01CellOnCharacters.ContainsKey(hexKey))
+                {
+                    Runtime.CharacterCombineInfo.Player01CellOnCharacters[hexKey] = instanceID;
+                    Utilities.InternalDebug.LogError("이미 좌표에 캐릭터가 있습니다.");
+                }
+                else
+                {
+                    Runtime.CharacterCombineInfo.Player01CellOnCharacters.Add(hexKey, instanceID);
+                }
+            }
+            else if (Runtime.StageInformation.Player02Cells.ContainsKey(hexKey))
+            {
+                if (Runtime.CharacterCombineInfo.Player02CellOnCharacters.ContainsKey(hexKey))
+                {
+                    Runtime.CharacterCombineInfo.Player02CellOnCharacters[hexKey] = instanceID;
+                    Utilities.InternalDebug.LogError("이미 좌표에 캐릭터가 있습니다.");
+                }
+                else
+                {
+                    Runtime.CharacterCombineInfo.Player02CellOnCharacters.Add(hexKey, instanceID);
+                }
             }
         }
     }

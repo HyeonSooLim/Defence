@@ -70,11 +70,11 @@ namespace ProjectHD.Battle
             await RunTaskWithProgress(PreloadAllCharacters());
             await RunTaskWithProgress(SetBackgroundScene());    
             await RunTaskWithProgress(SetUI());
-            await RunTaskWithProgress(SetWaveController());
+            await RunTaskWithProgress(SetController(WAVE_CONTROLLER));
             await RunTaskWithProgress(SetMapObject());
-            await RunTaskWithProgress(SetCharacterCombineController());
-            await RunTaskWithProgress(SetDamageController());
-            await RunTaskWithProgress(SetBuffSetController());
+            await RunTaskWithProgress(SetController(CHARACTER_COMBINE_CONTROLLER));
+            await RunTaskWithProgress(SetController(DAMAGE_CONTROLLER));
+            await RunTaskWithProgress(SetController(BUFF_SET_CONTROLLER));
             SetPlayers();
 
             await base.Initialize();
@@ -134,12 +134,12 @@ namespace ProjectHD.Battle
             Utilities.InternalDebug.Log($"[{name}] SetBaseUI Done");
         }
 
-        private async UniTask SetWaveController()
+        private async UniTask SetController(string assetKey)
         {
-            var waveController = await MainManager.Instance.GameObjectPool.GetAsync(WAVE_CONTROLLER);
-            MoveToWorkspace(waveController);
-            poolingObjects.Add(waveController);
-            Utilities.InternalDebug.Log($"[{name}] SetWaveController Done");
+            var controller = await MainManager.Instance.GameObjectPool.GetAsync(assetKey);
+            MoveToWorkspace(controller);
+            poolingObjects.Add(controller);
+            Utilities.InternalDebug.Log($"[{name}] {controller.name} Done");
         }
 
         private async UniTask SetMapObject()
@@ -151,30 +151,6 @@ namespace ProjectHD.Battle
             poolingObjects.Add(map01);
             poolingObjects.Add(map02);
             Utilities.InternalDebug.Log($"[{name}] SetMapObject Done");
-        }
-
-        private async UniTask SetCharacterCombineController()
-        {
-            var combineController = await MainManager.Instance.GameObjectPool.GetAsync(CHARACTER_COMBINE_CONTROLLER);
-            MoveToWorkspace(combineController);
-            poolingObjects.Add(combineController);
-            Utilities.InternalDebug.Log($"[{name}] SetCharacterCombineController Done");
-        }
-
-        private async UniTask SetDamageController()
-        {
-            var damageController = await MainManager.Instance.GameObjectPool.GetAsync(DAMAGE_CONTROLLER);
-            MoveToWorkspace(damageController);
-            poolingObjects.Add(damageController);
-            Utilities.InternalDebug.Log($"[{name}] SetDamageController Done");
-        }
-
-        private async UniTask SetBuffSetController()
-        {
-            var buffSetController = await MainManager.Instance.GameObjectPool.GetAsync(BUFF_SET_CONTROLLER);
-            MoveToWorkspace(buffSetController);
-            poolingObjects.Add(buffSetController);
-            Utilities.InternalDebug.Log($"[{name}] SetBuffSetController Done");
         }
 
         private void SetPlayers()
