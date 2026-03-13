@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3341,6 +3341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1833768187225874411}
+  - component: {fileID: 5580988083166639590}
   m_Layer: 0
   m_Name: Texts
   m_TagString: Untagged
@@ -3372,6 +3373,18 @@ Transform:
   - {fileID: 9217285620843240953}
   m_Father: {fileID: 5579420047694813794}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &5580988083166639590
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7390459517902184424}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &7425746140807079687
 GameObject:
   m_ObjectHideFlags: 0
