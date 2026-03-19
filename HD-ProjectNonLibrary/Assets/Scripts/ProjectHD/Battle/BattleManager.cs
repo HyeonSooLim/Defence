@@ -68,7 +68,7 @@ namespace ProjectHD.Battle
             StageSeed = Runtime.StageInformation.StageSeed; // 임시값
 
             await RunTaskWithProgress(PreloadAllCharacters());
-            await RunTaskWithProgress(SetBackgroundScene());    
+            await RunTaskWithProgress(SetBackgroundScene());
             await RunTaskWithProgress(SetUI());
             await RunTaskWithProgress(SetController(WAVE_CONTROLLER));
             await RunTaskWithProgress(SetMapObject());
@@ -103,7 +103,11 @@ namespace ProjectHD.Battle
         {
             if (Global.DataManager.StageTable.TryGet(StageSeed, out var stageTable))
             {
-                _backgroundSceneInsctance = await MainManager.Instance.SceneInstancePool.GetAsync(stageTable.SceneAssetKey);
+                var assetKey = stageTable.SceneAssetKey;
+#if UNITY_EDITOR
+                    assetKey = GetOptimizedAssetKey(assetKey, DeviceRepositoryKey.Editor_Project_Optimization_Scene);
+#endif
+                _backgroundSceneInsctance = await MainManager.Instance.SceneInstancePool.GetAsync(assetKey);
                 var rootObjects = Utilities.StaticObjectPool.Pop<List<GameObject>>();
                 rootObjects.Clear();
                 _backgroundScene.GetRootGameObjects(rootObjects);
@@ -119,7 +123,12 @@ namespace ProjectHD.Battle
 
         private async UniTask SetUI()
         {
-            var baseUI = await MainManager.Instance.GameObjectPool.GetAsync(BASE_UI);
+            var assetKey = BASE_UI;
+#if UNITY_EDITOR
+            assetKey = GetOptimizedAssetKey(assetKey, DeviceRepositoryKey.Editor_Project_Optimization_UI);
+#endif
+
+            var baseUI = await MainManager.Instance.GameObjectPool.GetAsync(assetKey);
             MoveToWorkspace(baseUI);
             poolingObjects.Add(baseUI);
 
@@ -144,8 +153,15 @@ namespace ProjectHD.Battle
 
         private async UniTask SetMapObject()
         {
-            var map01 = await MainManager.Instance.GameObjectPool.GetAsync(MAP_ASSET_KEY_01);
-            var map02 = await MainManager.Instance.GameObjectPool.GetAsync(MAP_ASSET_KEY_02);
+            var assetKey01 = MAP_ASSET_KEY_01;
+            var assetKey02 = MAP_ASSET_KEY_02;
+#if UNITY_EDITOR
+            assetKey01 = GetOptimizedAssetKey(assetKey01, DeviceRepositoryKey.Editor_Project_Optimization_MapObject);
+            assetKey02 = GetOptimizedAssetKey(assetKey02, DeviceRepositoryKey.Editor_Project_Optimization_MapObject);
+#endif
+
+            var map01 = await MainManager.Instance.GameObjectPool.GetAsync(assetKey01);
+            var map02 = await MainManager.Instance.GameObjectPool.GetAsync(assetKey02);
             MoveToWorkspace(map01);
             MoveToWorkspace(map02);
             poolingObjects.Add(map01);
@@ -204,5 +220,18 @@ namespace ProjectHD.Battle
         }
 
         #endregion
+
+#if UNITY_EDITOR
+        private string GetOptimizedAssetKey(string assetKey, DeviceRepositoryKey editorKey)
+        {
+            if (DeviceRepository.LoadKeyForBoolean(editorKey, true))
+                return assetKey;
+            else
+            {
+                var newAssetKey = assetKey.Insert(assetKey.LastIndexOf('.'), "_NonOptimization");
+                return newAssetKey;
+            }
+        }
+#endif
     }
 }

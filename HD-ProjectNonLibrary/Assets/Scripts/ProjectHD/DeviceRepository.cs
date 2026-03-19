@@ -38,6 +38,10 @@ namespace ProjectHD
         Editor_Build_FTP_Path,
         Editor_Build_FTP_PathIndex,
         Editor_AutoAddressable_Schema,
+        Editor_Project_Optimization_MapObject,
+        Editor_Project_Optimization_Scene,
+        Editor_Project_Optimization_UI,
+        Editor_Project_Target_FrameRate,
     }
 
 

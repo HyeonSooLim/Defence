@@ -32,6 +32,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 19313a6513e353740b2590727509c103
+    m_Address: Assets/GameResources/Prefabs/World/Stage_01_BG_NonOptimization.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 238e6359a2523094f9169311ed0b164a
     m_Address: Assets/GameResources/Effect/GFX_RenaMonScratch_01.prefab
     m_ReadOnly: 0
@@ -147,6 +152,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8025dbedbe10f3c459a581c9159eced5
+    m_Address: Assets/GameResources/Prefabs/UI/BattleBaseUI_NonOptimization.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82dc7324d7494f94581d741160b3b3c5
+    m_Address: Assets/GameResources/Scenes/Stage01_NonOptimization.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 831f8e094cb3f3041a6adb0586605768
     m_Address: Assets/GameResources/Prefabs/World/Stage_01.prefab
     m_ReadOnly: 0
@@ -204,6 +219,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b3fb180f9b061b84ea01a29c8b6d3574
     m_Address: Assets/GameResources/Prefabs/Battle/DamageController.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5b7752dad206a94cb1d139e6be85443
+    m_Address: Assets/GameResources/Prefabs/World/Stage_01_NonOptimization.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

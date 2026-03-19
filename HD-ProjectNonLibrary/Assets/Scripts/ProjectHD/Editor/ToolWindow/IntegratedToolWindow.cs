@@ -19,6 +19,7 @@ namespace ProjectHD.Editor
     {
         enum DrawForm
         {
+            ProjectSetting,
             AutomationBuild,
             SheetToJsonTool,
         }
@@ -30,7 +31,7 @@ namespace ProjectHD.Editor
             Error,
         }
 
-        private string[] ButtonNames = new[] { "빌드 자동화", "데이터 시트 자동화 v2" };
+        private string[] ButtonNames = new[] { "프로젝트 세팅", "빌드 자동화", "데이터 시트 자동화 v2" };
 
         public const string EDITOR_INTEGRATEDTOOL_WINDOW_MENUITEM = "Tools/종합 툴";
         public const string AUTO_REMOTE_LABEL_NAME = "Remote";
@@ -149,6 +150,9 @@ namespace ProjectHD.Editor
             _isWorking = false;
             switch (_curDrawForm)
             {
+                case DrawForm.ProjectSetting:
+                    ProjectSettingPanel();
+                    break;
                 case DrawForm.AutomationBuild:
                     DrawAutomationBuildPanel();
                     break;
@@ -159,6 +163,21 @@ namespace ProjectHD.Editor
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        private void ProjectSettingPanel()
+        {
+            VisualElement Panel = new();
+            _scrollView = new ScrollView();
+            Panel.Add(_scrollView);
+            _scrollView.Clear();
+
+            CreateToggle(_scrollView, DeviceRepositoryKey.Editor_Project_Optimization_MapObject, true, "맵 오브젝트 배치 최적화");
+            CreateToggle(_scrollView, DeviceRepositoryKey.Editor_Project_Optimization_Scene, true, "씬 배치 최적화");
+            CreateToggle(_scrollView, DeviceRepositoryKey.Editor_Project_Optimization_UI, true, "UI 최적화");
+            CreateIntField(_scrollView, DeviceRepositoryKey.Editor_Project_Target_FrameRate, 60, "타겟 프레임");
+            _rightPanel.Add(Panel);
+        }
+
         private void DrawAutomationBuildPanel()
         {
             VisualElement Panel = new();
@@ -1029,7 +1048,7 @@ namespace ProjectHD.Editor
         {
             await Resources.UnloadUnusedAssets();
             System.GC.Collect();
-        } 
+        }
 
         #endregion
     }
