@@ -46,7 +46,7 @@ namespace Utilities
                 _source = null;
             }
 
-            public UnityEngine.GameObject Get()
+            public UnityEngine.GameObject Get(Transform parent = null)
             {
                 UnityEngine.GameObject retInstance = null;
                 if (_pool.Count > 0)
@@ -59,24 +59,28 @@ namespace Utilities
                     UnityEngine.GameObject.DontDestroyOnLoad(retInstance);
                 }
 
-                MoveToRoot(retInstance);
+                MoveToRoot(retInstance, parent);
                 
                 return retInstance;
             }
 
-            public void Return(UnityEngine.GameObject instance)
+            public void Return(UnityEngine.GameObject instance, bool keepParent = false)
             {
                 if (!instance) return;
 
                 _pool.Enqueue(instance);
 
-                MoveToRoot(instance);
+                if (!keepParent)
+                {
+                    MoveToRoot(instance);
+                }
             }
 
-            private void MoveToRoot(UnityEngine.GameObject instance)
+            private void MoveToRoot(UnityEngine.GameObject instance, Transform parent = null)
             {
                 if (!instance) return;
-                instance.transform.SetParent(_rootObject.transform);
+                var parentTransform = parent ? parent : _rootTransform;
+                instance.transform.SetParent(parentTransform);
             }
         }
         
@@ -125,7 +129,7 @@ namespace Utilities
             return rootObject;
         }
         
-        public GameObject Get(string key, bool active = true, bool dontDestroy = false)
+        public GameObject Get(string key, bool active = true, bool dontDestroy = false, Transform parent = null)
         {
             if (string.IsNullOrEmpty(key)) return null;
             if (!_dicPool.TryGetValue(key, out var pool))
@@ -141,7 +145,7 @@ namespace Utilities
                 pool = newPool;
             }
             
-            var instance = pool.Get();
+            var instance = pool.Get(parent);
             if (instance)
             {
                 instance.SetActive(active);
@@ -153,7 +157,7 @@ namespace Utilities
             return instance;
         }
         
-        public GameObject Get(object key, bool active = true, bool dontDestroy = false)
+        public GameObject Get(object key, bool active = true, bool dontDestroy = false, Transform parent = null)
         {
             if (key == null) return null;
             if (key is string textKey && string.IsNullOrEmpty(textKey)) return null;
@@ -170,7 +174,7 @@ namespace Utilities
                 pool = newPool;
             }
             
-            var instance = pool.Get();
+            var instance = pool.Get(parent);
             if (instance)
             {
                 instance.SetActive(active);
@@ -182,7 +186,7 @@ namespace Utilities
             return instance;
         }
 
-        public async UniTask<GameObject> GetAsync(object key, bool active = true, bool dontDestroy = false)
+        public async UniTask<GameObject> GetAsync(object key, bool active = true, bool dontDestroy = false, Transform parent = null)
         {
             if (key == null) return null;
             if (key is string textKey && string.IsNullOrEmpty(textKey)) return null;
@@ -199,7 +203,7 @@ namespace Utilities
                 pool = newPool;
             }
 
-            var instance = pool.Get();
+            var instance = pool.Get(parent);
             if (instance)
             {
                 instance.SetActive(active);
@@ -226,7 +230,7 @@ namespace Utilities
             return outInstance;
         }
 
-        public void Return(GameObject instance)
+        public void Return(GameObject instance, bool keepParent = false)
         {
             if (!instance) return;
             if (!_dicInstanceKey.TryGetValue(instance.GetInstanceID(), out var key))
@@ -246,7 +250,7 @@ namespace Utilities
             }
 
             instance.SetActive(false);
-            pool.Return(instance);
+            pool.Return(instance, keepParent);
         }
 
         public void ReleaseAll()

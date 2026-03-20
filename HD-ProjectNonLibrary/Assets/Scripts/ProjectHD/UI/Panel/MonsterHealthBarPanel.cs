@@ -62,7 +62,7 @@ namespace ProjectHD.UI
             if (_activeHealthBars.TryGetValue(instanceID, out var healthBar))
             {
                 healthBar.Destruct();
-                MainManager.Instance.GameObjectPool.Return(healthBar.gameObject);
+                MainManager.Instance.GameObjectPool.Return(healthBar.gameObject, true);
                 _activeHealthBars.Remove(instanceID);
             }
         }
@@ -85,13 +85,16 @@ namespace ProjectHD.UI
             if (_activeHealthBars.TryGetValue(instanceID, out var healthBar))
             {
                 healthBar.Destruct();
-                MainManager.Instance.GameObjectPool.Return(healthBar.gameObject);
+                MainManager.Instance.GameObjectPool.Return(healthBar.gameObject, true);
                 _activeHealthBars.Remove(instanceID);
             }
         }
 
         private void SetHealthBar(int instanceID, float health)
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            MainManager.Sampler.Begin();
+#endif
             if (!Runtime.StageInformation.SpawnedEnemies.TryGetValue(instanceID, out var monsterBehavior))
                 return;
             if (_activeHealthBars.TryGetValue(instanceID, out var bar))
@@ -100,7 +103,8 @@ namespace ProjectHD.UI
             }
             else
             {
-                var healthBarObject = MainManager.Instance.GameObjectPool.Get(HEALTH_BAR_ASSET_KEY);
+                var healthBarObject = MainManager.Instance.GameObjectPool.Get(HEALTH_BAR_ASSET_KEY, parent: transform);
+                //var healthBarObject = MainManager.Instance.GameObjectPool.Get(HEALTH_BAR_ASSET_KEY);
                 if (!healthBarObject.TryGetComponent<HealthBar>(out var healthBar))
                 {
                     Utilities.InternalDebug.LogError($"[{nameof(MonsterHealthBarPanel)}] {HEALTH_BAR_ASSET_KEY} is not have HealthBar component");
@@ -108,13 +112,17 @@ namespace ProjectHD.UI
                     return;
                 }
 
-                healthBar.transform.SetParent(transform);
+                //healthBar.transform.SetParent(transform);
                 healthBar.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 healthBar.transform.localScale = Vector3.one * _size;
                 healthBar.Construct(health);
 
                 _activeHealthBars.Add(instanceID, healthBar);
             }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            MainManager.Sampler.End();
+#endif
         }
     }
 }

@@ -37,6 +37,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2195f4777d3d79d44b039116588ec3b3
+    m_Address: Assets/GameResources/Audio/BGM/BGM_02.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 238e6359a2523094f9169311ed0b164a
     m_Address: Assets/GameResources/Effect/GFX_RenaMonScratch_01.prefab
     m_ReadOnly: 0
@@ -274,6 +279,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: de1a694ea19eca64db82be6595265479
     m_Address: Assets/GameResources/Prefabs/Monster/GoburiMon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df407d16436cf7c4e843597bcb24ad8d
+    m_Address: Assets/GameResources/Audio/BGM/BGM_01.mp3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

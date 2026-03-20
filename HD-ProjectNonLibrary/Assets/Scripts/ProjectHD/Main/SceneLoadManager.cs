@@ -9,7 +9,6 @@ namespace ProjectHD
 {
     public class SceneLoadManager : Singleton<SceneLoadManager>
     {
-        //public static SceneLoadManager Instance; // 싱글톤 인스턴스
         private ISceneLoader _sceneLoader; // 씬 로더 인터페이스
 
         // Odin 인스펙터를 활용하여 인스펙터에서 씬 로더 선택 가능하도록 구현(의존성 주입)
@@ -36,7 +35,7 @@ namespace ProjectHD
                 Utilities.InternalDebug.LogError("LoaderName is null or empty.");
                 return;
             }
-            //_sceneLoader = System.Activator.CreateInstance(System.Type.GetType(_selectedLoader)) as ISceneLoader; // 씬 로더 인스턴스 생성
+
             var typeName = $"ProjectHD.{_selectedLoader}, Assembly-CSharp";    // asmdef를 사용했다면 어셈블리 네임 변경
             var type = System.Type.GetType(typeName);
             _sceneLoader = System.Activator.CreateInstance(type) as ISceneLoader;
@@ -52,6 +51,7 @@ namespace ProjectHD
             await UniTask.Yield(); // 프레임 대기
 
             MoveToScene(_firstNextScene, UniTask.Defer(CleanUp)); // 타이틀 씬으로 이동
+            PlayBGM();
         }
 
         private void OnDestroy()
@@ -64,12 +64,16 @@ namespace ProjectHD
         /// <summary>
         /// Clean up the current scene and move to the specified scene.
         /// </summary>
-        /// <param name="sceneName"></param>
-        /// <param name="cleanUpAction">씬 이동 전 현재 씬에서 정리해야할 일</param>
-        /// <param name="afterSceneLoadAction">씬 이동 후 새 씬에서 실행할 일</param>
+        /// <param name="sceneName">이동하는 씬</param>
+        /// <param name="cleanUp">씬 이동 전 정리해야할 일</param>
         public void MoveToScene(ProjectEnum.SceneName sceneName, UniTask cleanUp)
         {
             _sceneLoader.MoveToScene(sceneName, cleanUp); // 씬 로드
+        }
+
+        private void PlayBGM()
+        {
+            SoundManager.Instance.PlayBGM("Assets/GameResources/Audio/BGM/BGM_01.mp3");
         }
 
         private void PlayerSetting()
@@ -100,8 +104,6 @@ namespace ProjectHD
             DG.Tweening.DOTween.CompleteAll();
             await UniTask.DelayFrame(1);
             DG.Tweening.DOTween.KillAll();
-            await MainManager.Instance.CleanUp(); // 리소스 정리
-            await UniTask.Yield();
         }
     }
 }

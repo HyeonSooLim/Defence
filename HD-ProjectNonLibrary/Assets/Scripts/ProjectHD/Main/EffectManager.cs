@@ -16,6 +16,8 @@ namespace ProjectHD
         private const int _maxProcessPerFrame = 50; // 한 프레임에 최대 50개 처리
         private const int _defaultRemainTime = 2;
 
+        [SerializeField] private Transform _effectParent;
+
         private void Awake()
         {
             _poolingScene = SceneManager.GetSceneByName(ProjectEnum.SceneName.MainWorkSpace.ToString());
@@ -39,10 +41,15 @@ namespace ProjectHD
             if (@event.Transform == null)
                 return;
 
-            var effect = MainManager.Instance.GameObjectPool.Get(@event.AssetKey);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            MainManager.Sampler.Begin();
+#endif
 
-            effect.transform.SetParent(null);
-            SceneManager.MoveGameObjectToScene(effect, _poolingScene);
+            //var effect = MainManager.Instance.GameObjectPool.Get(@event.AssetKey);
+            //effect.transform.SetParent(null);
+            //SceneManager.MoveGameObjectToScene(effect, _poolingScene);
+
+            var effect = MainManager.Instance.GameObjectPool.Get(@event.AssetKey, parent: _effectParent);
             effect.transform.SetPositionAndRotation(@event.Transform.position, @event.Transform.rotation);
             //effect.transform.localScale = @event.Transform.localScale;
             var instanceID = effect.GetInstanceID();
@@ -51,6 +58,10 @@ namespace ProjectHD
                 _poolDictionary.Add(instanceID, effect);
                 _poolRemainTimeDcictionary.Add(instanceID, @event.Duration);
             }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            MainManager.Sampler.End();
+#endif
         }
 
         private void ManagerUnloadAction(Event.ManagerUnloadEvent @event)
@@ -76,8 +87,8 @@ namespace ProjectHD
                 if (unitPropertyDefine.SpawnEffectAssetKey.IsNullOrEmpty())
                     return;
 
-                var effect = MainManager.Instance.GameObjectPool.Get(unitPropertyDefine.SpawnEffectAssetKey);
-                effect.transform.SetParent(characterBehavior.transform);
+                var effect = MainManager.Instance.GameObjectPool.Get(unitPropertyDefine.SpawnEffectAssetKey, parent: characterBehavior.transform);
+                //effect.transform.SetParent(characterBehavior.transform);
                 //SceneManager.MoveGameObjectToScene(effect, _poolingScene);
                 effect.transform.SetLocalPositionAndRotation(new Vector3(0, unitPropertyDefine.OffsetY, 0), Quaternion.identity);
                 //effect.transform.localScale = Vector3.one;

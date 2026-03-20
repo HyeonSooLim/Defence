@@ -7,6 +7,9 @@ namespace ProjectHD
 {
     public class MainManager : Singleton<MainManager>
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        public static UnityEngine.Profiling.CustomSampler Sampler = UnityEngine.Profiling.CustomSampler.Create("MyProfiling_SetParent");
+#endif
         public Utilities.ResourcePool ResourcePool { get; private set; }
         public Utilities.InstancePool InstancePool { get; private set; }
         public Utilities.GameObjectPool GameObjectPool { get; private set; }
