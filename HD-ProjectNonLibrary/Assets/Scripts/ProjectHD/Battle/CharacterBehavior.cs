@@ -273,8 +273,7 @@ namespace ProjectHD.Battle
 
         private bool CheckPlayerCell((int, int) key)
         {
-            var checkPlayerCells = _playerType == ProjectEnum.PlayerType.Player01 ?
-                Runtime.StageInformation.Player01Cells : Runtime.StageInformation.Player02Cells;
+            var checkPlayerCells = GetPlayerCells();
 
             if (!checkPlayerCells.ContainsKey(key))
             {
@@ -310,8 +309,7 @@ namespace ProjectHD.Battle
             }
             else
             {
-                var playerCells = _playerType == ProjectEnum.PlayerType.Player01 ?
-                    Runtime.StageInformation.Player01Cells : Runtime.StageInformation.Player02Cells;
+                var playerCells = GetPlayerCells();
                 if (playerCells.TryGetValue(key, out var cellBehavior))
                 {
                     MoveToCellPosition(cellBehavior);
@@ -323,6 +321,12 @@ namespace ProjectHD.Battle
         private void MoveToCellPosition(CellBehavior cellBehavior)
         {
             transform.SetLocalPositionAndRotation(cellBehavior.transform.localPosition, Quaternion.identity);
+        }
+
+        private Dictionary<System.ValueTuple<int, int>, Battle.CellBehavior> GetPlayerCells()
+        {
+            return _playerType == ProjectEnum.PlayerType.Player01 ?
+                    Runtime.StageInformation.Player01Cells : Runtime.StageInformation.Player02Cells;
         }
 
         #endregion
@@ -372,14 +376,12 @@ namespace ProjectHD.Battle
                     UpdateHexAndExecuteEvent();
                 }
 
-                var checkPlayerCells = _playerType == ProjectEnum.PlayerType.Player01 ?
-                    Runtime.StageInformation.Player01Cells : Runtime.StageInformation.Player02Cells;
+                Dictionary<System.ValueTuple<int, int>, Battle.CellBehavior> checkPlayerCells = GetPlayerCells();
                 if (checkPlayerCells.TryGetValue((_currentHexQ, _currentHexR), out var cellBehavior))
                 {
                     MoveToCellPosition(cellBehavior);
                     ExecuteCharacterDragEndEvent(cellBehavior.transform.position);
                 }
-
             });
         }
 
