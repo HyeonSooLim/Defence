@@ -136,7 +136,7 @@ namespace ProjectHD.Battle
             if (_target != null && CanAttack(_target))
                 return;
 
-            foreach(var monster in Runtime.StageInformation.SpawnedEnemies.Values)
+            foreach (var monster in Runtime.StageInformation.SpawnedEnemies.Values)
             {
                 if (CanAttack(monster))
                 {
@@ -260,50 +260,63 @@ namespace ProjectHD.Battle
                     return;
                 }
 
-                var hex = GetCurrentHex();
-                var playerCellonCharacters = _playerType == ProjectEnum.PlayerType.Player01 ?
-                    Runtime.CharacterCombineInfo.Player01CellOnCharacters : Runtime.CharacterCombineInfo.Player02CellOnCharacters;
-
+                var hex = GetCurrentHex();  // 현재 드래그 중인 캐릭터 좌표
                 var key = (hex.x, hex.y);
-                var checkPlayerCells = _playerType == ProjectEnum.PlayerType.Player01 ?
-                    Runtime.StageInformation.Player01Cells : Runtime.StageInformation.Player02Cells;
 
-                if (!checkPlayerCells.ContainsKey(key)) // 플레이어의 영역(1,2 혹은 그외)이 아니라면
-                {
-                    if (checkPlayerCells.TryGetValue((_currentHexQ, _currentHexR), out var cellBehavior))
-                    {
-                        MoveToCellPosition(cellBehavior);
-                        UpdateTarget();
-                        ExecuteCharacterDragEndEvent(cellBehavior.transform.position);
-                    }
-                    else
-                    {
-                        Utilities.InternalDebug.Log($"쉘 좌표 데이터를 확인해주세요");
-                    }
+                if (!CheckPlayerCell(key))  // 플레이어의 영역(1,2 혹은 그외) 체크
                     return;
-                }
 
-                if (playerCellonCharacters.ContainsKey(key))    // 해당 칸에 캐릭터가 있다면
+                CheckAndExcuteCharacterCombine(key);    // 캐릭터 합성
+                UpdateTarget();
+            }
+        }
+
+        private bool CheckPlayerCell((int, int) key)
+        {
+            var checkPlayerCells = _playerType == ProjectEnum.PlayerType.Player01 ?
+                Runtime.StageInformation.Player01Cells : Runtime.StageInformation.Player02Cells;
+
+            if (!checkPlayerCells.ContainsKey(key))
+            {
+                if (checkPlayerCells.TryGetValue((_currentHexQ, _currentHexR), out var cellBehavior))
                 {
-                    var targetInstanceID = playerCellonCharacters[key];
-                    if (Runtime.StageInformation.SpawnedCharacters.TryGetValue(targetInstanceID, out var characterObject)
-                        && characterObject.TryGetComponent<CharacterBehavior>(out var characterBehavior))
-                    {
-                        RequestCharacterCombineEvent(targetInstanceID);
-                    }
+                    MoveToCellPosition(cellBehavior);
+                    UpdateTarget();
+                    ExecuteCharacterDragEndEvent(cellBehavior.transform.position);
                 }
                 else
                 {
-                    var playerCells = _playerType == ProjectEnum.PlayerType.Player01 ?
-                        Runtime.StageInformation.Player01Cells : Runtime.StageInformation.Player02Cells;
-                    if (playerCells.TryGetValue(key, out var cellBehavior))
-                    {
-                        MoveToCellPosition(cellBehavior);
-                        UpdateHexAndExecuteEvent();
-                    }
+                    Utilities.InternalDebug.Log($"쉘 좌표 데이터를 확인해주세요");
                 }
+                return false;
+            }
 
-                UpdateTarget();
+            return true;
+        }
+
+        private void CheckAndExcuteCharacterCombine((int, int) key)
+        {
+            var playerCellonCharacters = _playerType == ProjectEnum.PlayerType.Player01 ?
+                Runtime.CharacterCombineInfo.Player01CellOnCharacters : Runtime.CharacterCombineInfo.Player02CellOnCharacters;
+
+            if (playerCellonCharacters.ContainsKey(key))    // 해당 칸에 캐릭터가 있다면
+            {
+                var targetInstanceID = playerCellonCharacters[key];
+                if (Runtime.StageInformation.SpawnedCharacters.TryGetValue(targetInstanceID, out var characterObject)
+                    && characterObject.TryGetComponent<CharacterBehavior>(out var characterBehavior))
+                {
+                    RequestCharacterCombineEvent(targetInstanceID);
+                }
+            }
+            else
+            {
+                var playerCells = _playerType == ProjectEnum.PlayerType.Player01 ?
+                    Runtime.StageInformation.Player01Cells : Runtime.StageInformation.Player02Cells;
+                if (playerCells.TryGetValue(key, out var cellBehavior))
+                {
+                    MoveToCellPosition(cellBehavior);
+                    UpdateHexAndExecuteEvent();
+                }
             }
         }
 

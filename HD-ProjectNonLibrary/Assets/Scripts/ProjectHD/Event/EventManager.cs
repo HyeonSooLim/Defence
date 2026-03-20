@@ -66,28 +66,7 @@ namespace ProjectHD.Event
             }
         }
 
-        public static void Broadcast(GameEvent evt)
-        {
-            if (s_Events.TryGetValue(evt.GetType(), out var action))
-            {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-                try
-                {
-                    action.Invoke(evt); // 이벤트 타입에 해당하는 액션 호출
-                    evt.Reset();
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogError($"Exception during {evt.GetType()} broadcast: {ex.Message} StackTrace: {ex.StackTrace}");
-                }
-#else
-                action.Invoke(evt); // 릴리즈 빌드에서는 성능 우선
-                evt.Reset();
-#endif
-            }
-        }
-
-        public static void Broadcast(GameEvent evt, System.Action<GameEvent> callback)
+        public static void Broadcast(GameEvent evt, System.Action<GameEvent> callback = null)
         {
             if (s_Events.TryGetValue(evt.GetType(), out var action))
             {
@@ -103,7 +82,7 @@ namespace ProjectHD.Event
                     Debug.LogError($"Exception during {evt.GetType()} broadcast: {ex.Message} StackTrace: {ex.StackTrace}");
                 }
 #else
-                action.Invoke(evt); // 이벤트 타입에 해당하는 액션 호출
+                action.Invoke(evt); // 릴리즈 빌드에서는 성능 우선
                 callback?.Invoke(evt); // 추가 콜백 호출
                 evt.Reset();
 #endif
