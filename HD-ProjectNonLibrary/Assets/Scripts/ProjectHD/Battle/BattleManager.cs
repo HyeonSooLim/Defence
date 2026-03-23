@@ -17,7 +17,9 @@ namespace ProjectHD.Battle
         private const string DAMAGE_CONTROLLER = "Assets/GameResources/Prefabs/Battle/DamageController.prefab";
         private const string BUFF_SET_CONTROLLER = "Assets/GameResources/Prefabs/Battle/BuffSetController.prefab";
 
-        private List<GameObject> poolingObjects;
+        private List<GameObject> _poolingObjects;
+        private Queue<System.Func<UniTask>> _initializationTasks;
+
         private UnityEngine.ResourceManagement.ResourceProviders.SceneInstance _backgroundSceneInsctance;
         private UnityEngine.SceneManagement.Scene _backgroundScene => _backgroundSceneInsctance.Scene;
 
@@ -52,29 +54,16 @@ namespace ProjectHD.Battle
 
         public override async UniTask Initialize()
         {
-            poolingObjects = Utilities.StaticObjectPool.Pop<List<GameObject>>();
-            poolingObjects.Clear();
-
-            float totalTasks = 8;
-            float startProgress = 0.5f;
-            float completedTaskAddProgress = (1 - startProgress) / totalTasks;
-            async UniTask RunTaskWithProgress(UniTask task)
-            {
-                var taskGoalProgress = startProgress + completedTaskAddProgress;
-                await UpdateLoadingProgress(task, startProgress, taskGoalProgress);
-                startProgress = taskGoalProgress;
-            }
-
             StageSeed = Runtime.StageInformation.StageSeed; // 임시값
 
-            await RunTaskWithProgress(PreloadAllCharacters());
-            await RunTaskWithProgress(SetBackgroundScene());
-            await RunTaskWithProgress(SetUI());
-            await RunTaskWithProgress(SetController(WAVE_CONTROLLER));
-            await RunTaskWithProgress(SetMapObject());
-            await RunTaskWithProgress(SetController(CHARACTER_COMBINE_CONTROLLER));
-            await RunTaskWithProgress(SetController(DAMAGE_CONTROLLER));
-            await RunTaskWithProgress(SetController(BUFF_SET_CONTROLLER));
+            _poolingObjects = Utilities.StaticObjectPool.Pop<List<GameObject>>();
+            _poolingObjects.Clear();
+            _initializationTasks = Utilities.StaticObjectPool.Pop<Queue<System.Func<UniTask>>>();
+            _initializationTasks.Clear();
+
+            InitializeTask();
+            await RunTaskWithProgress(_initializationTasks, 0.5f);
+
             SetPlayers();
 
             await base.Initialize();
@@ -85,13 +74,17 @@ namespace ProjectHD.Battle
         {
             await base.DeInitialize();
 
-            foreach (var gameObject in poolingObjects)
+            _initializationTasks.Clear();
+            Utilities.StaticObjectPool.Push(_initializationTasks);
+            _initializationTasks = null;
+
+            foreach (var gameObject in _poolingObjects)
             {
                 MainManager.Instance.GameObjectPool.Return(gameObject);
             }
-            poolingObjects.Clear();
-            Utilities.StaticObjectPool.Push(poolingObjects);
-            poolingObjects = null;
+            _poolingObjects.Clear();
+            Utilities.StaticObjectPool.Push(_poolingObjects);
+            _poolingObjects = null;
 
             MainManager.Instance.SceneInstancePool.Return(_backgroundSceneInsctance);
             _backgroundSceneInsctance = default;
@@ -105,7 +98,7 @@ namespace ProjectHD.Battle
             {
                 var assetKey = stageTable.SceneAssetKey;
 #if UNITY_EDITOR
-                    assetKey = GetOptimizedAssetKey(assetKey, DeviceRepositoryKey.Editor_Project_Optimization_Scene);
+                assetKey = GetOptimizedAssetKey(assetKey, DeviceRepositoryKey.Editor_Project_Optimization_Scene);
 #endif
                 _backgroundSceneInsctance = await MainManager.Instance.SceneInstancePool.GetAsync(assetKey);
                 var rootObjects = Utilities.StaticObjectPool.Pop<List<GameObject>>();
@@ -130,15 +123,15 @@ namespace ProjectHD.Battle
 
             var baseUI = await MainManager.Instance.GameObjectPool.GetAsync(assetKey);
             MoveToWorkspace(baseUI);
-            poolingObjects.Add(baseUI);
+            _poolingObjects.Add(baseUI);
 
             var effectUI = await MainManager.Instance.GameObjectPool.GetAsync(EFFECT_UI);
             MoveToWorkspace(effectUI);
-            poolingObjects.Add(effectUI);
+            _poolingObjects.Add(effectUI);
 
             var monsterHealthUI = await MainManager.Instance.GameObjectPool.GetAsync(MONSTER_HEALTH_UI);
             MoveToWorkspace(monsterHealthUI);
-            poolingObjects.Add(monsterHealthUI);
+            _poolingObjects.Add(monsterHealthUI);
 
             Utilities.InternalDebug.Log($"[{name}] SetBaseUI Done");
         }
@@ -147,7 +140,7 @@ namespace ProjectHD.Battle
         {
             var controller = await MainManager.Instance.GameObjectPool.GetAsync(assetKey);
             MoveToWorkspace(controller);
-            poolingObjects.Add(controller);
+            _poolingObjects.Add(controller);
             Utilities.InternalDebug.Log($"[{name}] {controller.name} Done");
         }
 
@@ -164,8 +157,8 @@ namespace ProjectHD.Battle
             var map02 = await MainManager.Instance.GameObjectPool.GetAsync(assetKey02);
             MoveToWorkspace(map01);
             MoveToWorkspace(map02);
-            poolingObjects.Add(map01);
-            poolingObjects.Add(map02);
+            _poolingObjects.Add(map01);
+            _poolingObjects.Add(map02);
             Utilities.InternalDebug.Log($"[{name}] SetMapObject Done");
         }
 
@@ -183,22 +176,42 @@ namespace ProjectHD.Battle
                 if (characterTable.ModelAssetKey.IsNullOrEmpty())
                     continue;
                 var character = await MainManager.Instance.GameObjectPool.GetAsync(characterTable.ModelAssetKey);
-                poolingObjects.Add(character);
+                _poolingObjects.Add(character);
             }
             characterTableEnum.Dispose();
 
-            foreach (var gameObject in poolingObjects)
+            foreach (var gameObject in _poolingObjects)
             {
                 MainManager.Instance.GameObjectPool.Return(gameObject);
             }
-            poolingObjects.Clear();
+            _poolingObjects.Clear();
             await UniTask.Yield(PlayerLoopTiming.Update);
         }
 
-        private async UniTask UpdateLoadingProgress(UniTask task, float startProgress, float endProgress)
+        private void InitializeTask()
         {
-            await task;
-            ExecuteLoadingEvent((float)Mathf.Lerp(startProgress, endProgress, 1));
+            _initializationTasks.Enqueue(() => PreloadAllCharacters());
+            _initializationTasks.Enqueue(() => SetBackgroundScene());
+            _initializationTasks.Enqueue(() => SetUI());
+            _initializationTasks.Enqueue(() => SetController(WAVE_CONTROLLER));
+            _initializationTasks.Enqueue(() => SetMapObject());
+            _initializationTasks.Enqueue(() => SetController(CHARACTER_COMBINE_CONTROLLER));
+            _initializationTasks.Enqueue(() => SetController(DAMAGE_CONTROLLER));
+            _initializationTasks.Enqueue(() => SetController(BUFF_SET_CONTROLLER));
+        }
+
+        private async UniTask RunTaskWithProgress(Queue<System.Func<UniTask>> tasks, float startProgress)
+        {
+            float totalTasks = tasks.Count;
+            float completedTaskAddProgress = (1 - startProgress) / totalTasks;
+
+            while (tasks.TryDequeue(out var result))
+            {
+                await result();
+                var taskGoalProgress = startProgress + completedTaskAddProgress;
+                ExecuteLoadingEvent((float)Mathf.Lerp(startProgress, taskGoalProgress, 1));
+                startProgress = taskGoalProgress;
+            }
         }
 
         #region Events
