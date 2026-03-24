@@ -17,7 +17,9 @@ namespace ProjectHD
         private string _selectedLoader;
 
         [SerializeField]
-        ProjectEnum.SceneName _firstNextScene = ProjectEnum.SceneName.TitleWorkSpace;
+        private ProjectEnum.SceneName _firstNextScene = ProjectEnum.SceneName.TitleWorkSpace;
+        [SerializeField]
+        private bool _hasFirstLoadingScene = true;
 
 #if UNITY_EDITOR
         public IEnumerable<ValueDropdownItem<string>> GetLoader()
@@ -50,7 +52,7 @@ namespace ProjectHD
             await Global.DataManager.ReadDataAsync();
             await UniTask.Yield(); // 프레임 대기
 
-            MoveToScene(_firstNextScene, UniTask.Defer(CleanUp)); // 타이틀 씬으로 이동
+            MoveToScene(_firstNextScene, UniTask.Defer(CleanUp), _hasFirstLoadingScene); // 타이틀 씬으로 이동
             PlayBGM();
         }
 
@@ -66,9 +68,12 @@ namespace ProjectHD
         /// </summary>
         /// <param name="sceneName">이동하는 씬</param>
         /// <param name="cleanUp">씬 이동 전 정리해야할 일</param>
-        public void MoveToScene(ProjectEnum.SceneName sceneName, UniTask cleanUp)
+        public void MoveToScene(ProjectEnum.SceneName sceneName, UniTask cleanUp, bool hasLoadingScene = true)
         {
-            _sceneLoader.MoveToScene(sceneName, cleanUp); // 씬 로드
+            if (hasLoadingScene)
+                _sceneLoader.MoveToScene(sceneName, cleanUp); // 씬 로드
+            else
+                _sceneLoader.MoveToSceneNoneLoadingScene(sceneName, cleanUp);
         }
 
         private void PlayBGM()

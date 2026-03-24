@@ -11,6 +11,7 @@ namespace ProjectHD
     public interface ISceneLoader
     {
         UniTask MoveToScene(ProjectEnum.SceneName sceneName, UniTask cleanUp);
+        UniTask MoveToSceneNoneLoadingScene(ProjectEnum.SceneName sceneName, UniTask cleanUp);
         void SetEvent();
         void RemoveEvent();
     }
@@ -69,6 +70,40 @@ namespace ProjectHD
 
             await Utilities.Fade.FadeOutAsync(0.3f, Color.black);
             await UnloadLoadingScene(); // 로딩 씬 언로드
+            ExecuteSceneLoadingCompleteEvent();
+            Utilities.Fade.FadeInAsync(0.3f, Color.black).Forget();
+        }
+
+        public async UniTask MoveToSceneNoneLoadingScene(ProjectEnum.SceneName sceneName, UniTask cleanUp)
+        {
+            await Utilities.Fade.FadeOutAsync(0.3f, Color.black);
+
+            await cleanUp;
+            await UniTask.Yield();
+            await MainManager.Instance.CleanUp();
+            await UniTask.Yield();
+
+            ExcuteMainCameraSetActiveEvent();
+
+            // 현재 씬이 None이 아니면 현재 씬 언로드 후 다음 씬 로드
+            if (_currentScene != ProjectEnum.SceneName.None)
+            {
+                await UnloadCurrentScene();
+                await UniTask.Yield();
+            }
+
+            // 유효한 씬 이름인지 확인
+            if (!System.Enum.IsDefined(typeof(ProjectEnum.SceneName), sceneName))
+            {
+                Debug.LogError($"Invalid scene name: {sceneName}");
+                return;
+            }
+            _nextScene = sceneName;
+            await LoadNextScene(_nextScene);
+            await UniTask.Yield();
+            await UniTask.WaitUntil(() => _isManagerInitializeDone);
+            Utilities.InternalDebug.Log($"NextSceneInitialized");
+
             ExecuteSceneLoadingCompleteEvent();
             Utilities.Fade.FadeInAsync(0.3f, Color.black).Forget();
         }

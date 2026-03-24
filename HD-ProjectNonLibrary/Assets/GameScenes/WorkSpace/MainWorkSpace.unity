@@ -492,7 +492,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectedLoader: SceneLoader
-  _firstNextScene: 7
+  _firstNextScene: 2
+  _hasFirstLoadingScene: 0
 --- !u!4 &1275838053
 Transform:
   m_ObjectHideFlags: 0

@@ -94,7 +94,7 @@ namespace ProjectHD
             type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(decimal) ||
             type == typeof(DateTime) || type == typeof(int[]) || type == typeof(long[]) || type == typeof(UnityEngine.Vector3);
 
-        public static object ConvertValue(object value, Type targetType)
+        private static object ConvertValue(object value, Type targetType)
         {
             if (value == null || targetType == null)
                 return GetDefault(targetType);
