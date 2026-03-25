@@ -7,16 +7,11 @@ namespace ProjectHD
 {
     public static class StaticMethod
     {
-        public static DateTime ConvertDateTimeFromUnixTime(long timestamp)
+        public static DateTime ConvertDateTimeFromUnixTime(long timestamp, int timeBias = 0)
         {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return origin.AddSeconds(timestamp);
-        }
-
-        public static DateTime ConvertKRDateTimeFromUnixTime(long timestamp)
-        {
-            DateTime origin = new DateTime(1970, 1, 1, 9, 0, 0, 0);
-            return origin.AddSeconds(timestamp);
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            DateTime utcTime = origin.AddSeconds(timestamp);
+            return utcTime.AddHours(timeBias);
         }
 
         public static bool IsFlagSet(long bitmask, long flag)
@@ -36,7 +31,6 @@ namespace ProjectHD
             return bitmask & ~flag;
         }
 
-        //서버에서 아이템개수를 int형으로 주고있기 때문에 아이템은 int형 기준으로는 2147M까지만 표현되고있다. 2024.05.29
         public static string LongValueMark(long value)
         {
             var res = string.Empty;
@@ -159,7 +153,7 @@ namespace ProjectHD
         #region Hex
 
         /// <summary>
-        /// 2칸 이내라는 조건이라면 HexDistance <= 2
+        /// 육각형 사이의 거리를 계산하는 함수. 육각형 그리드에서 두 점 사이의 거리를 계산할 때 사용.
         /// </summary>
         /// <param name="q1">자신의 가로 방향</param>
         /// <param name="r1">자신의 대각 방향</param>
@@ -184,7 +178,7 @@ namespace ProjectHD
         {
             position -= hexOffset; // 헥스 그리드 이동 보정(좌표기준 0,0,0 맞추기 위함)
             float q = position.x / (hexWidth * 0.75f); // Flat-top 기준 q 계산
-            float r = (position.z - (q * hexHeight / 2f)) / hexHeight; // r 계산 보정
+            float r = (position.z - (q * hexHeight / 2f)) / hexHeight; // r 계산 보정. q가 한칸 이동할 때마다 r이 hexHeight/2 만큼 이동하기 때문.
             return HexRound(q, r);
         }
 

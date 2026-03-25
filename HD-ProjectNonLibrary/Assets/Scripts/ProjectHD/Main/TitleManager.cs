@@ -14,11 +14,6 @@ namespace ProjectHD
             _startButton.onClick.AddListener(MoveToScene);
         }
 
-        private void OnDestroy()
-        {
-            _startButton.onClick.RemoveListener(MoveToScene);
-        }
-
         private void MoveToScene()
         {
             MainManager.Instance.MoveToOherScene(_nextScene, CleanUp());
@@ -26,6 +21,7 @@ namespace ProjectHD
 
         public async UniTask CleanUp()
         {
+            _startButton.onClick.RemoveListener(MoveToScene);
             DG.Tweening.DOTween.CompleteAll();
             await UniTask.DelayFrame(1);
             DG.Tweening.DOTween.KillAll();

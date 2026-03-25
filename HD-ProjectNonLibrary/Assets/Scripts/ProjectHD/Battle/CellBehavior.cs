@@ -31,5 +31,16 @@ namespace ProjectHD.Battle
             _q = q;
             _r = r;
         }
+
+
+#if UNITY_EDITOR
+        public void OnDrawGizmos()
+        {
+            string labelText = $"({_q},{_r})";
+            // 텍스트 위치
+            Vector3 labelPosition = transform.position + Vector3.up * 1.0f + Vector3.left * 0.5f;
+            UnityEditor.Handles.Label(labelPosition, labelText);
+        }
+#endif
     }
 }
