@@ -6,7 +6,6 @@ using System.Text;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
 using EditorUtility = UnityEditor.EditorUtility;
@@ -540,6 +539,8 @@ namespace ProjectHD.Editor
             CreateButton(leftPanel, "전체 해제", () => SetSheeListCheckState(false));
             CreateButton(leftPanel, "코드 자동 생성(시트 데이터 Importer)", ExecuteTableImporterGenerator);
             CreateButton(leftPanel, "선택된 시트로 MessagePack, JSON 텍스트 에셋 생성", SelectedExcelToJson);
+            CreateButton(leftPanel, "텍스트 에셋 어드레서블 체크", AddAddressableLabelForTextAssets);
+
             //CreateButton(leftPanel, "선택된 시트 기반 코드 생성", GenerateCodeFromLocalExcel);
             CreateButton(leftPanel, "시트 경로 윈도우 탐색기 열기", () =>
             {
@@ -696,6 +697,56 @@ namespace ProjectHD.Editor
             EditorUtility.ClearProgressBar();
             EditorExcelToData.ClearTable();
             sheetPaths.Clear();
+        }
+
+        private void AddAddressableLabelForTextAssets()
+        {
+            List<string> pathList = new();
+            string path = _sheetImporterSettings.jsonPath.Replace("Assets", "");
+            pathList.Add(path);
+            RootAutoSetAddressable(pathList, AUTO_JSON_LABEL_NAME);
+            pathList.Clear();
+            path = _sheetImporterSettings.messagePackPath.Replace("Assets", "");
+            pathList.Add(path);
+            RootAutoSetAddressable(pathList, AUTO_BYTE_LABEL_NAME);
+
+            var temp = _automationAddressableSetting.AutoAddressGroupList;
+            foreach (var group in _automationAddressableSetting.AddressableAssetSetting.groups)
+            {
+                if (group == null)
+                    continue;
+                if (!temp.Contains(group.name))
+                    continue;
+
+                string lableName = string.Empty;
+                switch (group.name)
+                {
+                    case AUTO_JSON_LABEL_NAME:
+                        lableName = AUTO_JSON_LABEL_NAME;
+                        break;
+                    case AUTO_BYTE_LABEL_NAME:
+                        foreach (var entry in group.entries)
+                        lableName = AUTO_BYTE_LABEL_NAME;
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(lableName))
+                {
+                    foreach (var entry in group.entries)
+                    {
+                        entry.labels.Clear();
+
+                        if (!entry.labels.Contains(AUTO_REMOTE_LABEL_NAME))
+                        {
+                            entry.SetLabel(AUTO_REMOTE_LABEL_NAME, true);
+                        }
+                        if (!entry.labels.Contains(lableName))
+                        {
+                            entry.SetLabel(lableName, true);
+                        }
+                    }
+                }
+            }
         }
 
         private void DrawControlLocalDataSheetList(List<SheetImporterSettings.SheetPathData> sheetDatas)
@@ -1042,6 +1093,44 @@ namespace ProjectHD.Editor
 
                 if (_autoLabel && !addressableAsset.labels.Contains(AUTO_REMOTE_LABEL_NAME))
                     addressableAsset.SetLabel(AUTO_REMOTE_LABEL_NAME, true);
+            }
+        }
+
+        private void RootAutoSetAddressable(List<string> pathList, string groupName)
+        {
+            AddressableCustomPathData pathData = new();
+            pathData.PathList = new List<string>();
+            pathData.PathList.AddRange(pathList);
+            pathData.GroupName = groupName;
+            pathData.SearchOption = AutoSearchOption.Folder;
+            if (GetFileList(pathData, out var list))
+                return;
+
+            foreach (string filePath in list)
+            {
+                if (filePath.Contains(".meta"))
+                    continue;
+                var unityPath = filePath.Replace(Application.dataPath, "Assets");
+                Object obj = AssetDatabase.LoadAssetAtPath<Object>(unityPath);
+                string guid = AssetDatabase.GUIDFromAssetPath(unityPath).ToString();
+
+                var addressableAsset = AddressableExtensions.GetAddressableAssetEntry(obj);
+                if (addressableAsset == null)
+                {
+                    AddressableExtensions.SetAddressable(obj);
+                    addressableAsset = AddressableExtensions.GetAddressableAssetEntry(obj);
+                    AddLogline($"{obj.name}은 어드레서블 등록되었습니다.", LogType.Log);
+                }
+
+                var group = AddressableHelper.GetGroup(groupName);
+
+                if (group != addressableAsset.parentGroup)
+                {
+                    var prevGroupName = addressableAsset.parentGroup;
+                    _automationAddressableSetting.AddressableAssetSetting.CreateOrMoveEntry(guid, group);
+                    AddLogline($"[Move] {obj.name}은 ({prevGroupName})그룹에서 ({group.name})그룹으로 변경되었습니다.",
+                        LogType.Log);
+                }
             }
         }
 
