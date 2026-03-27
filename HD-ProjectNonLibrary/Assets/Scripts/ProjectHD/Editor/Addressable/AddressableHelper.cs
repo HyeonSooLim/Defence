@@ -196,5 +196,12 @@ namespace ProjectHD.Editor
                 Utilities.InternalDebug.Log("ℹ️ 'Remote' 레이블을 포함한 그룹이 없습니다. 적용된 항목이 없습니다.");
             }
         }
+
+        public static void SetDirtyGroupAdded()
+        {
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            settings.SetDirty(AddressableAssetSettings.ModificationEvent.GroupAdded, null, true, true);
+            AssetDatabase.SaveAssets();
+        }
     }
 }

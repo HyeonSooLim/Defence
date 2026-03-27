@@ -11,8 +11,8 @@ namespace ProjectHD
         public const long MemoryLimit = 2000 * 1024 * 1024;
 
         public const string UNITY_VERSION = "2022.3.62f";
-        public const string OneStorePackageName = "Temp_OneStore";
-        public const string PlayStorePackageName = "Temp_PlayStore";
+        public const string OneStorePackageName = "com.ProjectHD.Temp_OneStore";
+        public const string PlayStorePackageName = "com.ProjectHD.Temp_PlayStore";
         public const string NaverCafeURL = "https://cafe.naver.com/";
         public const int MaxPlayerLife = 3;
 

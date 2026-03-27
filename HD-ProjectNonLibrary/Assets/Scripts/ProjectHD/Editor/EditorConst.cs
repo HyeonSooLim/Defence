@@ -10,7 +10,7 @@ namespace ProjectHD.Editor
 
         public const string EDITOR_SheetImporter_PATH = "Assets/Scripts/ProjectHD/Editor/ToolWindow/ScriptableObject/SheetImporter.asset";
         public const string EDITOR_INTERGRATEDTOOLSETTING_PATH = "Assets/Scripts/ProjectHD/Editor/ToolWindow/ScriptableObject/IntegratedToolSetting.asset";
-        public const string EDITOR_AUTOADDRESSABLE_DEFAULTSETTING_PATH = "Assets/Scripts/ProjectHD/Editor/Addressable/AutomationAddressable/ScriptableObject/[Origin]BaseAddressableSetting.asset";
+        public const string EDITOR_AUTOADDRESSABLE_DEFAULTSETTING_PATH = "Assets/Scripts/ProjectHD/Editor/Addressable/AutomationAddressable/ScriptableObject/ProjectHD.asset";
 
         #endregion
 

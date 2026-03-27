@@ -20,6 +20,7 @@ namespace ProjectHD.Editor
         enum DrawForm
         {
             ProjectSetting,
+            AutomationAddressable,
             AutomationBuild,
             SheetToJsonTool,
         }
@@ -31,7 +32,7 @@ namespace ProjectHD.Editor
             Error,
         }
 
-        private string[] ButtonNames = new[] { "프로젝트 세팅", "빌드 자동화", "데이터 시트 자동화 v2" };
+        private string[] ButtonNames = new[] { "프로젝트 세팅", "어드레서블", "빌드", "데이터 시트 자동화" };
 
         public const string EDITOR_INTEGRATEDTOOL_WINDOW_MENUITEM = "Tools/종합 툴";
         public const string AUTO_REMOTE_LABEL_NAME = "Remote";
@@ -87,7 +88,7 @@ namespace ProjectHD.Editor
             var splitView = new TwoPaneSplitView(0, 150, TwoPaneSplitViewOrientation.Horizontal);
             rootVisualElement.Add(splitView);
 
-            _automationAddressableSetting = AssetDatabase.LoadAssetAtPath<AutomationAddressableSetting>(
+            _automationAddressableSetting ??= AssetDatabase.LoadAssetAtPath<AutomationAddressableSetting>(
                 EditorPath.EDITOR_AUTOADDRESSABLE_DEFAULTSETTING_PATH);
             _integratedToolSetting = AssetDatabase.LoadAssetAtPath<IntegratedToolSetting>(
                 EditorPath.EDITOR_INTERGRATEDTOOLSETTING_PATH);
@@ -152,6 +153,9 @@ namespace ProjectHD.Editor
             {
                 case DrawForm.ProjectSetting:
                     ProjectSettingPanel();
+                    break;
+                case DrawForm.AutomationAddressable:
+                    DrawAutomationAddressablePanel();
                     break;
                 case DrawForm.AutomationBuild:
                     DrawAutomationBuildPanel();
@@ -226,11 +230,6 @@ namespace ProjectHD.Editor
                 DeviceRepository.SaveKeyForString(DeviceRepositoryKey.Editor_Build_MarketType, tempMarketType.ToString());
             }
 
-            var marketTypeEnumField = UtilityUIElement.CreateEnumField(tempMarketType, "마켓 스토어", evt =>
-            {
-                DeviceRepository.SaveKeyForString(DeviceRepositoryKey.Editor_Build_MarketType, evt.newValue.ToString());
-            });
-            _scrollView.Add(marketTypeEnumField);
 #endif
 
             CreateButton(_scrollView, "어드레서블 빌드(리소스)", OnClickStartResourceBuild);
@@ -244,6 +243,11 @@ namespace ProjectHD.Editor
 
             CreateButton(_scrollView, "빌드 시작", OnClickStartBuild);
             CreateButton(_scrollView, "리소스와 빌드같이 뽑기", OnClickBuildAndResource);
+            CreateButton(_scrollView, "빌드 경로 윈도우 탐색기 열기", () =>
+            {
+                _processStartInfo.FileName = DeviceRepository.LoadKeyForString(DeviceRepositoryKey.Editor_Build_BuildOutputPath, _integratedToolSetting.buildPath);
+                System.Diagnostics.Process.Start(_processStartInfo);
+            });
 #endif
         }
 
@@ -431,10 +435,11 @@ namespace ProjectHD.Editor
 
         private void OnClickAutoAddressable()
         {
-            //_automationAddressableSetting.DigimonDataDict.Clear();
             _automationAddressableSetting.CustomDataDict.Clear();
             _incorrectAddressablePathObjects.Clear();
-            //AutoAddressableForDigimon();
+
+            EnsureAllGroupsExist();
+
             AutoAddressableForCustom();
             CreateLogfile();
 
@@ -737,10 +742,41 @@ namespace ProjectHD.Editor
         }
 
         private List<string> sheetPaths = new();
-       
+
         #endregion
 
         #region AutoAddressable
+
+        // 1. 그룹 생성 전용 함수
+        /// <summary>
+        /// Digimon / Custom 그룹들을 Addressables에 보장 생성
+        /// - Digimon 그룹: 실제 파일이 존재하고, Addressable 등록 가능한 오브젝트가 하나라도 있을 때만 생성
+        /// - Custom 그룹: 항상 생성
+        /// </summary>
+        private void EnsureAllGroupsExist()
+        {
+
+            HashSet<string> requiredGroups = new HashSet<string>();
+
+            // Custom 그룹들 → 무조건 생성 후보에 추가
+            foreach (var pathData in _automationAddressableSetting.CustomPathData)
+            {
+                requiredGroups.Add(pathData.GroupName);
+            }
+
+            // 없는 그룹만 생성
+            foreach (var groupName in requiredGroups)
+            {
+                if (AddressableHelper.GetGroup(groupName) == null)
+                {
+                    AddressableHelper.CreateGroup(groupName); // 공식 API 사용
+                    AddLogline($"[CreateGroup] {groupName} 그룹이 생성되었습니다.", LogType.Log);
+                }
+            }
+
+            // ✅ 루프 끝난 뒤 한 번만 Dirty 처리
+            AddressableHelper.SetDirtyGroupAdded();
+        }
 
         private void AutoAddressableForCustom()
         {
@@ -981,7 +1017,7 @@ namespace ProjectHD.Editor
                 {
                     AddressableHelper.CreateGroupSchema(groupName);
                 }
-                
+
                 //없을경우 새로 어드레서블 등록
                 if (addressableAsset == null)
                 {
@@ -1007,15 +1043,6 @@ namespace ProjectHD.Editor
                 if (_autoLabel && !addressableAsset.labels.Contains(AUTO_REMOTE_LABEL_NAME))
                     addressableAsset.SetLabel(AUTO_REMOTE_LABEL_NAME, true);
             }
-        }
-
-        #endregion
-
-        #region Array/List Meta 자동생성
-
-        public static void CreateArrayListMeta()
-        {
-            EditorToolHelper.CreateArrayListMeta();
         }
 
         #endregion

@@ -200,106 +200,6 @@ namespace ProjectHD.Editor
             return buildAddressableContent(clearCache) ? 1 : 0;
         }
 
-        public static int ResourceBuild()
-        {
-            string version = "1.0.1";
-
-            string[] args = System.Environment.GetCommandLineArgs();
-
-            int index = 0;
-
-            foreach (string arg in args)
-            {
-                InternalDebug.LogBuild($"[LogCode] ({index}): {arg}");
-                if (arg.StartsWith("-PLATFORMTYPE"))
-                {
-                    InternalDebug.LogBuild($"[LogCode] -PLATFORMTYPE : {args[index + 1]}");
-                }
-                else if (arg.StartsWith("-VERSION_CODE"))
-                {
-                    version = args[index + 1];
-                    InternalDebug.LogBuild($"[LogCode] -VERSION_CODE : {version}");
-                }
-
-                index++;
-            }
-
-            return BuildAddressables(version);
-        }
-
-        public static int Build()
-        {
-            string buildPath = "D:\\Company\\Export\\";
-            string fileName = "DSC";
-            string version = "1.0.1";
-            int versionCode = 1;
-            bool devMode = true;
-            bool cleanBuild = true;
-            bool appBundle = true;
-            ProjectEnum.PlatformMarketType marketType = ProjectEnum.PlatformMarketType.PlayStore;
-
-            string[] args = System.Environment.GetCommandLineArgs();
-
-            int index = 0;
-            var tempBuildPath = buildPath;
-
-
-            foreach (string arg in args)
-            {
-                InternalDebug.LogBuild($"[LogCode] ({index}): {arg}");
-                if (arg.StartsWith("-PLATFORMTYPE"))
-                {
-                    InternalDebug.LogBuild($"[LogCode] -PLATFORMTYPE : {args[index + 1]}");
-                }
-                else if (arg.StartsWith("-BUILD_PATH"))
-                {
-                    buildPath = args[index + 1];
-                    InternalDebug.LogBuild($"[LogCode] -BUILD_PATH : {buildPath}");
-                }
-                else if (arg.StartsWith("-FILENAME"))
-                {
-                    fileName = args[index + 1];
-                    InternalDebug.LogBuild($"[LogCode] -FILENAME : {fileName}");
-                }
-                else if (arg.StartsWith("-BUNDLE_VERSION"))
-                {
-                    versionCode = Convert.ToInt32(args[index + 1]);
-                    InternalDebug.LogBuild($"[LogCode] -BUNDLE_VERSION : {versionCode}");
-                }
-                else if (arg.StartsWith("-VERSION_CODE"))
-                {
-                    version = args[index + 1];
-                    InternalDebug.LogBuild($"[LogCode] -VERSION_CODE : {version}");
-                }
-                else if (arg.StartsWith("-DEV_BUILD"))
-                {
-                    devMode = Convert.ToBoolean(args[index + 1]);
-                    InternalDebug.LogBuild($"[LogCode] -DEV_BUILD : {devMode}");
-                }
-                else if (arg.StartsWith("-CLEAN_BUILD"))
-                {
-                    cleanBuild = Convert.ToBoolean(args[index + 1]);
-                    InternalDebug.LogBuild($"[LogCode] -CLEAN_BUILD : {cleanBuild}");
-                }
-                else if (arg.StartsWith("-APPBUNDLE"))
-                {
-                    appBundle = Convert.ToBoolean(args[index + 1]);
-                    InternalDebug.LogBuild($"[LogCode] -APPBUNDLE : {appBundle}");
-                }
-                else if (arg.StartsWith("-MARKETTYPE"))
-                {
-                    // marketType = Convert.ToBoolean(args[index + 1]);
-                    InternalDebug.LogBuild($"[LogCode] -MARKETTYPE : {marketType}");
-                }
-                index++;
-            }
-#if UNITY_ANDROID || UNITY_EDITOR
-            return BuildAOS(version, versionCode, buildPath, fileName, devMode, cleanBuild, appBundle, marketType);
-#elif UNITY_IOS
-        return BuildIOS(version, buildPath, fileName, devMode, cleanBuild);
-#endif
-        }
-
         public static int BuildAOS(string buildVersion,
             int bundleVersionCode,
             string locationPath,
@@ -345,8 +245,6 @@ namespace ProjectHD.Editor
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             PlayerSettings.bundleVersion = buildVersion;
             PlayerSettings.Android.bundleVersionCode = bundleVersionCode;
-            PlayerSettings.Android.keystorePass = "dkfvkxla";
-            PlayerSettings.Android.keyaliasPass = "dkfvkxla";
 
             if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
             {
@@ -415,11 +313,11 @@ namespace ProjectHD.Editor
 
             if (isAppBundle)
             {
-                fileName = "DSC4" + $"_[{bundleVersionCode}][{buildVersion}]{option}.aab";
+                fileName = "Build" + $"_[{bundleVersionCode}][{buildVersion}]{option}.aab";
             }
             else
             {
-                fileName = "DSC4" + $"_[{bundleVersionCode}][{buildVersion}]{option}.apk";
+                fileName = "Build" + $"_[{bundleVersionCode}][{buildVersion}]{option}.apk";
             }
 
             var filePath = Path.Combine(locationPath, fileName);
@@ -471,7 +369,6 @@ namespace ProjectHD.Editor
             {
                 Debug.LogError("[LogCode][ErrorCode] Build failed");
                 throw new System.Exception("[LogCode][ErrorCode] Build failed");
-                return 1;
             }
         }
 
@@ -664,138 +561,6 @@ namespace ProjectHD.Editor
             {
                 InternalDebug.LogBuild("Upload File Complete, status " + response.StatusDescription);
             }
-        }
-
-        public async static void SendPostRequest()
-        {
-            string username = "dsc-cdn@moveint.io";
-            string apiKey = "56613NPIHRixNd3ZX46myNoLXFgkam";
-            string date = DateTime.UtcNow.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'", new System.Globalization.CultureInfo("en-US"));
-            string password = GeneratePassword(apiKey, date);
-
-            string url = "https://api.cdnetworks.com/ccm/purge/ItemIdReceiver";
-
-            // JSON 데이터 생성
-            string jsonData = @"
-        {
-            ""urls"": [
-                ""https://dsc-cdn.gameking.com/dsc4/ko/application_config.txt""
-            ],
-            ""urlAction"": ""default""
-        }";
-
-            // UnityWebRequest 설정
-            UnityWebRequest request = new UnityWebRequest(url, "POST");
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Date", date);
-            request.SetRequestHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password)));
-
-            var operation = request.SendWebRequest();
-            // 요청 보내기
-            while (!operation.isDone)
-            {
-                await UniTask.Yield();
-            }
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                InternalDebug.LogBuild("Request sent successfully: " + request.downloadHandler.text);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
-
-        public async static void SendPostRequest1()
-        {
-            string username = "dsc-cdn@moveint.io";
-            string apiKey = "56613NPIHRixNd3ZX46myNoLXFgkam";
-            string date = DateTime.UtcNow.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'", new System.Globalization.CultureInfo("en-US"));
-            string password = GeneratePassword(apiKey, date);
-
-            string url = "https://api.cdnetworks.com/ccm/purge/ItemIdReceiver";
-
-            // JSON 데이터 생성
-            string jsonData = @"
-        {
-            ""urls"": [
-                ""https://dsc-cdn.gameking.com/dsc4/ko/application_config1.txt""
-            ],
-            ""urlAction"": ""default""
-        }";
-
-            // UnityWebRequest 설정
-            UnityWebRequest request = new UnityWebRequest(url, "POST");
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Date", date);
-            request.SetRequestHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password)));
-
-            var operation = request.SendWebRequest();
-            // 요청 보내기
-            while (!operation.isDone)
-            {
-                await UniTask.Yield();
-            }
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                InternalDebug.LogBuild("Request sent successfully: " + request.downloadHandler.text);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
-
-        public async static void SendDirectoryPostRequest(string link)
-        {
-            string username = "dsc-cdn@moveint.io";
-            string apiKey = "56613NPIHRixNd3ZX46myNoLXFgkam";
-            string date = DateTime.UtcNow.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'", new System.Globalization.CultureInfo("en-US"));
-            string password = GeneratePassword(apiKey, date);
-
-            string url = "https://api.cdnetworks.com/ccm/purge/ItemIdReceiver";
-
-            // JSON 데이터 생성
-            string jsonData = @"
-        {
-            ""urls"": [
-                ""https://dsc-cdn.gameking.com/" + link + @"""
-            ],
-            ""urlAction"": ""default""
-        }";
-
-            // UnityWebRequest 설정
-            UnityWebRequest request = new UnityWebRequest(url, "POST");
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Date", date);
-            request.SetRequestHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password)));
-
-            var operation = request.SendWebRequest();
-            // 요청 보내기
-            while (!operation.isDone)
-            {
-                await UniTask.Yield();
-            }
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                InternalDebug.LogBuild($"Request sent successfully: targetLink(https://dsc-cdn.gameking.com/{link})" + request.downloadHandler.text);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
+        }      
     }
 }
