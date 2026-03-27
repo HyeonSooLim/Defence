@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: b6f7259ab56ba744cbaead4ee04adf86
   m_currentHash:
     serializedVersion: 2
-    Hash: ffebdcaf4df9e65cebef94832ba6f9f9
+    Hash: c8ec6f39f812eccc762d2030cbdad4cb
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -44,10 +44,15 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: f0d29b4c75362c84ab99cb8b1294838a, type: 2}
   - {fileID: 11400000, guid: 8e3274ce46d39cb4ca57dd0e6fbb794b, type: 2}
   - {fileID: 11400000, guid: 5cb5a0a303a7a8749a2f91fbae253ad7, type: 2}
   - {fileID: 11400000, guid: bfb149776965eca4180350e3fa692b32, type: 2}
+  - {fileID: 11400000, guid: 06fa7906c8a0d5f41b87ae76d7c9a289, type: 2}
+  - {fileID: 11400000, guid: 3d2800b8975328344996ec84c9b60fc9, type: 2}
+  - {fileID: 11400000, guid: 664f158ad1597604297322ddc17ef7bd, type: 2}
   - {fileID: 11400000, guid: a0d69702d88017d4aaf7b7a34f85e046, type: 2}
+  - {fileID: 11400000, guid: a3ef172b0f1acdc47ab25caabed70882, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -58,6 +63,20 @@ MonoBehaviour:
     - m_InheritedParent: 
       m_Id: 07b28bf04d6900a44a164cb20a6d337c
       m_ProfileName: Default
+      m_Values:
+      - m_Id: 00b5939216ef3e24286b11ba56e55456
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+      - m_Id: 1340bfe45261d7c48abed5282a501a7e
+        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
+      - m_Id: 199a7d4e551e1d646a4bab1af47ba5a2
+        m_Value: ServerData/[BuildTarget]
+      - m_Id: b0264ba1f5f182e4c82c765f8521b127
+        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+      - m_Id: baeda7274bfab0546a6d23ee9c5e3b9c
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+    - m_InheritedParent: 
+      m_Id: d2f318c2971d22142923d7fb3f86cb92
+      m_ProfileName: CDN
       m_Values:
       - m_Id: 00b5939216ef3e24286b11ba56e55456
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
@@ -104,7 +123,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6c9766e2ae9294642acdca692a2de16b, type: 2}
   - {fileID: 11400000, guid: 074536cdbe5c6474684982d00e61c42b, type: 2}
   - {fileID: 11400000, guid: d56932cef4648374980e46abc747c790, type: 2}
-  m_ActiveProfileId: 07b28bf04d6900a44a164cb20a6d337c
+  m_ActiveProfileId: d2f318c2971d22142923d7fb3f86cb92
   m_HostingServicesManager:
     m_HostingServiceInfos: []
     m_Settings: {fileID: 11400000}

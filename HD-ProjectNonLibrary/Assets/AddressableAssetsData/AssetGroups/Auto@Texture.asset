@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Auto@Texture
+  m_EditorClassIdentifier: 
+  m_GroupName: Auto@Texture
+  m_Data:
+    m_SerializedData: []
+  m_GUID: dd62446bf656eef4ab6de1ac1492ba8e
+  m_SerializeEntries:
+  - m_GUID: fbc468b090c726e4ea42f5bc2fbd9c88
+    m_Address: Assets/GameResources/Texture/Dissolve_Gradient_L.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Remote
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e07b6db687a5b484bae19b93bd1d6327, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9d4ba2a4b41156647833ce780421b343, type: 2}
+    - {fileID: 11400000, guid: eb2ce05bfc86a1449b5b27e0fa2d011b, type: 2}
