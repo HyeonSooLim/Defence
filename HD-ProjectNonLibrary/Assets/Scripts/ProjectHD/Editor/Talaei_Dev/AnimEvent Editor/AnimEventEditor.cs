@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Animations;
 
 public class AnimEventEditor : EditorWindow
 {
@@ -14,11 +13,8 @@ public class AnimEventEditor : EditorWindow
     private AnimationClip animationClip;
     private float animationTime = 0f;
 
-    private Animator characterAnimator;
-
     private FunctionName eventFunctionName = FunctionName.SpawnEffect;
     private string addressableName = null;
-    //private Object spawnTransform = null;
 
     [MenuItem("Tools/ProjectHD/AnimEvent Editor")]
     public static void ShowWindow()
@@ -44,10 +40,6 @@ public class AnimEventEditor : EditorWindow
         if (newCharacter != character)
         {
             character = newCharacter;
-            if (character != null)
-            {
-                characterAnimator = character.GetComponent<Animator>();
-            }
         }
 
         animationClip = (AnimationClip)EditorGUILayout.ObjectField("Animation Clip", animationClip, typeof(AnimationClip), false);
@@ -68,22 +60,17 @@ public class AnimEventEditor : EditorWindow
         EditorGUILayout.Space();
         GUILayout.Label("Add Animation Event", EditorStyles.boldLabel);
 
-        // Enum 값을 배열로 변환
         string[] enumNames = System.Enum.GetNames(typeof(FunctionName));
         int selectedIndex = (int)eventFunctionName;
 
-        // 버튼처럼 보이는 툴바 생성
         selectedIndex = GUILayout.Toolbar(selectedIndex, enumNames);
 
-        // 선택된 인덱스를 Enum으로 다시 변환
         eventFunctionName = (FunctionName)selectedIndex;
 
         // 선택된 값 출력 (디버그용)
         EditorGUILayout.LabelField("Selected Function:", eventFunctionName.ToString());
 
-        //eventFunctionName = EditorGUILayout.EnumPopup("Function Name", eventFunctionName);
         addressableName = EditorGUILayout.TextField("Addressable Name (optional)", addressableName);
-        //spawnTransform = EditorGUILayout.ObjectField("Transform Parameter (optional)", spawnTransform, typeof(Object), true);
 
         if (GUILayout.Button("Add Event at Current Time"))
         {
@@ -122,7 +109,6 @@ public class AnimEventEditor : EditorWindow
         EditorApplication.QueuePlayerLoopUpdate();
     }
 
-    //private void AddAnimationEvent(AnimationClip clip, float time, string functionName, Object targetObj, string addressableName)
     private void AddAnimationEvent(AnimationClip clip, float time, string functionName, string addressableName)
     {
         if (clip == null || string.IsNullOrEmpty(functionName)) return;
@@ -133,7 +119,6 @@ public class AnimEventEditor : EditorWindow
         {
             time = time,
             functionName = functionName,
-            //objectReferenceParameter = targetObj,
             stringParameter = addressableName
         };
 
@@ -144,7 +129,6 @@ public class AnimEventEditor : EditorWindow
         updatedEvents[events.Length] = newEvent;
         AnimationUtility.SetAnimationEvents(clip, updatedEvents);
 
-        //Debug.Log($"Added AnimationEvent '{functionName}' at time {time:F2}s with object: {targetObj?.name ?? "None"} Addressable Name: {addressableName ?? "None"}");
         Debug.Log($"Added AnimationEvent '{functionName}' at time {time:F2}s with object: Addressable Name: {addressableName ?? "None"}");
     }
 

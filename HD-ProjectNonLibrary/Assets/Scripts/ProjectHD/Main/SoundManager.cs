@@ -26,7 +26,7 @@ namespace ProjectHD
         {
             if (MainManager.Instance.ResourcePool.TryLoad(key, out AudioClip clip) == false)
             {
-                Debug.LogError($"SFX key '{key}' not found in ResourcePool.");
+                Debug.LogError($"key '{key}' not found in ResourcePool.");
                 return;
             }
 

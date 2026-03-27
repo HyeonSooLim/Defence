@@ -9,8 +9,7 @@ namespace ProjectHD
         public GameObject Parent;
         public Material Material;
         public bool DeactivateParentAfterMerge = false;
-        public bool DestroyParentAfterMerge = false;
-        public bool DeactivateOriginMesheRenderersAfterMerge = true;
+        public bool DeactivateOriginMesheRenderersAfterMerge = false;
 
         public string AssetSavePath = "Assets/GameSource/CombinedMeshes/";
 
@@ -33,7 +32,6 @@ namespace ProjectHD
                 }
             }
 
-            //GameObject combinedObject = new GameObject("Combined Mesh");
             this.gameObject.AddComponent<MeshFilter>();
             var meshRenderer = this.gameObject.AddComponent<MeshRenderer>();
             var newMesh = new Mesh();
@@ -56,11 +54,6 @@ namespace ProjectHD
             if (DeactivateParentAfterMerge)
             {
                 Parent.SetActive(false);
-            }
-
-            if (DestroyParentAfterMerge)
-            {
-                Destroy(Parent);
             }
 
 #if UNITY_EDITOR

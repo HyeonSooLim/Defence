@@ -16,7 +16,7 @@ namespace ProjectHD
 
         private void MoveToScene()
         {
-            MainManager.Instance.MoveToOherScene(_nextScene, CleanUp());
+            SceneLoadManager.Instance.MoveToScene(_nextScene, CleanUp());
         }
 
         public async UniTask CleanUp()
