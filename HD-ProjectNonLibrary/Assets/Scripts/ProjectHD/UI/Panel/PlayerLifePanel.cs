@@ -37,6 +37,11 @@ namespace ProjectHD.UI
 
         private void UpdatePlayerLife(int change)
         {
+            if (_playerLife <= 0)
+            {
+                return;
+            }
+
             _playerLife += change;
             _playerLife = Mathf.Clamp(_playerLife, 0, StaticValue.MaxPlayerLife);
 
@@ -47,12 +52,25 @@ namespace ProjectHD.UI
             {
                 RootInitialize();
             });
+
+            if (_playerLife <= 0)
+            {
+                ExcuteGameOverEvent(false);
+                return;
+            }
         }
 
         private void RootInitialize()
         {
             _root.DOKill();
             _root.anchoredPosition = Vector3.zero;
+        }
+
+        private void ExcuteGameOverEvent(bool isWin)
+        {
+            var tempEvent = Event.Events.GameOverEvent;
+            tempEvent.IsWin = isWin;
+            Event.EventManager.Broadcast(tempEvent);
         }
     }    
 }

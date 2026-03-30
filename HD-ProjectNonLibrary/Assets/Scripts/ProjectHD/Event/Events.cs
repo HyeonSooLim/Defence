@@ -45,6 +45,8 @@ namespace ProjectHD.Event
         public static RecycleUseEvent RecycleUseEvent = new();
 
         public static ChangeCoinEvent ChangeCoinEvent = new();
+
+        public static GameOverEvent GameOverEvent = new();
     }
 
     #region Scene Events
@@ -409,6 +411,15 @@ namespace ProjectHD.Event
         public override void Reset()
         {
             Amount = 0;
+        }
+    }
+
+    public class GameOverEvent : GameEvent
+    {
+        public bool IsWin;
+        public override void Reset()
+        {
+            IsWin = false;
         }
     }
 

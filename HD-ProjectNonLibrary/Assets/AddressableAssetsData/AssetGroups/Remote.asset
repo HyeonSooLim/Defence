@@ -209,6 +209,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Remote
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3e8dc1a5e83d2c4d91fb650f4b5c012
+    m_Address: Assets/GameResources/Prefabs/UI/GameOverUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cc5e75007bae2424295c63d56dc90747
     m_Address: Assets/GameResources/Prefabs/Monster/MameMon.prefab
     m_ReadOnly: 0

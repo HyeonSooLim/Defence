@@ -13,6 +13,7 @@ namespace ProjectHD.Battle
         private const string BASE_UI = "Assets/GameResources/Prefabs/UI/BattleBaseUI.prefab";
         private const string EFFECT_UI = "Assets/GameResources/Prefabs/UI/BattleEffectUI.prefab";
         private const string MONSTER_HEALTH_UI = "Assets/GameResources/Prefabs/UI/MonsterHealthUI.prefab";
+        private const string GAME_OVER_UI = "Assets/GameResources/Prefabs/UI/GameOverUI.prefab";
         private const string CHARACTER_COMBINE_CONTROLLER = "Assets/GameResources/Prefabs/Battle/CharacterCombineController.prefab";
         private const string DAMAGE_CONTROLLER = "Assets/GameResources/Prefabs/Battle/DamageController.prefab";
         private const string BUFF_SET_CONTROLLER = "Assets/GameResources/Prefabs/Battle/BuffSetController.prefab";
@@ -40,6 +41,11 @@ namespace ProjectHD.Battle
                 MoveToOherScene(ProjectEnum.SceneName.TitleWorkSpace, UniTask.Defer(DeInitialize));
             }
 
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                MoveToOherScene(ProjectEnum.SceneName.BattleWorkSpace, UniTask.Defer(DeInitialize));
+            }
+
             if (Input.GetKeyDown(KeyCode.C))
             {
                 Initialize();
@@ -55,6 +61,7 @@ namespace ProjectHD.Battle
         public override async UniTask Initialize()
         {
             StageSeed = Runtime.StageInformation.StageSeed; // 임시값
+            Event.EventManager.AddListener<Event.GameOverEvent>(GameOverAction);
 
             _poolingObjects = Utilities.StaticObjectPool.Pop<List<GameObject>>();
             _poolingObjects.Clear();
@@ -73,6 +80,7 @@ namespace ProjectHD.Battle
         public override async UniTask DeInitialize()
         {
             await base.DeInitialize();
+            Event.EventManager.RemoveListener<Event.GameOverEvent>(GameOverAction);
 
             _initializationTasks.Clear();
             Utilities.StaticObjectPool.Push(_initializationTasks);
@@ -230,6 +238,28 @@ namespace ProjectHD.Battle
             stageSettingEvent.PlayerLife = Runtime.StageInformation.PlayerLife;
             Event.EventManager.Broadcast(stageSettingEvent);
             Utilities.InternalDebug.Log($"StageSetting Event");
+        }
+
+        private void GameOverAction(Event.GameOverEvent @event)
+        {
+            if (@event.IsWin)
+            {
+            }
+            else
+            {
+                var gameOverUI = MainManager.Instance.GameObjectPool.Get(GAME_OVER_UI);
+                MoveToWorkspace(gameOverUI);
+                _poolingObjects.Add(gameOverUI);
+
+                if (gameOverUI.transform.TryGetComponent<UI.GameOverUI>(out var component))
+                {
+                    component.RestartButton.onClick.RemoveAllListeners();
+                    component.RestartButton.onClick.AddListener
+                        (
+                            () => MoveToOherScene(ProjectEnum.SceneName.TitleWorkSpace, UniTask.Defer(DeInitialize))
+                        );
+                }
+            }
         }
 
         #endregion
