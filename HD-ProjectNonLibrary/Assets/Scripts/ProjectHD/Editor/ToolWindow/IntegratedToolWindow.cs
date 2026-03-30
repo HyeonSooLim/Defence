@@ -245,6 +245,10 @@ namespace ProjectHD.Editor
             CreateButton(_scrollView, "빌드 경로 윈도우 탐색기 열기", () =>
             {
                 _processStartInfo.FileName = DeviceRepository.LoadKeyForString(DeviceRepositoryKey.Editor_Build_BuildOutputPath, _integratedToolSetting.buildPath);
+                if (!System.IO.Directory.Exists(_integratedToolSetting.buildPath))
+                {
+                    System.IO.Directory.CreateDirectory(_integratedToolSetting.buildPath);
+                }
                 System.Diagnostics.Process.Start(_processStartInfo);
             });
 #endif
