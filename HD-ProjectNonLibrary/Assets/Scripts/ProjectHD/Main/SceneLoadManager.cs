@@ -88,12 +88,15 @@ namespace ProjectHD
 
         private void GameOptionSetting()
         {
-            //Input.multiTouchEnabled = false; // 멀티 터치 비활성화
+#if UNITY_EDITOR
             int targetFrameRate = DeviceRepository.LoadKeyForInt(DeviceRepositoryKey.Editor_Project_Target_FrameRate, 60);
             if (targetFrameRate > 0)
                 Application.targetFrameRate = targetFrameRate;
             else
                 Application.targetFrameRate = 0;
+#else
+            Application.targetFrameRate = 60;
+#endif
             Application.runInBackground = true; // 백그라운드 실행 허용
             Application.backgroundLoadingPriority = ThreadPriority.Low; // 백그라운드 로딩 우선순위 설정
         }

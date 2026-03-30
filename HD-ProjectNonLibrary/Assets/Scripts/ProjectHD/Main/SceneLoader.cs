@@ -22,6 +22,7 @@ namespace ProjectHD
         private ProjectEnum.SceneName _nextScene;
 
         bool _isManagerInitializeDone = true;
+        bool _isLoadingInProgress = false;
 
         public void SetEvent()
         {
@@ -37,6 +38,13 @@ namespace ProjectHD
 
         public async UniTask MoveToScene(ProjectEnum.SceneName sceneName, UniTask cleanUp)
         {
+            if (_isLoadingInProgress)
+            {
+                Debug.LogWarning("Scene loading is already in progress. Please wait until the current loading is complete.");
+                return;
+            }
+            _isLoadingInProgress = true;
+
             await Utilities.Fade.FadeOutAsync(0.3f, Color.black);
 
             await cleanUp;
@@ -72,10 +80,19 @@ namespace ProjectHD
             await UnloadLoadingScene(); // 로딩 씬 언로드
             ExecuteSceneLoadingCompleteEvent();
             Utilities.Fade.FadeInAsync(0.3f, Color.black).Forget();
+
+            _isLoadingInProgress = false;
         }
 
         public async UniTask MoveToSceneNoneLoadingScene(ProjectEnum.SceneName sceneName, UniTask cleanUp)
         {
+            if (_isLoadingInProgress)
+            {
+                Debug.LogWarning("Scene loading is already in progress. Please wait until the current loading is complete.");
+                return;
+            }
+            _isLoadingInProgress = true;
+
             await Utilities.Fade.FadeOutAsync(0.3f, Color.black);
 
             await cleanUp;
@@ -106,6 +123,8 @@ namespace ProjectHD
 
             ExecuteSceneLoadingCompleteEvent();
             Utilities.Fade.FadeInAsync(0.3f, Color.black).Forget();
+
+            _isLoadingInProgress = false;
         }
 
         private async UniTask LoadNextScene(ProjectEnum.SceneName sceneName)

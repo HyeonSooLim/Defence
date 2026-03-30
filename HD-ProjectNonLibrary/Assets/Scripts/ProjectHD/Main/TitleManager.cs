@@ -4,24 +4,21 @@ using UnityEngine.UI;
 
 namespace ProjectHD
 {
-    public class TitleManager : MonoBehaviour
+    public class TitleManager : BaseManager<TitleManager>
     {
         [SerializeField] private Button _startButton;
         [SerializeField] private ProjectEnum.SceneName _nextScene = ProjectEnum.SceneName.BattleWorkSpace;
 
         private void Start()
         {
-            _startButton.onClick.AddListener(MoveToScene);
-        }
-
-        private void MoveToScene()
-        {
-            SceneLoadManager.Instance.MoveToScene(_nextScene, CleanUp());
+            _startButton.onClick.AddListener(() => MoveToOherScene(_nextScene, CleanUp()));
+            base.Initialize().Forget();
         }
 
         public async UniTask CleanUp()
         {
-            _startButton.onClick.RemoveListener(MoveToScene);
+            base.DeInitialize().Forget();
+            _startButton.onClick.RemoveAllListeners();
             DG.Tweening.DOTween.CompleteAll();
             await UniTask.DelayFrame(1);
             DG.Tweening.DOTween.KillAll();

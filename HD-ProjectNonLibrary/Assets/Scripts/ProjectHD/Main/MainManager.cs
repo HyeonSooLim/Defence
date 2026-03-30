@@ -87,21 +87,5 @@ namespace ProjectHD
             Event.EventManager.RemoveListener<Event.NextSceneLoadCompleteEvent>(NextSceneLoadCompleteAction);
             InternalDebug.LogCore($"MainManager Destroyed");
         }
-
-#if UNITY_EDITOR
-
-        public void MoveToOherScene(ProjectEnum.SceneName sceneName, UniTask cleanUp)
-        {
-            SceneLoadManager.Instance.MoveToScene(sceneName, cleanUp);
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                MoveToOherScene(ProjectEnum.SceneName.BattleWorkSpace, UniTask.Defer(CleanUp));
-            }
-        }
-#endif
     }
 }
