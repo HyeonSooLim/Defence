@@ -18,8 +18,6 @@ namespace ProjectHD
 
         [SerializeField]
         private ProjectEnum.SceneName _firstNextScene = ProjectEnum.SceneName.TitleWorkSpace;
-        [SerializeField]
-        private bool _hasFirstLoadingScene = true;
 
 #if UNITY_EDITOR
         public IEnumerable<ValueDropdownItem<string>> GetLoader()
@@ -52,8 +50,8 @@ namespace ProjectHD
             await Global.DataManager.ReadDataAsync();
             await UniTask.Yield(); // 프레임 대기
 
-            MoveToScene(_firstNextScene, UniTask.Defer(CleanUp), _hasFirstLoadingScene); // 타이틀 씬으로 이동
-            PlayBGM();
+            MoveToScene(_firstNextScene, UniTask.Defer(CleanUp)); // 타이틀 씬으로 이동
+            ExecutePlayBGM();
         }
 
         private void OnDestroy()
@@ -68,17 +66,9 @@ namespace ProjectHD
         /// </summary>
         /// <param name="sceneName">이동하는 씬</param>
         /// <param name="cleanUp">씬 이동 전 정리해야할 일</param>
-        public void MoveToScene(ProjectEnum.SceneName sceneName, UniTask cleanUp, bool hasLoadingScene = true)
+        public void MoveToScene(ProjectEnum.SceneName sceneName, UniTask cleanUp)
         {
-            if (hasLoadingScene)
-                _sceneLoader.MoveToScene(sceneName, cleanUp); // 씬 로드
-            else
-                _sceneLoader.MoveToSceneNoneLoadingScene(sceneName, cleanUp);
-        }
-
-        private void PlayBGM()
-        {
-            SoundManager.Instance.PlayBGM("Assets/GameResources/Audio/BGM/BGM_01.mp3");
+            _sceneLoader.MoveToScene(sceneName, cleanUp); // 씬 로드
         }
 
         private void PlayerSetting()
@@ -113,5 +103,18 @@ namespace ProjectHD
             await UniTask.DelayFrame(1);
             DG.Tweening.DOTween.KillAll();
         }
+
+        #region Events
+
+        private void ExecutePlayBGM() 
+        {
+            var tempEvent = Event.Events.PlayBGMEvent;
+            tempEvent.AssetKey = "Assets/GameResources/Audio/BGM/BGM_01.mp3";
+            tempEvent.IsLoop = true;
+            tempEvent.Volume = 1f;
+            Event.EventManager.Broadcast(tempEvent);
+        }
+
+        #endregion
     }
 }

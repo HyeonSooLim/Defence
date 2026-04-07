@@ -47,6 +47,9 @@ namespace ProjectHD.Event
         public static ChangeCoinEvent ChangeCoinEvent = new();
 
         public static GameOverEvent GameOverEvent = new();
+
+        public static PlaySFXEvent PlaySFXEvent = new();
+        public static PlayBGMEvent PlayBGMEvent = new();
     }
 
     #region Scene Events
@@ -420,6 +423,32 @@ namespace ProjectHD.Event
         public override void Reset()
         {
             IsWin = false;
+        }
+    }
+
+    #endregion
+
+    #region Sound Events
+
+    public class PlaySFXEvent : GameEvent
+    {
+        public string AssetKey;
+        public override void Reset()
+        {
+            AssetKey = string.Empty;
+        }
+    }
+
+    public class PlayBGMEvent : GameEvent
+    {
+        public string AssetKey;
+        public bool IsLoop;
+        public float Volume;
+        public override void Reset()
+        {
+            AssetKey = string.Empty;
+            IsLoop = true;
+            Volume = 1f;
         }
     }
 

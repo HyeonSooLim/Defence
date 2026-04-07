@@ -1,67 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace ProjectHD
 {
     public class EffectManager : Singleton<EffectManager>
     {
-        private const string SPAWN_SFX_KEY = "Assets/GameResources/Audio/UI/Summoning_Audio.wav";
+        private readonly Dictionary<int, GameObject> _poolDictionary = new();   // 객체 풀에서 관리하는 게임 오브젝트를 인스턴스 ID로 관리
+        private readonly Dictionary<int, float> _poolRemainTimeDcictionary = new(); // 게임 오브젝트 남은 시간. 인스턴스 ID로 관리
 
-        private readonly Dictionary<int, GameObject> _poolDictionary = new();
-        private readonly Dictionary<int, float> _poolRemainTimeDcictionary = new();
-
-        private Scene _poolingScene;
         private const int _maxProcessPerFrame = 50; // 한 프레임에 최대 50개 처리
-        private const int _defaultRemainTime = 2;
 
         [SerializeField] private Transform _effectParent;
 
         private void Awake()
-        {
-            _poolingScene = SceneManager.GetSceneByName(ProjectEnum.SceneName.MainWorkSpace.ToString());
-            Event.EventManager.AddListener<Event.SpawnEffectEvent>(SpawnEffectAction);
-            Event.EventManager.AddListener<Event.ManagerUnloadEvent>(ManagerUnloadAction);
-            Event.EventManager.AddListener<Event.CharacterOnCellEvent>(CharacterOnCellAction);
+        {            
+            Event.EventManager.AddListener<Event.ManagerUnloadEvent>(ManagerUnloadAction);  // 씬 전환 시 매니저에서 전파되는 이벤트를 수신했을 때
+            Event.EventManager.AddListener<Event.SpawnEffectEvent>(SpawnEffectAction);  // 이펙트 호출 이벤트를 수신했을 때
         }
 
         private void OnDestroy()
         {
-            _poolingScene = default;
-            Event.EventManager.RemoveListener<Event.SpawnEffectEvent>(SpawnEffectAction);
             Event.EventManager.RemoveListener<Event.ManagerUnloadEvent>(ManagerUnloadAction);
-            Event.EventManager.RemoveListener<Event.CharacterOnCellEvent>(CharacterOnCellAction);
-        }
-
-        private void SpawnEffectAction(Event.SpawnEffectEvent @event)
-        {
-            if (@event.AssetKey.IsNullOrEmpty())
-                return;
-            if (@event.Transform == null)
-                return;
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-            MainManager.Sampler.Begin();
-#endif
-
-            //var effect = MainManager.Instance.GameObjectPool.Get(@event.AssetKey);
-            //effect.transform.SetParent(null);
-            //SceneManager.MoveGameObjectToScene(effect, _poolingScene);
-
-            var effect = MainManager.Instance.GameObjectPool.Get(@event.AssetKey, parent: _effectParent);
-            effect.transform.SetPositionAndRotation(@event.Transform.position, @event.Transform.rotation);
-            //effect.transform.localScale = @event.Transform.localScale;
-            var instanceID = effect.GetInstanceID();
-            if (!_poolDictionary.ContainsKey(instanceID))
-            {
-                _poolDictionary.Add(instanceID, effect);
-                _poolRemainTimeDcictionary.Add(instanceID, @event.Duration);
-            }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-            MainManager.Sampler.End();
-#endif
+            Event.EventManager.RemoveListener<Event.SpawnEffectEvent>(SpawnEffectAction);
         }
 
         private void ManagerUnloadAction(Event.ManagerUnloadEvent @event)
@@ -75,45 +36,42 @@ namespace ProjectHD
             _poolRemainTimeDcictionary.Clear();
         }
 
-        private void CharacterOnCellAction(Event.CharacterOnCellEvent @event)
+        private void SpawnEffectAction(Event.SpawnEffectEvent @event)
         {
-            if (!@event.IsFirst)
+            if (@event.AssetKey.IsNullOrEmpty())
+                return;
+            if (@event.Transform == null)
                 return;
 
-            var characterInstanceID = @event.InstanceID;
-            if (Runtime.StageInformation.SpawnedCharacters.TryGetValue(characterInstanceID, out var characterBehavior)
-                && Global.DataManager.UnitPropertyDefine.TryGet(characterBehavior.CharacterTable.CharacterProperty, out var unitPropertyDefine))
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            MainManager.Sampler.Begin();
+#endif
+
+            var effect = MainManager.Instance.GameObjectPool.Get(@event.AssetKey, parent: _effectParent);
+            effect.transform.SetPositionAndRotation(@event.Transform.position, @event.Transform.rotation);
+            var instanceID = effect.GetInstanceID();
+            if (!_poolDictionary.ContainsKey(instanceID))
             {
-                if (unitPropertyDefine.SpawnEffectAssetKey.IsNullOrEmpty())
-                    return;
-
-                var effect = MainManager.Instance.GameObjectPool.Get(unitPropertyDefine.SpawnEffectAssetKey, parent: characterBehavior.transform);
-                //effect.transform.SetParent(characterBehavior.transform);
-                //SceneManager.MoveGameObjectToScene(effect, _poolingScene);
-                effect.transform.SetLocalPositionAndRotation(new Vector3(0, unitPropertyDefine.OffsetY, 0), Quaternion.identity);
-                //effect.transform.localScale = Vector3.one;
-                var instanceID = effect.GetInstanceID();
-                if (!_poolDictionary.ContainsKey(instanceID))
-                {
-                    _poolDictionary.Add(instanceID, effect);
-                    _poolRemainTimeDcictionary.Add(instanceID, _defaultRemainTime);
-                }
-
-                SoundManager.Instance.PlaySFX(SPAWN_SFX_KEY);
+                _poolDictionary.Add(instanceID, effect);
+                _poolRemainTimeDcictionary.Add(instanceID, @event.Duration);
             }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            MainManager.Sampler.End();
+#endif
         }
 
-        private void Update()
+        private void Update()   // 시간이 다 된 오브젝트 반환. 매 프레임 50개씩 처리(성능 저하 방지)
         {
             using var raii = new Utilities.StaticObjectPool.RAII<List<int>>(out var keysToRemove);
             keysToRemove.Clear();
-            using var raiiHasSet = new Utilities.StaticObjectPool.RAII<List<int>>(out var outData);
-            outData.Clear();
-            outData.AddRange(_poolDictionary.Keys);
+            using var raiiHasSet = new Utilities.StaticObjectPool.RAII<List<int>>(out var poolKeys);
+            poolKeys.Clear();
+            poolKeys.AddRange(_poolDictionary.Keys);    // 순회 중 컬렉션이 변경될 수 있으므로 키 목록을 별도로 관리
 
             int processedCount = 0;
 
-            foreach (var kvp in outData)
+            foreach (var kvp in poolKeys)
             {
                 if (processedCount >= _maxProcessPerFrame)
                     break;
@@ -141,7 +99,7 @@ namespace ProjectHD
             }
 
             keysToRemove.Clear();
-            outData.Clear();
+            poolKeys.Clear();
         }
     }
 }

@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 using Utilities;
 
@@ -19,7 +18,13 @@ namespace ProjectHD
                 return;
             }
 
+            SetEvent();
             _sfxAudioSourcePool = new AudioSourcePool(SfxAudioSource);
+        }
+
+        private void OnDestroy()
+        {
+            RemoveEvent();
         }
 
         public void PlayBGM(string key, bool isLoop = true, float volume = 1f)
@@ -68,5 +73,31 @@ namespace ProjectHD
             get => BGMAudioSource.volume;
             set => BGMAudioSource.volume = Mathf.Clamp01(value);
         }
+
+        #region Events
+
+        public void SetEvent()
+        {
+            Event.EventManager.AddListener<Event.PlayBGMEvent>(PlayBGMAction);
+            Event.EventManager.AddListener<Event.PlaySFXEvent>(PlaySFXAction);
+        }
+
+        public void RemoveEvent()
+        {
+            Event.EventManager.RemoveListener<Event.PlayBGMEvent>(PlayBGMAction);
+            Event.EventManager.RemoveListener<Event.PlaySFXEvent>(PlaySFXAction);
+        }
+
+        private void PlayBGMAction(Event.PlayBGMEvent evt)
+        {
+            PlayBGM(evt.AssetKey, evt.IsLoop, evt.Volume);
+        }
+
+        private void PlaySFXAction(Event.PlaySFXEvent evt)
+        {
+            PlaySFX(evt.AssetKey);
+        }
+
+        #endregion
     }
 }

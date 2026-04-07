@@ -45,7 +45,7 @@ namespace ProjectHD.UI
 
             _rollButton.onClick.AddListener(() =>
             {
-                SoundManager.Instance.PlaySFX(ROLL_BUTTON_SFX_KEY);
+                ExecutePlaySFX(ROLL_BUTTON_SFX_KEY);
 
                 if (!CheckCell())
                 {
@@ -156,8 +156,6 @@ namespace ProjectHD.UI
                 }).ToUniTask(cancellationToken: _cancelToken.Token);
         }
 
-        #endregion
-
         private void ExecuteCharacterSpawnEvent()
         {
             var spawnEvent = Event.EventPool<Event.CharacterSpawnEvent>.GetEvent();
@@ -183,6 +181,15 @@ namespace ProjectHD.UI
             _diceResults.Clear();   // 한 번 소환 후 클리어
         }
 
+        private void ExecutePlaySFX(string assetKey)
+        {
+            var tempEvent = Event.Events.PlaySFXEvent;
+            tempEvent.AssetKey = assetKey;
+            Event.EventManager.Broadcast(tempEvent);
+        }
+
+        #endregion
+
         private void CheckCoinAndRolltheDiceEvent()
         {
             var needCoin = 0;
@@ -198,7 +205,7 @@ namespace ProjectHD.UI
                 if (result.IsSuccess)
                 {
                     Event.EventManager.Broadcast(Event.Events.RollTheDiceEvent);
-                    SoundManager.Instance.PlaySFX(ROLL_SFX_KEY);
+                    ExecutePlaySFX(ROLL_SFX_KEY);
                 }
                 else
                 {

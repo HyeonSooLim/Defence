@@ -14,6 +14,7 @@ namespace ProjectHD.Battle
     public class CharacterBehavior : MonoBehaviour, IAttackable, IHexhable
     {
         public const string STAY_ANIMATION = "Stay";
+        private const string SPAWN_SFX_KEY = "Assets/GameResources/Audio/UI/Summoning_Audio.wav";
 
         [SerializeField] private Animator _animator;
         [SerializeField] private Transform _point;
@@ -333,11 +334,12 @@ namespace ProjectHD.Battle
 
         #region Events
 
-        private void ExecuteSpawnEffectEvent(string key, Transform point)
+        private void ExecuteSpawnEffectEvent(string key, Transform point, float duration = 1.5f)
         {
             var tempEvent = Event.Events.SpawnEffectEvent;
             tempEvent.AssetKey = key;
             tempEvent.Transform = point;
+            tempEvent.Duration = duration;
             Event.EventManager.Broadcast(tempEvent);
         }
 
@@ -356,12 +358,26 @@ namespace ProjectHD.Battle
 
         private void ExecuteCharacterOnCellEvent(bool isFirst)
         {
+            var instanceID = GetInstanceID();
             var tempEvent = Event.Events.CharacterOnCellEvent;
-            tempEvent.InstanceID = GetInstanceID();
+            tempEvent.InstanceID = instanceID;
             tempEvent.PreviousHex = (_previousHexQ, _previousHexR);
             tempEvent.CurrentHex = (_currentHexQ, _currentHexR);
             tempEvent.IsFirst = isFirst;
             Event.EventManager.Broadcast(tempEvent);
+
+            if (isFirst)
+            {
+                if (Runtime.StageInformation.SpawnedCharacters.TryGetValue(instanceID, out var characterBehavior)
+                    && Global.DataManager.UnitPropertyDefine.TryGet(characterBehavior.CharacterTable.CharacterProperty, out var unitPropertyDefine))
+                {
+                    if (unitPropertyDefine.SpawnEffectAssetKey.IsNullOrEmpty())
+                        return;
+
+                    ExecuteSpawnEffectEvent(unitPropertyDefine.SpawnEffectAssetKey, characterBehavior.transform, 2);
+                    ExecutePlaySFX(SPAWN_SFX_KEY);
+                }
+            }
         }
 
         private void RequestCharacterCombineEvent(int targetInstanceID)
@@ -418,6 +434,13 @@ namespace ProjectHD.Battle
             }
             coin *= _grade; // 등급에 비례하여 획득
             tempEvent.Amount = coin;
+            Event.EventManager.Broadcast(tempEvent);
+        }
+
+        private void ExecutePlaySFX(string assetKey)
+        {
+            var tempEvent = Event.Events.PlaySFXEvent;
+            tempEvent.AssetKey = assetKey;
             Event.EventManager.Broadcast(tempEvent);
         }
 

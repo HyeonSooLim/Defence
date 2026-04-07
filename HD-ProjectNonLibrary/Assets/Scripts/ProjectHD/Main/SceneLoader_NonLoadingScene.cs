@@ -2,20 +2,13 @@ using Cysharp.Threading.Tasks;
 using ProjectHD.Event;
 using System;
 using System.Collections;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ProjectHD
 {
-    public interface ISceneLoader
-    {
-        UniTask MoveToScene(ProjectEnum.SceneName sceneName, UniTask cleanUp);
-        void SetEvent();
-        void RemoveEvent();
-    }
-
-    public class SceneLoader : ISceneLoader
+    public class SceneLoader_NonLoadingScene : ISceneLoader
     {
         private ProjectEnum.SceneName _currentScene = ProjectEnum.SceneName.None;
         private ProjectEnum.SceneName _nextScene;
@@ -51,9 +44,7 @@ namespace ProjectHD
             await MainManager.Instance.CleanUp();
             await UniTask.Yield();
 
-            await LoadLoadingScene();
             ExcuteMainCameraSetActiveEvent();
-            await Utilities.Fade.FadeInAsync(0.3f, Color.black);
 
             // 현재 씬이 None이 아니면 현재 씬 언로드 후 다음 씬 로드
             if (_currentScene != ProjectEnum.SceneName.None)
@@ -73,10 +64,7 @@ namespace ProjectHD
             await UniTask.Yield();
             await UniTask.WaitUntil(() => _isManagerInitializeDone);
             Utilities.InternalDebug.Log($"NextSceneInitialized");
-            ExecuteLoadingEvent(1.0f);
 
-            await Utilities.Fade.FadeOutAsync(0.3f, Color.black);
-            await UnloadLoadingScene(); // 로딩 씬 언로드
             ExecuteSceneLoadingCompleteEvent();
             Utilities.Fade.FadeInAsync(0.3f, Color.black).Forget();
 
@@ -103,7 +91,7 @@ namespace ProjectHD
                 ExecuteNextSceneLoadCompleteEvent(_currentScene); // 씬 로드 완료 이벤트 실행
             };
 
-            await UniTask.WaitUntil(()=> nextScene.isDone); // 씬 로드 완료 대기
+            await UniTask.WaitUntil(() => nextScene.isDone); // 씬 로드 완료 대기
         }
 
         private async UniTask UnloadCurrentScene()
@@ -128,32 +116,6 @@ namespace ProjectHD
 
         #region Loading Scene
 
-        private async UniTask LoadLoadingScene()
-        {
-            var loading = SceneManager.LoadSceneAsync(ProjectEnum.SceneName.LoadingWorkSpace.ToString(), LoadSceneMode.Additive); // 로딩 씬 로드
-            if (loading == null)
-            {
-                Debug.LogError("Failed to load Loading scene");
-                return;
-            }
-
-            await UniTask.WaitUntil(() => loading.isDone); // 로딩 씬 로드 완료 대기
-            await UniTask.Yield(); // 로딩 씬 로드 완료 대기
-        }
-
-        private async UniTask UnloadLoadingScene()
-        {
-            var loadingScene = SceneManager.GetSceneByName(ProjectEnum.SceneName.LoadingWorkSpace.ToString());
-            var unloadScene = SceneManager.UnloadSceneAsync(loadingScene); // 로딩 씬 언로드
-            if (unloadScene == null)
-            {
-                Debug.LogError("Failed to unload Loading scene");
-                return;
-            }
-
-            await UniTask.WaitUntil(() => unloadScene.isDone); // 로딩 씬 언로드 완료 대기
-            await UniTask.Yield(); // 로딩 씬 언로드 완료 대기
-        }
 
         private async UniTask UpdateLoadingProgress(AsyncOperation operation, float startProgress, float endProgress)
         {
@@ -168,19 +130,6 @@ namespace ProjectHD
         }
 
         #endregion
-
-        private void SetActiveScene(string sceneName)
-        {
-            var scene = SceneManager.GetSceneByName(sceneName);
-            if (scene.IsValid())
-            {
-                SceneManager.SetActiveScene(scene); // 액티브 씬 설정
-            }
-            else
-            {
-                Debug.LogError($"Failed to set active scene: {sceneName}");
-            }
-        }
 
         private void SetActiveScene(Scene scene)
         {
