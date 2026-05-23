@@ -118,8 +118,9 @@ namespace Utilities
             AdjustBoxes();
         }
 
-        private void Update()
+        private void OnRectTransformDimensionsChange()
         {
+            Utilities.InternalDebug.Log("레터 박스에서 해상도 변경 혹은 화면 회전을 감지하였습니다.");
             var rectTransformWidth = _rectTransform.sizeDelta.x;
             var rectTransformHeight = _rectTransform.sizeDelta.y;
 
