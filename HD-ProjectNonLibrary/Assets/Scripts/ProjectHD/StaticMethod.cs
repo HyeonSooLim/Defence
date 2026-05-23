@@ -135,13 +135,37 @@ namespace ProjectHD
             int index = UnityEngine.Random.Range(0, array.Length);
             return array[index];
         }
-
+        
+        public static T GetRandomElement<T>(List<T> list)
+        {
+            if (list == null || list.Count == 0)
+                throw new ArgumentException("List cannot be null or empty");
+            int index = UnityEngine.Random.Range(0, list.Count);
+            return list[index];
+        }
+        
+        public static T GetRandomElement<T>(IList<T> list)
+        {
+            if (list == null || list.Count == 0)
+                throw new ArgumentException("Array cannot be null or empty");
+            int index = UnityEngine.Random.Range(0, list.Count);
+            return list[index];
+        }
+        
+        public static T GetRandomElement<T>(IReadOnlyList<T> list)
+        {
+            if (list == null || list.Count == 0)
+                throw new ArgumentException("Array cannot be null or empty");
+            int index = UnityEngine.Random.Range(0, list.Count);
+            return list[index];
+        }
+        
         public static T GetRandomElement<T>(IReadOnlyCollection<T> iCollection)
         {
             if (iCollection == null || iCollection.Count == 0)
                 throw new ArgumentException("Array cannot be null or empty");
             int index = UnityEngine.Random.Range(0, iCollection.Count);
-            var enumerator = iCollection.GetEnumerator();
+            using IEnumerator<T> enumerator = iCollection.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 if (index-- == 0)
@@ -179,6 +203,8 @@ namespace ProjectHD
             position -= hexOffset; // 헥스 그리드 이동 보정(좌표기준 0,0,0 맞추기 위함)
             float q = position.x / (hexWidth * 0.75f); // Flat-top 기준 q 계산
             float r = (position.z - (q * hexHeight / 2f)) / hexHeight; // r 계산 보정. q가 한칸 이동할 때마다 r이 hexHeight/2 만큼 이동하기 때문.
+            var arrial = HexRound(q, r);
+            Utilities.InternalDebug.Log($"포지션 (x({position.x}), z({position.z}) \n반올림 전 ({q}, {r}), 반올림 후 ({arrial.x}, {arrial.y})");
             return HexRound(q, r);
         }
 

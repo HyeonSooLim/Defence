@@ -68,7 +68,7 @@ namespace ProjectHD.Event
 
         public static void Broadcast(GameEvent evt, System.Action<GameEvent> callback = null)
         {
-            if (s_Events.TryGetValue(evt.GetType(), out var action))
+            if (s_Events.TryGetValue(evt.GetType(), out Action<GameEvent> action))
             {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
                 try

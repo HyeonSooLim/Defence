@@ -58,7 +58,7 @@ namespace ProjectHD.Battle
         }
 #endif
 
-        public override async UniTask Initialize()
+        protected override async UniTask Initialize()
         {
             StageSeed = Runtime.StageInformation.StageSeed; // 임시값
             Event.EventManager.AddListener<Event.GameOverEvent>(GameOverAction);
@@ -77,7 +77,7 @@ namespace ProjectHD.Battle
             ExecuteStageSettingEvent(StageSeed);
         }
 
-        public override async UniTask DeInitialize()
+        protected override async UniTask DeInitialize()
         {
             await base.DeInitialize();
             Event.EventManager.RemoveListener<Event.GameOverEvent>(GameOverAction);
@@ -86,9 +86,9 @@ namespace ProjectHD.Battle
             Utilities.StaticObjectPool.Push(_initializationTasks);
             _initializationTasks = null;
 
-            foreach (var gameObject in _poolingObjects)
+            foreach (GameObject instance in _poolingObjects)
             {
-                MainManager.Instance.GameObjectPool.Return(gameObject);
+                MainManager.Instance.GameObjectPool.Return(instance);
             }
             _poolingObjects.Clear();
             Utilities.StaticObjectPool.Push(_poolingObjects);
@@ -102,7 +102,7 @@ namespace ProjectHD.Battle
 
         private async UniTask SetBackgroundScene()
         {
-            if (Global.DataManager.StageTable.TryGet(StageSeed, out var stageTable))
+            if (Global.DataManager.StageTable.TryGet(StageSeed, out Data.StageTable stageTable))
             {
                 var assetKey = stageTable.SceneAssetKey;
 #if UNITY_EDITOR
@@ -188,9 +188,9 @@ namespace ProjectHD.Battle
             }
             characterTableEnum.Dispose();
 
-            foreach (var gameObject in _poolingObjects)
+            foreach (GameObject instance in _poolingObjects)
             {
-                MainManager.Instance.GameObjectPool.Return(gameObject);
+                MainManager.Instance.GameObjectPool.Return(instance);
             }
             _poolingObjects.Clear();
             await UniTask.Yield(PlayerLoopTiming.Update);
@@ -198,11 +198,11 @@ namespace ProjectHD.Battle
 
         private void InitializeTask()
         {
-            _initializationTasks.Enqueue(() => PreloadAllCharacters());
-            _initializationTasks.Enqueue(() => SetBackgroundScene());
-            _initializationTasks.Enqueue(() => SetUI());
+            _initializationTasks.Enqueue(PreloadAllCharacters);
+            _initializationTasks.Enqueue(SetBackgroundScene);
+            _initializationTasks.Enqueue(SetUI);
             _initializationTasks.Enqueue(() => SetController(WAVE_CONTROLLER));
-            _initializationTasks.Enqueue(() => SetMapObject());
+            _initializationTasks.Enqueue(SetMapObject);
             _initializationTasks.Enqueue(() => SetController(CHARACTER_COMBINE_CONTROLLER));
             _initializationTasks.Enqueue(() => SetController(DAMAGE_CONTROLLER));
             _initializationTasks.Enqueue(() => SetController(BUFF_SET_CONTROLLER));

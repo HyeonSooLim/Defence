@@ -16,8 +16,8 @@ namespace ProjectHD
 
         private void Awake()
         {
-            _canvas = GetComponent<Canvas>();
-            _canvasScaler = GetComponent<CanvasScaler>();
+            _canvas ??= GetComponent<Canvas>();
+            _canvasScaler ??= GetComponent<CanvasScaler>();
             _canvas.renderMode = renderMode;
             _canvas.worldCamera = CameraManager.Instance.UICamera;
             _canvas.sortingOrder = sortingOrder;
