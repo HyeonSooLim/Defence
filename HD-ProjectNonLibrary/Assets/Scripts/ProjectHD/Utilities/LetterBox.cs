@@ -120,6 +120,7 @@ namespace Utilities
 
         private void OnRectTransformDimensionsChange()
         {
+            if (_rectTransform == null) return;
             Utilities.InternalDebug.Log("레터 박스에서 해상도 변경 혹은 화면 회전을 감지하였습니다.");
             var rectTransformWidth = _rectTransform.sizeDelta.x;
             var rectTransformHeight = _rectTransform.sizeDelta.y;

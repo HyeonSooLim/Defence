@@ -10,7 +10,7 @@ namespace ProjectHD.UI
 
         private void Awake()
         {
-            _rectTransform ??= GetComponent<RectTransform>();
+            _rectTransform = _rectTransform != null ? _rectTransform : GetComponent<RectTransform>();
             ApplySafeArea(Screen.safeArea);
         }
 
