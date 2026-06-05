@@ -74,8 +74,10 @@ namespace ProjectHD.Event
 
     public class SceneLoadingCompleteEvent : GameEvent
     {
+        public ProjectEnum.SceneName CurrentSceneName;
         public override void Reset()
         {
+            CurrentSceneName = ProjectEnum.SceneName.None;
         }
     }
 

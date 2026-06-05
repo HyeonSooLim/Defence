@@ -77,7 +77,7 @@ namespace ProjectHD
 
             await Utilities.Fade.FadeOutAsync(0.3f, Color.black);
             await UnloadLoadingScene(); // 로딩 씬 언로드
-            ExecuteSceneLoadingCompleteEvent();
+            ExecuteSceneLoadingCompleteEvent(_nextScene);
             Utilities.Fade.FadeInAsync(0.3f, Color.black).Forget();
 
             _isLoadingInProgress = false;
@@ -218,8 +218,9 @@ namespace ProjectHD
             Utilities.InternalDebug.Log($"NextSceneLoadComplete Event");
         }
 
-        private void ExecuteSceneLoadingCompleteEvent()
+        private void ExecuteSceneLoadingCompleteEvent(ProjectEnum.SceneName sceneName)
         {
+            Events.SceneLoadingCompleteEvent.CurrentSceneName = sceneName;
             EventManager.Broadcast(Events.SceneLoadingCompleteEvent); // 씬 로드 완료 이벤트 실행
             Utilities.InternalDebug.Log($"SceneLoadingComplete Event");
         }
