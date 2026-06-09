@@ -39,10 +39,10 @@ namespace ProjectHD.Editor
             bool autoLabel = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Label, true);
             bool autoSchema = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Schema, true);
             
-            foreach (var pathData in _automationAddressableSetting.CustomPathData)
+            foreach (AddressableCustomPathData pathData in _automationAddressableSetting.CustomPathData)
             {
-                // 경로 내 파일 가져오기
-                if (!EditorToolHelper.TryGetFileList(pathData, out var fileList))
+                // 경로 내 파일 가져오기(경로 리스트(pathData.PathList)를 순회)
+                if (!EditorToolHelper.TryGetFileList(pathData, out List<string> fileList))
                     continue;
                 
                 // 그룹 생성
