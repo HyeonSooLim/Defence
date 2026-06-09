@@ -61,13 +61,13 @@ namespace ProjectHD.Editor
                 SheetToData();
             }
 
-            GUILayout.Space(10);
-            GUILayout.Label("코드 자동화 (신규 시트 추가시 MessagePack Code Generation 이전에 한번 눌러주세요)", EditorStyles.boldLabel);
-
-            if (GUILayout.Button("Create Array/List Meta", GUILayout.Height(40)))
-            {
-                CreateArrayListMeta();
-            }
+            // GUILayout.Space(10);
+            // GUILayout.Label("코드 자동화 (신규 시트 추가시 MessagePack Code Generation 이전에 한번 눌러주세요)", EditorStyles.boldLabel);
+            //
+            // if (GUILayout.Button("Create Array/List Meta", GUILayout.Height(40)))
+            // {
+            //     CreateArrayListMeta();
+            // }
 
             GUILayout.Space(10);
             GUILayout.Label("Editor Test)", EditorStyles.boldLabel);
@@ -150,10 +150,10 @@ namespace ProjectHD.Editor
         }
 
         //[TitleGroup("코드 자동화 (신규 시트 추가시 MessagePack Code Generation 이전에 한번 눌러주세요)"), Button(ButtonSizes.Large)]
-        private void CreateArrayListMeta()
-        {
-            EditorToolHelper.CreateArrayListMeta();
-        }
+        // private void CreateArrayListMeta()
+        // {
+        //     EditorToolHelper.CreateArrayListMeta();
+        // }
 
         private static void TableToData()
         {

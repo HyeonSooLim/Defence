@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -11,100 +12,7 @@ namespace ProjectHD.Editor
 {
     public class EditorToolHelper
     {
-        #region Array/List Meta 자동생성
-
         static string NAMESPACE = "ProjectHD.Data";
-
-        public static void CreateArrayListMeta()
-        {
-            // 분석할 C# 파일 경로
-            string filePath = Application.dataPath + "/Scripts/ProjectHD/Data/BasicData.cs";
-            string arrayMetaFilePath = Application.dataPath + "/Scripts/ProjectHD/Data/BasicData.ArrayMeta.cs";
-            string listMetaFilePath = Application.dataPath + "/Scripts/ProjectHD/Data/BasicData.ListMeta.cs";
-
-            // C# 파일을 읽어서 클래스 이름 추출
-            List<string> classOrRecordNames = new List<string>();
-            classOrRecordNames.AddRange(GetClassNames(filePath));
-
-            CreateArrayMeta(arrayMetaFilePath, classOrRecordNames);
-            CreateListMeta(listMetaFilePath, classOrRecordNames);
-        }
-
-        private static void CreateArrayMeta(string arrayMetaFilePath, List<string> classOrRecordNames)
-        {
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(arrayMetaFilePath))
-                {
-                    sw.WriteLine("//AutoScript");
-                    sw.WriteLine("//수정하지마세요. ㅇㅅㅇb");
-                    sw.WriteLine("//하진태_클라이언트_제작. ㅇㅅㅇb");
-                    sw.WriteLine("using System.Collections.Generic;");
-                    sw.WriteLine("using MessagePack;");
-                    sw.WriteLine();
-                    sw.WriteLine($"namespace {NAMESPACE}");
-                    sw.WriteLine("{");
-                    sw.WriteLine("    [MessagePackObject(true)]");
-                    sw.WriteLine("    public class ArrayMeta");
-                    sw.WriteLine("    {");
-
-                    foreach (string className in classOrRecordNames)
-                    {
-                        if (ClassExists(className))
-                        {
-                            sw.WriteLine($"        public {className}[] {className} {{ get; }}");
-                        }
-                    }
-
-                    sw.WriteLine("    }");
-                    sw.WriteLine("}");
-                }
-
-                Debug.Log("arraymeta.cs 파일이 생성되었습니다.");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"파일 생성 오류: {e.Message}");
-            }
-        }
-
-        private static void CreateListMeta(string listMetaFilePath, List<string> classOrRecordNames)
-        {
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(listMetaFilePath))
-                {
-                    sw.WriteLine("//AutoScript");
-                    sw.WriteLine("//수정하지마세요. ㅇㅅㅇb");
-                    sw.WriteLine("//하진태_클라이언트_제작. ㅇㅅㅇb");
-                    sw.WriteLine("using System.Collections.Generic;");
-                    sw.WriteLine("using MessagePack;");
-                    sw.WriteLine();
-                    sw.WriteLine($"namespace {NAMESPACE}");
-                    sw.WriteLine("{");
-                    sw.WriteLine("    [MessagePackObject(true)]");
-                    sw.WriteLine("    public class ListMeta");
-                    sw.WriteLine("    {");
-
-                    foreach (string className in classOrRecordNames)
-                    {
-                        if (ClassExists(className))
-                        {
-                            sw.WriteLine($"         public List<{className}> {className} {{ get; }}");
-                        }
-                    }
-
-                    sw.WriteLine("    }");
-                    sw.WriteLine("}");
-                }
-
-                Debug.Log("listmeta.cs 파일이 생성되었습니다.");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"파일 생성 오류: {e.Message}");
-            }
-        }
 
         public static bool ClassExists(string className)
         {
@@ -168,12 +76,44 @@ namespace ProjectHD.Editor
 
             return classNames;
         }
-
-        #endregion
-
+        
         #region Utility
-
-        private static List<string> GetAllFilesInFolder(string folderPath, SearchOption searchOption)
+        
+        public static bool TryGetFileList(AddressableCustomPathData tempPathData, out List<string> fileList)
+        {
+            fileList = new List<string>();
+            foreach (var tempPath in tempPathData.PathList)
+            {
+                var tempFullPath = Application.dataPath + tempPath;
+                switch (tempPathData.SearchOption)
+                {
+                    case AutoSearchOption.None:
+                        break;
+                    case AutoSearchOption.OnlyFiles:
+                        fileList.Add(tempFullPath);
+                        break;
+                    case AutoSearchOption.Folder:
+                        fileList.AddRange(GetAllFilesInFolder(tempFullPath, SearchOption.TopDirectoryOnly));
+                        if (fileList.Count == 0)
+                        {
+                            Debug.LogError($"[Error] 해당 경로에는 폴더나 파일이 없습니다. ({tempFullPath})");
+                        }
+                        break;
+                    case AutoSearchOption.SearchSubdirectories:
+                        fileList = GetAllFilesInFolder(tempFullPath, SearchOption.AllDirectories);
+                        if (fileList.Count == 0)
+                        {
+                            Debug.LogError($"[Error] 해당 경로에는 폴더나 파일이 없습니다. ({tempFullPath})");
+                        }
+                        break;
+                }
+            }
+            
+            bool hasFileList = fileList.Count > 0;
+            return hasFileList;
+        }
+        
+        public static List<string> GetAllFilesInFolder(string folderPath, SearchOption searchOption)
         {
             List<string> fileList = new List<string>();
 
@@ -194,7 +134,28 @@ namespace ProjectHD.Editor
 
             return fileList;
         }
-
+        
+        private static readonly StringBuilder masterSb = new StringBuilder();
+        
+        public static void AddLogline(string tempErrorLog, LogType logType)
+        {
+            switch (logType)
+            {
+                case LogType.Log:
+                    Debug.Log(tempErrorLog);
+                    break;
+                case LogType.Warning:
+                    Debug.LogWarning(tempErrorLog);
+                    break;
+                case LogType.Error:
+                    Debug.LogError(tempErrorLog);
+                    break;
+                default:
+                    break;
+            }
+            masterSb.AppendLine(tempErrorLog);
+        }
+        
         private async UniTask CleanUpMemoryAsync()
         {
             await Resources.UnloadUnusedAssets();

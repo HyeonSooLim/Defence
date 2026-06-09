@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
@@ -14,6 +15,13 @@ using Toggle = UnityEngine.UIElements.Toggle;
 
 namespace ProjectHD.Editor
 {
+    public enum LogType
+    {
+        Log,
+        Warning,
+        Error,
+    }
+    
     public class IntegratedToolWindow : EditorWindow
     {
         enum DrawForm
@@ -23,14 +31,7 @@ namespace ProjectHD.Editor
             AutomationBuild,
             SheetToJsonTool,
         }
-
-        enum LogType
-        {
-            Log,
-            Warning,
-            Error,
-        }
-
+        
         private string[] ButtonNames = new[] { "프로젝트 세팅", "어드레서블", "빌드", "데이터 시트 자동화" };
 
         public const string EDITOR_INTEGRATEDTOOL_WINDOW_MENUITEM = "Tools/종합 툴";
@@ -45,7 +46,6 @@ namespace ProjectHD.Editor
         public static IntegratedToolSetting _integratedToolSetting;
         private static SheetImporterSettings _sheetImporterSettings;
 
-        private StringBuilder masterSb = new StringBuilder();
         [SerializeField] private List<Object> _incorrectAddressablePathObjects = new List<Object>();
 
 
@@ -714,40 +714,37 @@ namespace ProjectHD.Editor
             pathList.Add(path);
             RootAutoSetAddressable(pathList, AUTO_BYTE_LABEL_NAME);
 
-            var temp = _automationAddressableSetting.AutoAddressGroupList;
-            foreach (var group in _automationAddressableSetting.AddressableAssetSetting.groups)
+            List<string> temp = _automationAddressableSetting.AutoAddressGroupList;
+            foreach (AddressableAssetGroup group in _automationAddressableSetting.AddressableAssetSetting.groups)
             {
                 if (group == null)
                     continue;
                 if (!temp.Contains(group.name))
                     continue;
 
-                string lableName = string.Empty;
-                switch (group.name)
+                string labelName = group.name switch
                 {
-                    case AUTO_JSON_LABEL_NAME:
-                        lableName = AUTO_JSON_LABEL_NAME;
-                        break;
-                    case AUTO_BYTE_LABEL_NAME:
-                        foreach (var entry in group.entries)
-                        lableName = AUTO_BYTE_LABEL_NAME;
-                        break;
+                    AUTO_JSON_LABEL_NAME => AUTO_JSON_LABEL_NAME,
+                    AUTO_BYTE_LABEL_NAME => AUTO_BYTE_LABEL_NAME,
+                    _ => string.Empty
+                };
+
+                if (string.IsNullOrEmpty(labelName))
+                {
+                    continue;
                 }
 
-                if (!string.IsNullOrEmpty(lableName))
+                foreach (AddressableAssetEntry entry in group.entries)
                 {
-                    foreach (var entry in group.entries)
-                    {
-                        entry.labels.Clear();
+                    entry.labels.Clear();
 
-                        if (!entry.labels.Contains(AUTO_REMOTE_LABEL_NAME))
-                        {
-                            entry.SetLabel(AUTO_REMOTE_LABEL_NAME, true);
-                        }
-                        if (!entry.labels.Contains(lableName))
-                        {
-                            entry.SetLabel(lableName, true);
-                        }
+                    if (!entry.labels.Contains(AUTO_REMOTE_LABEL_NAME))
+                    {
+                        entry.SetLabel(AUTO_REMOTE_LABEL_NAME, true);
+                    }
+                    if (!entry.labels.Contains(labelName))
+                    {
+                        entry.SetLabel(labelName, true);
                     }
                 }
             }
@@ -802,15 +799,12 @@ namespace ProjectHD.Editor
 
         #region AutoAddressable
 
-        // 1. 그룹 생성 전용 함수
+        // 그룹 생성 전용 함수
         /// <summary>
-        /// Digimon / Custom 그룹들을 Addressables에 보장 생성
-        /// - Digimon 그룹: 실제 파일이 존재하고, Addressable 등록 가능한 오브젝트가 하나라도 있을 때만 생성
-        /// - Custom 그룹: 항상 생성
+        /// Custom 그룹들을 Addressables 생성
         /// </summary>
         private void EnsureAllGroupsExist()
         {
-
             HashSet<string> requiredGroups = new HashSet<string>();
 
             // Custom 그룹들 → 무조건 생성 후보에 추가
@@ -822,282 +816,29 @@ namespace ProjectHD.Editor
             // 없는 그룹만 생성
             foreach (var groupName in requiredGroups)
             {
-                if (AddressableHelper.GetGroup(groupName) == null)
+                if (AddressableHelper.GetGroup(groupName) != null)
                 {
-                    AddressableHelper.CreateGroup(groupName); // 공식 API 사용
-                    AddLogline($"[CreateGroup] {groupName} 그룹이 생성되었습니다.", LogType.Log);
+                    continue;
                 }
+
+                AddressableHelper.CreateGroup(groupName); // 어드레서블 API 사용
+                AddLogline($"[CreateGroup] {groupName} 그룹이 생성되었습니다.", LogType.Log);
             }
 
-            // ✅ 루프 끝난 뒤 한 번만 Dirty 처리
+            // 루프 끝난 뒤 Dirty 및 SaveAssets
             AddressableHelper.SetDirtyGroupAdded();
         }
 
         private void AutoAddressableForCustom()
         {
-            var pathData = _automationAddressableSetting.CustomPathData;
-
-            foreach (var tempPathData in pathData)
-            {
-                if (GetFileList(tempPathData, out List<string> fileList))
-                    continue;
-
-                var groupName = tempPathData.GroupName;
-                var group = AddressableHelper.GetGroup(groupName);
-
-                if (!_automationAddressableSetting.CustomDataDict.ContainsKey(tempPathData.GroupName))
-                {
-                    _automationAddressableSetting.CustomDataDict.Add(tempPathData.GroupName, new List<AddressableDataSubAssetData>());
-                }
-
-                foreach (string filePath in fileList)
-                {
-                    if (filePath.Contains(".meta"))
-                        continue;
-                    var unityPath = filePath.Replace(Application.dataPath, "Assets");
-                    var tempSubData = new AddressableDataSubAssetData();
-                    tempSubData._object = AssetDatabase.LoadAssetAtPath<Object>(unityPath);
-                    tempSubData._unityPath = filePath;
-                    tempSubData._fullPath = unityPath;
-                    tempSubData._GUID = AssetDatabase.GUIDFromAssetPath(unityPath).ToString();
-                    _automationAddressableSetting.CustomDataDict[tempPathData.GroupName].Add(tempSubData);
-                }
-
-                foreach (var tempSubData in _automationAddressableSetting.CustomDataDict[groupName])
-                {
-                    bool setDirty = false;
-                    ///에셋이 어드레서블화 되어있는지 체크
-                    var addressableAsset = AddressableExtensions.GetAddressableAssetEntry(tempSubData._object);
-                    if (addressableAsset == null)
-                    {
-                        if (tempSubData._object == null)
-                        {
-                            AddLogline($"[Non-Object] {tempSubData._fullPath}", LogType.Error);
-                            return;
-                        }
-
-                        AddLogline($"[Non-Addressable] {tempSubData._object.name}은 어드레서블화가 되어있지않습니다.", LogType.Warning);
-                    }
-
-                    var _autoGrouping = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Grouping, true);
-                    var _autoAddressable = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Addressable, true);
-                    var _autoLabel = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Label, true);
-                    var _autoSchema = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Schema, true);
-
-                    if ((!_autoGrouping && group == null) || (addressableAsset == null && !_autoAddressable))
-                        continue;
-
-                    if (group == null)
-                        group = AddressableHelper.CreateGroup(groupName);
-                    else if (_autoSchema && group.HasSchema<UnityEditor.AddressableAssets.Settings.GroupSchemas.BundledAssetGroupSchema>() == false)    // 스키마 체크
-                    {
-                        AddressableHelper.CreateGroupSchema(groupName);
-                    }
-
-                    //없을경우 새로 어드레서블 등록
-                    if (addressableAsset == null)
-                    {
-                        AddressableExtensions.SetAddressable(tempSubData._object);
-                        addressableAsset = AddressableExtensions.GetAddressableAssetEntry(tempSubData._object);
-                        AddLogline($"{tempSubData._object.name}은 어드레서블 등록되었습니다.", LogType.Log);
-                    }
-
-                    //등록할 그룹과 현재 그룹이 다른경우 그룹 변경
-                    if (group != addressableAsset.parentGroup)
-                    {
-                        var prevGroupName = addressableAsset.parentGroup;
-                        _automationAddressableSetting.AddressableAssetSetting.CreateOrMoveEntry(tempSubData._GUID, group);
-                        AddLogline(
-                            $"[Move] {tempSubData._object.name}은 ({prevGroupName})그룹에서 ({group.name})그룹으로 변경되었습니다.",
-                            LogType.Log);
-                    }
-
-                    var addressableAssetPath = tempSubData._object.GetAddressableAssetPath();
-                    var assetPath = AssetDatabase.GetAssetPath(tempSubData._object);
-                    if (addressableAssetPath != assetPath)
-                        _incorrectAddressablePathObjects.Add(tempSubData._object);
-
-                    if (_autoLabel && !addressableAsset.labels.Contains(AUTO_REMOTE_LABEL_NAME))
-                    {
-                        addressableAsset.SetLabel(AUTO_REMOTE_LABEL_NAME, true);
-                    }
-                }
-            }
-        }
-
-        private bool GetFileList(AddressableCustomPathData tempPathData, out List<string> fileList)
-        {
-            fileList = new List<string>();
-            foreach (var tempPath in tempPathData.PathList)
-            {
-                var tempFullPath = Application.dataPath + tempPath;
-                switch (tempPathData.SearchOption)
-                {
-                    case AutoSearchOption.None:
-                        break;
-                    case AutoSearchOption.OnlyFiles:
-                        fileList.Add(tempFullPath);
-                        break;
-                    case AutoSearchOption.Folder:
-                        fileList.AddRange(GetAllFilesInFolder(tempFullPath, SearchOption.TopDirectoryOnly));
-                        if (fileList.Count == 0)
-                        {
-                            AddLogline($"[Error] 해당 경로에는 폴더나 파일이 없습니다. ({tempFullPath})", LogType.Error);
-                            return true;
-                        }
-
-                        break;
-                    case AutoSearchOption.SearchSubdirectories:
-                        fileList = GetAllFilesInFolder(tempFullPath, SearchOption.AllDirectories);
-                        if (fileList.Count == 0)
-                        {
-                            AddLogline($"[Error] 해당 경로에는 폴더나 파일이 없습니다. ({tempFullPath})", LogType.Error);
-                            return true;
-                        }
-
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return false;
-        }
-
-        private bool GetFileList(AddressablePathData pathData, string tempFullPath, out List<string> fileList)
-        {
-            fileList = new List<string>();
-            switch (pathData.SearchOption)
-            {
-                case AutoSearchOption.None:
-                    return true;
-                case AutoSearchOption.OnlyFiles:
-                    fileList.Add(tempFullPath + pathData.FileExtensionName);
-                    break;
-                case AutoSearchOption.Folder:
-                    fileList = GetAllFilesInFolder(tempFullPath, SearchOption.TopDirectoryOnly);
-                    if (fileList.Count == 0)
-                    {
-                        AddLogline($"[Error] 해당 경로에는 폴더나 파일이 없습니다. ({tempFullPath})", LogType.Warning);
-                        return true;
-                    }
-
-                    break;
-                case AutoSearchOption.SearchSubdirectories:
-                    fileList = GetAllFilesInFolder(tempFullPath, SearchOption.AllDirectories);
-                    if (fileList.Count == 0)
-                    {
-                        AddLogline($"[Error] 해당 경로에는 폴더나 파일이 없습니다. ({tempFullPath})", LogType.Warning);
-                        return true;
-                    }
-
-                    break;
-                default:
-                    break;
-            }
-
-            return false;
+            using AddressableAutomation autoAddressable = new (_automationAddressableSetting, AUTO_REMOTE_LABEL_NAME);
+            autoAddressable.RunAutomation();
+            _incorrectAddressablePathObjects.AddRange(autoAddressable.GetAddressablePathObjects());
         }
 
         private void AddLogline(string tempErrorLog, LogType logType)
         {
-            switch (logType)
-            {
-                case LogType.Log:
-                    Debug.Log(tempErrorLog);
-                    break;
-                case LogType.Warning:
-                    Debug.LogWarning(tempErrorLog);
-                    break;
-                case LogType.Error:
-                    Debug.LogError(tempErrorLog);
-                    break;
-                default:
-                    break;
-            }
-            masterSb.AppendLine(tempErrorLog);
-        }
-
-        private void AutoAddressable(string groupName,
-            List<string> fileList,
-            AddressableDigimonData addressableDigimonData,
-            AddressablePathData pathData)
-        {
-            var _autoGrouping = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Grouping, true);
-            var _autoAddressable = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Addressable, true);
-            var _autoLabel = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Label, true);
-            var _autoSchema = DeviceRepository.LoadKeyForBoolean(DeviceRepositoryKey.Editor_AutoAddressable_Schema, true);
-
-            ///어드레서블 그룹 체크
-            var group = AddressableHelper.GetGroup(groupName);
-            if (!addressableDigimonData.SubAssetDataList.ContainsKey(pathData.DevName))
-            {
-                addressableDigimonData.SubAssetDataList.Add(pathData.DevName, new List<AddressableDataSubAssetData>());
-            }
-
-            foreach (string filePath in fileList)
-            {
-                if (filePath.Contains(".meta"))
-                    continue;
-                var unityPath = filePath.Replace(Application.dataPath, "Assets");
-                var tempSubData = new AddressableDataSubAssetData();
-                tempSubData._object = AssetDatabase.LoadAssetAtPath<Object>(unityPath);
-                tempSubData._unityPath = filePath;
-                tempSubData._fullPath = unityPath;
-                tempSubData._GUID = AssetDatabase.GUIDFromAssetPath(unityPath).ToString();
-                addressableDigimonData.SubAssetDataList[pathData.DevName].Add(tempSubData);
-            }
-
-            foreach (var tempSubData in addressableDigimonData.SubAssetDataList[pathData.DevName])
-            {
-                ///에셋이 어드레서블화 되어있는지 체크
-                var addressableAsset = AddressableExtensions.GetAddressableAssetEntry(tempSubData._object);
-                if (addressableAsset == null)
-                {
-                    if (tempSubData._object == null)
-                    {
-                        AddLogline($"[Non-Object] {tempSubData._fullPath}", LogType.Warning);
-                        return;
-                    }
-
-                    AddLogline($"[Non-Addressable] {tempSubData._object.name}은 어드레서블화가 되어있지않습니다.", LogType.Warning);
-                }
-
-                if ((!_autoGrouping && group == null) || (addressableAsset == null && !_autoAddressable))
-                    continue;
-
-                if (group == null)
-                    group = AddressableHelper.CreateGroup(groupName);
-                else if (_autoSchema && group.HasSchema<UnityEditor.AddressableAssets.Settings.GroupSchemas.BundledAssetGroupSchema>() == false)   // 스키마 체크
-                {
-                    AddressableHelper.CreateGroupSchema(groupName);
-                }
-
-                //없을경우 새로 어드레서블 등록
-                if (addressableAsset == null)
-                {
-                    AddressableExtensions.SetAddressable(tempSubData._object);
-                    addressableAsset = AddressableExtensions.GetAddressableAssetEntry(tempSubData._object);
-                    AddLogline($"{tempSubData._object.name}은 어드레서블 등록되었습니다.", LogType.Log);
-                }
-
-                //등록할 그룹과 현재 그룹이 다른경우 그룹 변경
-                if (group != addressableAsset.parentGroup)
-                {
-                    var prevGroupName = addressableAsset.parentGroup;
-                    _automationAddressableSetting.AddressableAssetSetting.CreateOrMoveEntry(tempSubData._GUID, group);
-                    AddLogline($"[Move] {tempSubData._object.name}은 ({prevGroupName})그룹에서 ({group.name})그룹으로 변경되었습니다.",
-                        LogType.Log);
-                }
-
-                var addressableAssetPath = tempSubData._object.GetAddressableAssetPath();
-                var assetPath = AssetDatabase.GetAssetPath(tempSubData._object);
-                if (addressableAssetPath != assetPath)
-                    _incorrectAddressablePathObjects.Add(tempSubData._object);
-
-                if (_autoLabel && !addressableAsset.labels.Contains(AUTO_REMOTE_LABEL_NAME))
-                    addressableAsset.SetLabel(AUTO_REMOTE_LABEL_NAME, true);
-            }
+            EditorToolHelper.AddLogline(tempErrorLog, logType);
         }
 
         private void RootAutoSetAddressable(List<string> pathList, string groupName)
@@ -1107,7 +848,7 @@ namespace ProjectHD.Editor
             pathData.PathList.AddRange(pathList);
             pathData.GroupName = groupName;
             pathData.SearchOption = AutoSearchOption.Folder;
-            if (GetFileList(pathData, out var list))
+            if (!EditorToolHelper.TryGetFileList(pathData, out var list))
                 return;
 
             foreach (string filePath in list)
@@ -1142,26 +883,9 @@ namespace ProjectHD.Editor
 
         #region Utility
 
-        static List<string> GetAllFilesInFolder(string folderPath, SearchOption searchOption)
+        private List<string> GetAllFilesInFolder(string folderPath, SearchOption searchOption)
         {
-            List<string> fileList = new List<string>();
-
-            try
-            {
-                // 폴더 내의 모든 파일 가져오기
-                string[] files = Directory.GetFiles(folderPath, "*.*", searchOption);
-
-                foreach (string file in files)
-                {
-                    fileList.Add(file);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("오류 발생: " + ex.Message);
-            }
-
-            return fileList;
+            return EditorToolHelper.GetAllFilesInFolder(folderPath, searchOption);
         }
 
         private async UniTask CleanUpMemoryAsync()

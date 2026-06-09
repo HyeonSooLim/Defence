@@ -9,7 +9,7 @@ namespace ProjectHD.Data
 {
     public class DataSet<E>
     {
-        private List<E> _data;
+        private readonly List<E> _data;
         public IReadOnlyList<E> Data=> _data;
         
         public DataSet()
@@ -70,10 +70,10 @@ namespace ProjectHD.Data
     {
         public readonly E DEFAULT = default(E);
 
-        protected Dictionary<K, E> m_dicData;
+        protected readonly Dictionary<K, E> m_dicData;
         public IReadOnlyDictionary<K, E> Dictionary => m_dicData;
 
-        protected DataSet<E> _dataSet;
+        private DataSet<E> _dataSet;
         public DataSet<E> Set => _dataSet;
 
         public SingleData()
@@ -141,7 +141,7 @@ namespace ProjectHD.Data
             }
             else
             {
-                if (!suppressWarnings) UnityEngine.Debug.LogError(string.Format("Data Not Exist {0} '{1}' : ", typeof(E), key));
+                if (!suppressWarnings) UnityEngine.Debug.LogError($"Data Not Exist {typeof(E)} '{key}' : ");
                 return default;
             }
         }
@@ -155,7 +155,7 @@ namespace ProjectHD.Data
             else
             {
                 data = default;
-                if (!suppressWarnings) UnityEngine.Debug.LogError(string.Format("Data Not Exist {0} '{1}' : ", typeof(E), key));
+                if (!suppressWarnings) Utilities.InternalDebug.LogError($"Data Not Exist {typeof(E)} '{key}' : ");
                 return false;
             }
         }
@@ -192,7 +192,7 @@ namespace ProjectHD.Data
     
     public class SingleData<K1, K2, K, E> : SingleData<K, E> where E : IDataKey<K>
     {
-        private System.Func<K1, K2, K> onCalculateKey;
+        private readonly System.Func<K1, K2, K> onCalculateKey;
 
         public SingleData(System.Func<K1, K2, K> onCalculateKey)
         {
@@ -299,8 +299,8 @@ namespace ProjectHD.Data
                 DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Populate,
             };
             E[] dataSet = Newtonsoft.Json.JsonConvert.DeserializeObject<E[]>(jsonData, settings);
-            var groups = dataSet.GroupBy(d => d.Key);
-            foreach (var group in groups)
+            IEnumerable<IGrouping<K, E>> groups = dataSet.GroupBy(d => d.Key);
+            foreach (IGrouping<K, E> group in groups)
             {
                 try
                 {
