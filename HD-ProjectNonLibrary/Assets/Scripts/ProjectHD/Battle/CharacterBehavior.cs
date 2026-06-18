@@ -92,32 +92,32 @@ namespace ProjectHD.Battle
 
         public void CharacterHandle()
         {
-            if (_animator != null)
+            if (!_animator)
+                return;
+
+            if (!IsStayAnimation())
+                return;
+
+            if (_attackDelay > 0)
             {
-                if (IsStayAnimation())
-                {
-                    if (_attackDelay > 0)
-                    {
-                        _attackDelay -= Time.deltaTime;
-                        return;
-                    }
-
-                    if (_isDragging)
-                        return;
-
-                    if (_target == null)
-                        return;
-
-                    if (!CanAttack(_target))
-                    {
-                        _target = null;
-                        return;
-                    }
-
-                    _attackDelay = GetCurrentAttackDelay();
-                    PlayAttackAnimation();
-                }
+                _attackDelay -= Time.deltaTime;
+                return;
             }
+
+            if (_isDragging)
+                return;
+
+            if (!_target)
+                return;
+
+            if (!CanAttack(_target))
+            {
+                _target = null;
+                return;
+            }
+
+            _attackDelay = GetCurrentAttackDelay();
+            PlayAttackAnimation();
         }
 
         private void PlayAttackAnimation()
@@ -137,7 +137,7 @@ namespace ProjectHD.Battle
             if (_target != null && CanAttack(_target))
                 return;
 
-            foreach (var monster in Runtime.StageInformation.SpawnedEnemies.Values)
+            foreach (MonsterBehavior monster in Runtime.StageInformation.SpawnedEnemies.Values)
             {
                 if (CanAttack(monster))
                 {
@@ -244,7 +244,7 @@ namespace ProjectHD.Battle
             Vector3 worldPos = CameraManager.Instance.MainCamera.ScreenToWorldPoint(new Vector3(position.x, position.y, modelDepth));
 
             // 모델 위치 갱신
-            transform.position = new (worldPos.x, transform.position.y, worldPos.z);
+            transform.position = new Vector3(worldPos.x, transform.position.y, worldPos.z);
             ExecuteCharacterOnDraggingEvent(transform.position);
         }
 
@@ -261,13 +261,13 @@ namespace ProjectHD.Battle
                     return;
                 }
 
-                var hex = GetCurrentHex();  // 현재 드래그 중인 캐릭터 좌표
-                var key = (hex.x, hex.y);
+                Vector2Int hex = GetCurrentHex();  // 현재 드래그 중인 캐릭터 좌표
+                (int x, int y) key = (hex.x, hex.y);
 
                 if (!CheckPlayerCell(key))  // 플레이어의 영역(1,2 혹은 그외) 체크
                     return;
 
-                CheckAndExcuteCharacterCombine(key);    // 캐릭터 합성
+                CheckAndExecuteCharacterCombine(key);    // 캐릭터 합성
                 UpdateTarget();
             }
         }
@@ -294,14 +294,13 @@ namespace ProjectHD.Battle
             return true;
         }
 
-        private void CheckAndExcuteCharacterCombine((int, int) key)
+        private void CheckAndExecuteCharacterCombine((int, int) key)
         {
             var playerCellonCharacters = _playerType == ProjectEnum.PlayerType.Player01 ?
                 Runtime.CharacterCombineInfo.Player01CellOnCharacters : Runtime.CharacterCombineInfo.Player02CellOnCharacters;
 
-            if (playerCellonCharacters.ContainsKey(key))    // 해당 칸에 캐릭터가 있다면
+            if (playerCellonCharacters.TryGetValue(key, out int targetInstanceID))    // 해당 칸에 캐릭터가 있다면
             {
-                var targetInstanceID = playerCellonCharacters[key];
                 if (Runtime.StageInformation.SpawnedCharacters.TryGetValue(targetInstanceID, out var characterObject)
                     && characterObject.TryGetComponent<CharacterBehavior>(out var characterBehavior))
                 {
@@ -475,7 +474,7 @@ namespace ProjectHD.Battle
 
         private void MonsterGoalInAction(Event.MonsterGoalInEvent @event)
         {
-            if (_target == null)
+            if (!_target)
                 return;
             if (_target.gameObject.GetInstanceID() == @event.InstanceID)
                 _target = null;
@@ -483,7 +482,7 @@ namespace ProjectHD.Battle
 
         private void MonsterDieAction(Event.MonsterDieEvent @event)
         {
-            if (_target == null)
+            if (!_target)
                 return;
             if (_target.gameObject.GetInstanceID() == @event.InstanceID)
                 _target = null;
@@ -499,7 +498,7 @@ namespace ProjectHD.Battle
             var tempAttackDelay = Runtime.BuffSetInfo.GetBuffTypeValue(_characterTable.CharacterAttackSpeed,
                 _characterTable.CharacterProperty, _characterTable.CharacterType, ProjectEnum.BuffType.AttackSpeed);
 
-            if (tempAttackDelay != _characterTable.CharacterAttackSpeed)
+            if (!Mathf.Approximately(tempAttackDelay, _characterTable.CharacterAttackSpeed))
             {
                 Utilities.InternalDebug.Log($"공격 속도 버프 적용: {tempAttackDelay}초");
                 return tempAttackDelay;
