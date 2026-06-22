@@ -35,8 +35,10 @@ namespace ProjectHD.Rendering
                 Debug.LogWarning("[PixelateFeature] pixelateMaterial is null. Assign a material using Hidden/PixelatePost shader.");
                 return;
             }
-
-            pixelatePass = new PixelatePass(settings.material)
+            
+            // 마테리얼 원본은 수정하지 않음
+            Material instanceMaterial = Instantiate(settings.material);
+            pixelatePass = new PixelatePass(instanceMaterial)
             {
                 renderPassEvent = settings.renderPassEvent
             };
@@ -55,10 +57,10 @@ namespace ProjectHD.Rendering
 
         class PixelatePass : ScriptableRenderPass
         {
-            Material mat;
+            readonly Material mat;
             RTHandle tempRT;
             RTHandle lowRT;
-            int maxPixelSize = 6;
+            readonly int maxPixelSize = 6;
 
             public PixelatePass(Material material)
             {
@@ -67,6 +69,8 @@ namespace ProjectHD.Rendering
 
             public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
             {
+                if (renderingData.cameraData.camera.name != "EffectCamera") return;
+                
                 var desc = renderingData.cameraData.cameraTargetDescriptor;
                 desc.depthBufferBits = 0;
 
@@ -85,7 +89,7 @@ namespace ProjectHD.Rendering
                 var stack = VolumeManager.instance.stack;
                 var settings = stack.GetComponent<PixelateSettings>();
                 if (settings == null || !settings.IsActive()) return;
-
+                if (renderingData.cameraData.camera.name != "EffectCamera") return;
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
                 Sampler.Begin();
 #endif

@@ -26,16 +26,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ff5cca751101e4db535247f0d104cd, type: 3}
   m_Name: PixelateSettings
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   pixelSize:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 6
   snapToDiv:
     m_OverrideState: 1
     m_Value: 0
   progress:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.7
   filterMode:
     m_OverrideState: 1
     m_Value: 0
@@ -50,4 +50,4 @@ MonoBehaviour:
     m_Value: 0.2
   enableEffect:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0

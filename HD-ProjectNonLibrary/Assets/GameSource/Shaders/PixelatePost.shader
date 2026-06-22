@@ -80,8 +80,7 @@ Shader "Custom/PixelatePost"
             {
                 // 현재 픽셀의 UV 좌표
                 float2 uv = i.uv;
-
-                // Use Unity-provided _ScreenParams (x = width, y = height)
+                
                 // _ScreenParams는 유니티 전역 변수로, 화면의 픽셀 크기를 제공(x: width, y: height, z: 1/width, w: 1/height)
                 // _ScaledScreenParams는 스케일링된 화면 크기를 제공
                 float2 screenPx = float2(_ScaledScreenParams.x, _ScaledScreenParams.y);

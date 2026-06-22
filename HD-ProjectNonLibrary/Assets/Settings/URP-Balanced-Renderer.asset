@@ -12,10 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c34eb48b0c34785469885093cbac078c, type: 3}
   m_Name: GaussianBlurFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     material: {fileID: 2100000, guid: 85e358f9249f10747b9df7fd1fe9e371, type: 2}
     renderPassEvent: 600
+--- !u!114 &-6162712122452242027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab078681fc823cd468aa743f6051f9c1, type: 3}
+  m_Name: PixelateMaskFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  pixelateMaterial: {fileID: 2100000, guid: 301087fbc0fe06a4a883e64c1562439b, type: 2}
 --- !u!114 &-5166600247871474507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,7 +101,8 @@ MonoBehaviour:
   - {fileID: -1878332245247344467}
   - {fileID: -8729200720089375416}
   - {fileID: -5166600247871474507}
-  m_RendererFeatureMap: adc0de57c6d2eee5481dfdc131a6db86b5f42cc9728c4cb8
+  - {fileID: -6162712122452242027}
+  m_RendererFeatureMap: adc0de57c6d2eee5481dfdc131a6db86b5f42cc9728c4cb895913de0f9a579aa
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}

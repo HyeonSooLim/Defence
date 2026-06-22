@@ -8,6 +8,7 @@ namespace ProjectHD.Rendering
     public class PixelateSettings : VolumeComponent, IPostProcessComponent
     {
         // Pixel size in screen pixels per "art pixel" (1 = no pixelation)
+        [Tooltip("스크린 픽셀 사이즈 (원본은 1)")]
         public ClampedIntParameter pixelSize = new ClampedIntParameter(1, 1, 1024);
 
         // If true, adjust pixelSize so screenWidth % pixelSize == 0 and screenHeight % pixelSize == 0
