@@ -13,13 +13,19 @@ namespace ProjectHD.Battle
     [RequireComponent(typeof(Animator))]
     public class CharacterBehavior : MonoBehaviour, IAttackable, IHexhable
     {
-        public const string STAY_ANIMATION = "Stay";
+        // 클래스 상단에 한 번만 선언해서 재사용 (가비지 컬렉션 방지)
+        private static MaterialPropertyBlock _sharedMpb;
+        private static readonly int MainTex = Shader.PropertyToID("_MainTex");
+        private static readonly int MainTexSt = Shader.PropertyToID("_MainTex_ST");
+        
+        private const string STAY_ANIMATION = "Stay";
         private const string SPAWN_SFX_KEY = "Assets/GameResources/Audio/UI/Summoning_Audio.wav";
 
         [SerializeField] private Animator _animator;
         [SerializeField] private Transform _point;
         [SerializeField] private DragHandler _dragHandler;
-
+        [SerializeField] private List<SkinnedMeshRenderer> _renderers;
+        
         private float _attackDelay;
         private int _level;
         private int _grade;
@@ -64,6 +70,14 @@ namespace ProjectHD.Battle
             SetGrade(_grade);
         }
 
+        private void Awake()
+        {
+            if (_sharedMpb == null)
+            {
+                _sharedMpb = new MaterialPropertyBlock();
+            }
+        }
+
         public void Destruct()
         {
             Event.EventManager.RemoveListener<Event.MonsterHexUpdateEvent>(MonsterHexUpdateAction);
@@ -82,6 +96,30 @@ namespace ProjectHD.Battle
             _characterTable = null;
             _isDragging = false;
             UnSetDragHandler();
+        }
+        
+        // 스프라이트 아틀라스를 이용해 매핑된 텍스처를 이용하는 방식. 텍스처를 바꿀 때, ST값을 바꿀 때
+        // 각각 1회 씩 드로우콜이 늘어나서 쓰지 않는 함수 (2026.06.25)
+        private void SetRendering()
+        {
+            for (int i = 0; i < _renderers.Count; i++)
+            {
+                var render = _renderers[i];
+                if (render && AtlasLoader.TryGetSprite(gameObject.name.Replace("(Clone)", ""), out var sprite))
+                {
+                    Rect textureRect = sprite.textureRect;
+                    // sprite.texture 대신 sprite.rect를 써서 아틀라스 내부 원본 크기 기준으로 계산해야 정확할 수 있습니다.
+                    Vector2 texSize = new (sprite.texture.width, sprite.texture.height);
+                    Vector2 scale = new (textureRect.width / texSize.x, textureRect.height / texSize.y);
+                    Vector2 offset = new (textureRect.x / texSize.x, textureRect.y / texSize.y);
+                    
+                    // 기존 렌더러의 MPB를 가져와서 오프셋만 덮어쓰기
+                    render.GetPropertyBlock(_sharedMpb);
+                    _sharedMpb.SetTexture(MainTex, sprite.texture);
+                    _sharedMpb.SetVector(MainTexSt, new Vector4(scale.x, scale.y, offset.x, offset.y));
+                    render.SetPropertyBlock(_sharedMpb);
+                }
+            }
         }
 
         private void SetGrade(int grade)
@@ -122,7 +160,7 @@ namespace ProjectHD.Battle
 
         private void PlayAttackAnimation()
         {
-            var randomAnimationIndex = Random.Range(1, 3);
+            var randomAnimationIndex = UnityEngine.Random.Range(1, 3);
             var randomAttack = (ProjectEnum.AnimationState)randomAnimationIndex;
             _animator.CrossFadeInFixedTime(randomAttack.ToString(), 0.2f);
         }
@@ -519,6 +557,7 @@ namespace ProjectHD.Battle
 
         #endregion
 
+        #if UNITY_EDITOR
         [Button(ButtonSizes.Large)]
         private void SetComponent()
         {
@@ -527,6 +566,39 @@ namespace ProjectHD.Battle
             if (_point == null)
                 Utilities.InternalDebug.Log("이펙트 Point를 찾을 수 없습니다.");
             _dragHandler = transform.Find("DragHandler").GetComponent<DragHandler>();
+            
+            var renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+            _renderers.Clear();
+            _renderers.AddRange(renderers);
         }
+        
+        [Button(ButtonSizes.Large)]
+        private void ChangeMaterial(Material material) // ref는 굳이 필요하지 않습니다.
+        {
+            for (int i = 0; i < _renderers.Count; i++)
+            {
+                var render = _renderers[i];
+                if (render == null) return;
+
+                // 1. 기존 머티리얼 개수만큼 새로운 배열을 생성합니다.
+                Material[] newMaterials = new Material[render.sharedMaterials.Length];
+    
+                // 2. 새 배열을 원하는 원본 머티리얼로 채웁니다.
+                for (int j = 0; j < newMaterials.Length; j++)
+                {
+                    newMaterials[j] = material;
+                }
+
+                // 3. 변경 사항을 에디터 되돌리기(Undo) 시스템에 등록합니다. (인스펙터 저장용)
+                UnityEditor.Undo.RecordObject(render, "Change Shared Materials");
+
+                // 4. 배열 전체를 통째로 할당해야 인스턴스가 생성되지 않습니다.
+                render.sharedMaterials = newMaterials;
+
+                // 5. 에디터에 변경 사항이 있음을 알려 씬이 저장되도록 합니다.
+                UnityEditor.EditorUtility.SetDirty(render);
+            }
+        }
+        #endif
     }
 }

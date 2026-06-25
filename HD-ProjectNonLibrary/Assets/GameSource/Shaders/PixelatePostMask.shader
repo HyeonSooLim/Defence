@@ -52,13 +52,12 @@ Shader "Custom/PixelatePostMask"
                 // 마스크 영역 판정 (글로벌 텍스처와 동기화 완료되어 정상 진입)
                 if (mask > 0.01)
                 {
-                    float pixelSize = max(1.0, _MaskPixelSize);
+                    // 현재 픽셀의 UV 좌표
+                    float2 uv = i.uv;
                     float2 screenResolution = _ScaledScreenParams.xy;
-                    float2 blockCount = screenResolution / pixelSize;
-                    
-                    // 화면 격자 스냅 연산
-                    float2 snappedUV = (floor(i.uv * blockCount) + 0.5) / blockCount;
-                    baseColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, snappedUV);
+                    float2 grid = screenResolution / max(1.0, _MaskPixelSize);
+                    float2 cell = (floor(uv * grid) + 0.5) / grid;
+                    baseColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, cell);
                 }
 
                 return baseColor;

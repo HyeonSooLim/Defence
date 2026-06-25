@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 namespace ProjectHD.Rendering
 {
     [System.Serializable, VolumeComponentMenu("Custom/PixelateSettings")]
-    public class PixelateSettings : VolumeComponent, IPostProcessComponent
+    public class PixelatePostSettings : VolumeComponent, IPostProcessComponent
     {
         // Pixel size in screen pixels per "art pixel" (1 = no pixelation)
         [Tooltip("스크린 픽셀 사이즈 (원본은 1)")]

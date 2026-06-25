@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ENABLE_FRESNEL
   - _ENABLE_LIGHTING
   - _ENABLE_SHADOW
   m_InvalidKeywords: []
@@ -51,7 +50,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a980aed276a97324e90f4c3cf4bff3f5, type: 3}
+        m_Texture: {fileID: 8711939763936270973, guid: 1554e3e05068e6b4a944c801cd619a59,
+          type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -97,7 +97,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EnableFresnel: 1
+    - _EnableFresnel: 0
     - _EnableLighting: 1
     - _EnableOutline: 0
     - _EnableShadow: 1
@@ -108,9 +108,9 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineThickness: 1
+    - _OutlineThickness: 0.1
     - _Parallax: 0.005
-    - _PixelSize: 10
+    - _PixelSize: 6
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5

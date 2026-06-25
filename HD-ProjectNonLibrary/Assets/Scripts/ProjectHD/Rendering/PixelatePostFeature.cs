@@ -5,10 +5,10 @@ using UnityEngine.Rendering.Universal;
 namespace ProjectHD.Rendering
 {
     [System.Serializable]
-    public class PixelateFeature : ScriptableRendererFeature
+    public class PixelatePostFeature : ScriptableRendererFeature
     {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        private static UnityEngine.Profiling.CustomSampler Sampler = UnityEngine.Profiling.CustomSampler.Create("PixelateFeature");
+        private static UnityEngine.Profiling.CustomSampler Sampler = UnityEngine.Profiling.CustomSampler.Create("PixelatePostFeature");
 #endif
 
         private static readonly int PixelSize = Shader.PropertyToID("_PixelSize");
@@ -21,32 +21,32 @@ namespace ProjectHD.Rendering
         [System.Serializable]
         public class FeatureSettings
         {
-            public Material material = null;
-            public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+            public Material Material = null;
+            public RenderPassEvent RenderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
         }
 
-        public FeatureSettings settings = new FeatureSettings();
+        public FeatureSettings Settings = new FeatureSettings();
         PixelatePass pixelatePass;
 
         public override void Create()
         {
-            if (settings.material == null)
+            if (Settings.Material == null)
             {
-                Debug.LogWarning("[PixelateFeature] pixelateMaterial is null. Assign a material using Hidden/PixelatePost shader.");
+                Debug.LogWarning($"[{name}] Material is null. Assign a material using Hidden/PixelatePost shader.");
                 return;
             }
             
             // 마테리얼 원본은 수정하지 않음
-            Material instanceMaterial = Instantiate(settings.material);
+            Material instanceMaterial = Instantiate(Settings.Material);
             pixelatePass = new PixelatePass(instanceMaterial)
             {
-                renderPassEvent = settings.renderPassEvent
+                renderPassEvent = Settings.RenderPassEvent
             };
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (settings.material == null) return;
+            if (Settings.Material == null) return;
             renderer.EnqueuePass(pixelatePass);
         }
 
@@ -69,9 +69,7 @@ namespace ProjectHD.Rendering
 
             public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
             {
-                if (renderingData.cameraData.camera.name != "EffectCamera") return;
-                
-                var desc = renderingData.cameraData.cameraTargetDescriptor;
+                RenderTextureDescriptor desc = renderingData.cameraData.cameraTargetDescriptor;
                 desc.depthBufferBits = 0;
 
                 // 원본 크기 tempRT 준비
@@ -86,10 +84,10 @@ namespace ProjectHD.Rendering
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
                 if (mat == null) return;
-                var stack = VolumeManager.instance.stack;
-                var settings = stack.GetComponent<PixelateSettings>();
+                VolumeStack stack = VolumeManager.instance.stack;
+                var settings = stack.GetComponent<PixelatePostSettings>();
                 if (settings == null || !settings.IsActive()) return;
-                if (renderingData.cameraData.camera.name != "EffectCamera") return;
+                
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
                 Sampler.Begin();
 #endif
@@ -112,7 +110,7 @@ namespace ProjectHD.Rendering
                 mat.SetFloat(RedBoost, redBoost);
 
                 CommandBuffer cmd = CommandBufferPool.Get("PixelatePass");
-                var source = renderingData.cameraData.renderer.cameraColorTargetHandle;
+                RTHandle source = renderingData.cameraData.renderer.cameraColorTargetHandle;
 
                 if (filterMode == 0 && adjustedPixelSize > maxPixelSize)
                 {
@@ -139,37 +137,33 @@ namespace ProjectHD.Rendering
 #endif
             }
 
-            public override void OnCameraCleanup(CommandBuffer cmd)
-            {
-                // RTHandle은 자동 관리되므로 Release 필요 없음
-            }
-
-            // If snap is enabled, find a pixelSize that divides both width and height.
-            // Simple search: try requested, then expand +/- until find divisor pair.
             int AdjustPixelSizeForSnap(int requestedSize, bool snap)
             {
                 if (!snap || requestedSize <= 1) return Mathf.Max(1, requestedSize);
 
                 int w = Screen.width;
                 int h = Screen.height;
-                int maxCandidate = Mathf.Min(w, h);
-                int best = requestedSize;
 
-                // If requested already divides both, return
+                // 이미 width와 height 모두 나누어떨어지면 그대로 반환
                 if (w % requestedSize == 0 && h % requestedSize == 0)
                     return requestedSize;
 
-                // Search outward for nearest divisor that divides both
+                int best = requestedSize;
+                int maxCandidate = Mathf.Min(w, h);
                 int maxDelta = Mathf.Max(64, requestedSize * 4);
+                maxDelta = Mathf.Min(maxDelta, maxCandidate);
+                // +/- 방향으로 동시에 탐색 (양방향 탐색)
                 for (int delta = 1; delta <= maxDelta; delta++)
                 {
+                    // 최소 1픽셀
                     int down = requestedSize - delta;
-                    if (down >= 1 && w % down == 0 && h % down == 0) { best = down; break; }
+                    if (down >= 1 && w % down == 0 && h % down == 0) return down;
+                    
+                    // 최대 상한선
                     int up = requestedSize + delta;
-                    if (up <= maxCandidate && w % up == 0 && h % up == 0) { best = up; break; }
+                    if (up <= maxCandidate && w % up == 0 && h % up == 0) return up;
                 }
-
-                // Fallback: clamp to 1 if nothing found
+                
                 return Mathf.Clamp(best, 1, maxCandidate);
             }
         }

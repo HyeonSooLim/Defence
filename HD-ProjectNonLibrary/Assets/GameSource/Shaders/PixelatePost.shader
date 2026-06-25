@@ -83,9 +83,9 @@ Shader "Custom/PixelatePost"
                 
                 // _ScreenParams는 유니티 전역 변수로, 화면의 픽셀 크기를 제공(x: width, y: height, z: 1/width, w: 1/height)
                 // _ScaledScreenParams는 스케일링된 화면 크기를 제공
-                float2 screenPx = float2(_ScaledScreenParams.x, _ScaledScreenParams.y);
+                float2 screenResolution = float2(_ScaledScreenParams.x, _ScaledScreenParams.y);
                 // 픽셀화 그리드 크기 계산: 화면 크기를 픽셀 크기로 나누어 그리드 셀 수 계산
-                float2 grid = screenPx / max(1.0, _PixelSize);
+                float2 grid = screenResolution / max(1.0, _PixelSize);
 
                 // 셀 중심 좌표 계산: UV를 그리드 크기로 나누고, floor로 내림하여 셀 인덱스를 구한 후 0.5를 더해 셀 중심으로 이동
                 // 현재 픽셀의 중심 좌표
