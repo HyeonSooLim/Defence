@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GoburiMon
-  m_Shader: {fileID: -6465566751694194690, guid: d9ad5c8386206d540adb32600bb763eb,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: f771ea2176b1d8043b0e3e7642260ba9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -100,18 +99,23 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EnableOutline: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _OutlineThickness: 1
     - _Parallax: 0.005
+    - _PixelSize: 4
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RimAmount: 0.7
+    - _RimPower: 1
     - _RimTreshold: 0.1
+    - _ShadowThreshold: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -126,6 +130,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 1, g: 1, b: 1, a: 0}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
