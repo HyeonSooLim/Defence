@@ -113,8 +113,9 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RimAmount: 0.7
-    - _RimPower: 1
+    - _RimPower: 1.5
     - _RimTreshold: 0.1
+    - _ShadowPower: 1.5
     - _ShadowThreshold: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0

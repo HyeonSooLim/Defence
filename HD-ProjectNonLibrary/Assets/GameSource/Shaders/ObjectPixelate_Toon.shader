@@ -3,14 +3,11 @@ Shader "Custom/ObjectPixelate_Toon"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _PixelSize ("Pixel Size", Float) = 8
-
-        [Toggle(_ENABLE_OUTLINE)] _EnableOutline("Enable Outline", Float) = 0
-        _OutlineColor ("Outline Color", Color) = (0, 0, 0, 1)
-        _OutlineThickness ("Outline Thickness", Range(0, 4)) = 1
+        _PixelSize ("Pixel Size", Range(1, 64)) = 8
 
         _RimPower ("Rim Power", Range(0.1, 10)) = 3
-        _ShadowThreshold ("Shadow Threshold", Range(0,1)) = 0.5
+        _ShadowThreshold ("Shadow Threshold", Range(-1,1)) = 0.5
+        _ColorPower ("Color Power", Range(0, 2)) = 1
     }
     SubShader
     {
@@ -58,12 +55,9 @@ Shader "Custom/ObjectPixelate_Toon"
             float _PixelSize;
             float3 _pd0;
         
-            float4 _OutlineColor;
-            float _OutlineThickness;
-            float3 _pd1;
-        
             float _RimPower;
             float _ShadowThreshold;
+            float _ColorPower;
             CBUFFER_END
 
             Varyings vert(Attributes v)
@@ -81,7 +75,7 @@ Shader "Custom/ObjectPixelate_Toon"
                 o.uv         = v.uv;
 
                 #if defined(_MAIN_LIGHT_SHADOWS) || defined(_MAIN_LIGHT_SHADOWS_CASCADE)
-                o.shadowCoord = GetShadowCoord(posInput);
+                o.shadowCoord = TransformWorldToShadowCoord(posInput.positionWS);
                 #else
                 o.shadowCoord = float4(0,0,0,0);
                 #endif
@@ -93,15 +87,19 @@ Shader "Custom/ObjectPixelate_Toon"
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
-                // Pixelation
-                float2 pixelCoord = i.positionCS.xy;
-                float2 snappedPixelCoord = floor(pixelCoord / _PixelSize) * _PixelSize + (_PixelSize * 0.5);
-                float2 pixelOffset = snappedPixelCoord - pixelCoord;
-                float2 uvGradX = ddx(i.uv);
-                float2 uvGradY = ddy(i.uv);
-                float2 snappedUV = i.uv + uvGradX * pixelOffset.x + uvGradY * pixelOffset.y;
+                float2 uv = i.uv;
+                if (_PixelSize != 1)
+                {
+                    // Pixelation
+                    float2 pixelCoord = i.positionCS.xy;
+                    float2 snappedPixelCoord = floor(pixelCoord / _PixelSize) * _PixelSize + (_PixelSize * 0.5);
+                    float2 pixelOffset = snappedPixelCoord - pixelCoord;
+                    float2 uvGradX = ddx(i.uv);
+                    float2 uvGradY = ddy(i.uv);
+                    uv = i.uv + uvGradX * pixelOffset.x + uvGradY * pixelOffset.y;
+                }
 
-                float4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, snappedUV);
+                float4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
 
                 // Normal / ViewDir
                 float3 normalWS = normalize(i.normalWS);
@@ -119,7 +117,7 @@ Shader "Custom/ObjectPixelate_Toon"
                 float3 rimColor = rim * (col.rgb * mainLight.color);
 
                 // 최종 색상
-                col.rgb = col.rgb * shadow * mainLight.color + rimColor;
+                col.rgb = (col.rgb + rimColor) * _ColorPower * shadow * mainLight.color;
 
                 return col;
             }
