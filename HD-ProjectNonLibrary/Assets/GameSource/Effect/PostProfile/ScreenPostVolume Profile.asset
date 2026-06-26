@@ -28,7 +28,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ff5cca751101e4db535247f0d104cd, type: 3}
   m_Name: PixelateSettings
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   pixelSize:
     m_OverrideState: 1
     m_Value: 1
@@ -52,7 +52,7 @@ MonoBehaviour:
     m_Value: 0.2
   enableEffect:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
 --- !u!114 &2316878303846993288
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -65,13 +65,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b302d93f963178844be5793251ef20ac, type: 3}
   m_Name: PixelateMaskSettings
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   maskPixelSize:
     m_OverrideState: 1
-    m_Value: 50
+    m_Value: 1
   enableEffect:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
+  layerMask:
+    m_OverrideState: 1
+    m_Value:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!114 &7697672752358067023
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -99,4 +104,4 @@ MonoBehaviour:
     m_Value: {x: 1, y: 0}
   enableEffect:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0

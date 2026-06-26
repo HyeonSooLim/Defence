@@ -28,8 +28,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab078681fc823cd468aa743f6051f9c1, type: 3}
   m_Name: PixelateMaskFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
-  pixelateMaterial: {fileID: 2100000, guid: 301087fbc0fe06a4a883e64c1562439b, type: 2}
+  m_Active: 1
+  Settings:
+    Material: {fileID: 2100000, guid: 301087fbc0fe06a4a883e64c1562439b, type: 2}
+    RenderPassEvent: 600
 --- !u!114 &-5166600247871474507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,9 +45,9 @@ MonoBehaviour:
   m_Name: PixelateFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  settings:
-    material: {fileID: 2100000, guid: 8f820a7bdbda5ca45b90753a0efe8a34, type: 2}
-    renderPassEvent: 600
+  Settings:
+    Material: {fileID: 2100000, guid: 8f820a7bdbda5ca45b90753a0efe8a34, type: 2}
+    RenderPassEvent: 600
 --- !u!114 &-1878332245247344467
 MonoBehaviour:
   m_ObjectHideFlags: 0
