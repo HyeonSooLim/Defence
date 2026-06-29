@@ -12,7 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _ENABLE_OUTLINE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -93,30 +94,35 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorPower: 1.1
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DitherStrength: 0.05
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EnableOutline: 0
+    - _EnableOutline: 1
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _LightPower: 0.55
+    - _LightSteps: 5
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineThickness: 1
+    - _OutlineThickness: 0.2
     - _Parallax: 0.005
     - _PixelSize: 4
+    - _QuantizeSteps: 32
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RimAmount: 0.7
-    - _RimPower: 1.5
+    - _RimPower: 5
     - _RimTreshold: 0.1
-    - _ShadowPower: 1.5
-    - _ShadowThreshold: 0
+    - _ShadowPower: 1
+    - _ShadowThreshold: -0.75
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

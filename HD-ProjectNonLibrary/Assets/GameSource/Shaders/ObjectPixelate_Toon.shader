@@ -3,11 +3,14 @@ Shader "Custom/ObjectPixelate_Toon"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _PixelSize ("Pixel Size", Range(1, 64)) = 8
+        _PixelSize ("Pixel Size", Range(1, 16)) = 8
 
         _RimPower ("Rim Power", Range(0.1, 10)) = 3
         _ShadowThreshold ("Shadow Threshold", Range(-1,1)) = 0.5
         _ColorPower ("Color Power", Range(0, 2)) = 1
+
+        _LightSteps ("Light Steps", Range(2, 8)) = 4
+        _LightPower ("Light Power", Range(0, 2)) = 0.5
     }
     SubShader
     {
@@ -62,7 +65,11 @@ Shader "Custom/ObjectPixelate_Toon"
         
             float _RimPower;
             float _ShadowThreshold;
-            float _ColorPower; // 이후 16바이트 자동 패딩됨
+            float _ColorPower;
+            float3 _pd1; // 16바이트를 위한 패딩
+
+            float _LightSteps;
+            float _LightPower;
             CBUFFER_END
 
             Varyings vert(Attributes v)
@@ -93,52 +100,82 @@ Shader "Custom/ObjectPixelate_Toon"
                 return o;
             }
 
+            // 라이트 단계화 함수
+            float StepLight(float intensity, float steps)
+            {
+                return floor(intensity * steps) / steps;
+            }
+
             float4 frag(Varyings i) : SV_Target
             {
-                // 인스턴싱 ID 셋업(Attributes와 Varyings 모두 완료)
+                // 인스턴싱 ID 셋업
                 UNITY_SETUP_INSTANCE_ID(i);
 
                 float2 uv = i.uv;
+                float4 shadowCoord = i.shadowCoord;
+                float3 normalWS = i.normalWS; // 오프셋을 적용할 로컬 노멀 변수 생성
+                float3 viewDirWS = i.viewDirWS;
+
                 if (_PixelSize != 1)
                 {
-                    // 픽셀화
-                    float2 pixelCoord = i.positionCS.xy; // 현재 화면의 실시간 픽셀 좌표(1080 * 2280)
-                    // 현재 좌표를 floor를 이용해 뭉뚱그려 잘라내고 정중앙으로 맞춤
+                    // 1. 화면 기준 픽셀화 좌표 및 오차(Offset) 계산
+                    float2 pixelCoord = i.positionCS.xy; 
                     float2 snappedPixelCoord = floor(pixelCoord / _PixelSize) * _PixelSize + (_PixelSize * 0.5);
-                    // 뭉뚱그린 좌표와 실제 좌표의 차이
                     float2 pixelOffset = snappedPixelCoord - pixelCoord;
-                    float2 uvGradX = ddx(i.uv); // 픽셀 가로 방향으로 UV 변화량 측정
-                    float2 uvGradY = ddy(i.uv); // 픽셀 세로 방향으로 UV 변화량 측정
-                    // ddx와 ddy 는 1픽셀 간의 uv값의 차이 즉, 각각 1픽셀 가로 크기(ddx) 세로 크기(ddy)이다
+
+                    // 2. 텍스처 UV 픽셀화 보정
+                    float2 uvGradX = ddx(i.uv); 
+                    float2 uvGradY = ddy(i.uv); 
                     uv = i.uv + uvGradX * pixelOffset.x + uvGradY * pixelOffset.y;
-                    // 텍스처 좌표와 화면 픽셀 좌표의 오차(ddx * pixelOffset) 만큼 이동
+
+                    // 3. 그림자 스크린 좌표(shadowCoord) 픽셀화 보정
+                    float4 shadowGradX = ddx(i.shadowCoord);
+                    float4 shadowGradY = ddy(i.shadowCoord);
+                    shadowCoord = i.shadowCoord + shadowGradX * pixelOffset.x + shadowGradY * pixelOffset.y;
+
+                    // 4. 월드 노멀(normalWS) 픽셀화 보정 (★핵심 추가)
+                    // 화면 픽셀의 변화량에 맞춰 노멀 방향도 뚝뚝 끊어지도록 강제합니다.
+                    float3 normalGradX = ddx(i.normalWS);
+                    float3 normalGradY = ddy(i.normalWS);
+                    normalWS = i.normalWS + normalGradX * pixelOffset.x + normalGradY * pixelOffset.y;
+
+                    // 5. 월드 뷰 방향(viewDirWS) 픽셀화 보정 (림 라이트 픽셀화 보정)
+                    float3 viewGradX = ddx(i.viewDirWS);
+                    float3 viewGradY = ddy(i.viewDirWS);
+                    viewDirWS = i.viewDirWS + viewGradX * pixelOffset.x + viewGradY * pixelOffset.y;
                 }
 
-                // uv 기반 색상 샘플링
+                // 픽셀화된 uv 기반 색상 샘플링
                 float4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
 
-                // 월드 노말 및 카메라 방향 정규화
-                float3 normalWS = normalize(i.normalWS);
-                float3 viewDirWS = normalize(i.viewDirWS);
+                // [수정] 보정된 노멀 및 카메라 방향 정규화
+                normalWS = normalize(normalWS);
+                viewDirWS = normalize(viewDirWS);
 
-                // 그림자 좌표를 이용하여 메인 라이트 구함
-                Light mainLight = GetMainLight(i.shadowCoord);
+                // 보정된 shadowCoord를 사용하여 메인 라이트 샘플링
+                Light mainLight = GetMainLight(shadowCoord);
 
-                // 노멀 dot 빛 방향(-1 에서 1)
+                // [수정] 보정된 normalWS를 사용하여 빛의 방향과의 내적 계산
+                // 이제 NdotL 자체가 픽셀 그리드에 맞춰 계단현상이 생깁니다.
                 float NdotL = dot(normalWS, mainLight.direction);
-                // 그림자 범위 조절
-                float shadow = NdotL > _ShadowThreshold ? 1.0 : 0.0;
+                
+                // 툰 라이팅 계단화
+                float steppedLight = StepLight(saturate(NdotL) + _LightPower, _LightSteps);
 
-                // 노멀과 카메라 방향 내적(정면이 0이 되도록 oneminus)
+                // 그림자 범위 조절 (외곽 실시간 그림자용)
+                float shadowAtten = mainLight.shadowAttenuation;
+                float shadow = shadowAtten > _ShadowThreshold ? 1.0 : 0.0;
+
+                // 노멀과 카메라 방향 내적 (Rim 라이트도 픽셀화된 노멀의 영향을 받음)
                 float rim = 1.0 - saturate(dot(normalWS, viewDirWS));
                 rim = pow(rim, _RimPower);
-                // Rim Light (텍스처 색 × 라이트 색)
+                
                 float3 rimColor = rim * (col.rgb * mainLight.color);
 
-                // 최종 색상
-                col.rgb = (col.rgb + rimColor) * _ColorPower * shadow * mainLight.color;
+                // 최종 색상 계산
+                float3 finalColor = (col.rgb * steppedLight + rimColor) * _ColorPower * shadow * mainLight.color;
 
-                return col;
+                return float4(finalColor, col.a);
             }
             ENDHLSL
         }
