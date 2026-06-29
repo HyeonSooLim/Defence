@@ -26,8 +26,6 @@ Shader "Custom/PixelatePost"
             // URP 스타일 표준 함수 포함
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-
-            // Texture / Sampler declarations
             Texture2D _MainTex;
             SamplerState sampler_MainTex;
             float4 _MainTex_TexelSize;

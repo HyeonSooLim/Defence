@@ -46,10 +46,10 @@ Shader "Custom/PixelatePostMask"
                 // 원본 화면 버퍼 샘플링
                 float4 baseColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
                 
-                // 전역 공간에서 수신한 마스크 지도 데이터를 읽습니다.
+                // 영역 판정을 위한 마스크 텍스처 샘플링
                 float mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, maskUV).r;
 
-                // 마스크 영역 판정 (글로벌 텍스처와 동기화 완료되어 정상 진입)
+                // 마스크 영역 판정
                 if (mask > 0.01)
                 {
                     // 현재 픽셀의 UV 좌표
